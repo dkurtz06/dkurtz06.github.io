@@ -197,7 +197,7 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 (function(){
  var today=new Date();today.setHours(0,0,0,0);
  function iso(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2]);}
- [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today)tr.classList.add('is-past');});
+ [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today&&!tr.hasAttribute('data-final'))tr.classList.add('is-past');});
  var nx=document.getElementById('next');
  if(nx){var g=JSON.parse(nx.getAttribute('data-games')).filter(function(x){return iso(x.d)>=today;})[0];
   if(g){nx.querySelector('.next__date').textContent=g.ds;nx.querySelector('.next__m').innerHTML='';

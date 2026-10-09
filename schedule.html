@@ -140,7 +140,7 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 <h1 class="sr">Gavin Kurtz game schedule</h1>
 <section class="sec"><div class="wrap">
  <div class="h"><h2>Club · FC Pride Elite U17</h2><p>ECNL Regional League · #00</p></div>
- <div class="tbl tbl--stack"><table><thead><tr><th scope="col">Date</th><th scope="col">Event</th><th scope="col">Match</th><th scope="col">Location</th><th scope="col">Kickoff (ET)</th></tr></thead><tbody><tr data-date="2026-11-15"><td data-l="Date">Nov 13–15, 2026</td><td data-l="Event"><span class="tag">Season opener</span></td><td data-l="Match">Opponents TBA</td><td data-l="Location">Grand Park, Westfield, IN</td><td data-l="Kickoff">TBA</td></tr>
+ <div class="tbl tbl--stack"><table><thead><tr><th scope="col">Date</th><th scope="col">Event</th><th scope="col">Match</th><th scope="col">Location</th><th scope="col">Kickoff (ET) / Final</th></tr></thead><tbody><tr data-date="2026-11-15"><td data-l="Date">Nov 13–15, 2026</td><td data-l="Event"><span class="tag">Season opener</span></td><td data-l="Match">Opponents TBA</td><td data-l="Location">Grand Park, Westfield, IN</td><td data-l="Kickoff">TBA</td></tr>
 <tr data-date="2026-12-05"><td data-l="Date">Sat, Dec 5, 2026</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">vs Columbus Force</td><td data-l="Location">Indianapolis, IN · venue TBA</td><td data-l="Kickoff">TBA</td></tr>
 <tr data-date="2026-12-06"><td data-l="Date">Sun, Dec 6, 2026</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">vs Ohio Premier</td><td data-l="Location">Pride Performance Center (Turf), Indianapolis, IN</td><td data-l="Kickoff">2:00 PM</td></tr>
 <tr data-date="2026-12-12"><td data-l="Date">Sat, Dec 12, 2026</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">@ Ohio Elite SA</td><td data-l="Location">Seven Hills School, Upper Field</td><td data-l="Kickoff">1:30 PM</td></tr>
@@ -163,7 +163,7 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 </div></section>
 <section class="sec" style="padding-top:0"><div class="wrap">
  <div class="h"><h2>High School · Greenwood Christian</h2><p>Varsity · #24</p></div>
- <div class="tbl tbl--stack"><table><thead><tr><th scope="col">Date</th><th scope="col">Event</th><th scope="col">Match</th><th scope="col">Location</th><th scope="col">Kickoff (ET)</th></tr></thead><tbody><tr data-date="2026-10-10"><td data-l="Date">Sat, Oct 10, 2026</td><td data-l="Event"><span class="tag tag--hs">IHSAA Sectional</span></td><td data-l="Match">@ Indianapolis Lutheran</td><td data-l="Location">Indianapolis, IN</td><td data-l="Kickoff">7:00 PM</td></tr></tbody></table></div>
+ <div class="tbl tbl--stack"><table><thead><tr><th scope="col">Date</th><th scope="col">Event</th><th scope="col">Match</th><th scope="col">Location</th><th scope="col">Kickoff (ET) / Final</th></tr></thead><tbody><tr data-date="2026-10-10"><td data-l="Date">Sat, Oct 10, 2026</td><td data-l="Event"><span class="tag tag--hs">IHSAA Sectional</span></td><td data-l="Match">@ Indianapolis Lutheran</td><td data-l="Location">Indianapolis, IN</td><td data-l="Kickoff">7:00 PM</td></tr></tbody></table></div>
  <p class="fine" id="hs-done" hidden>The high school season is complete. Full results on <a href="https://www.maxpreps.com/in/greenwood/greenwood-christian-academy-cougars/athletes/gavin-kurtz/?careerid=od11c0s3uo3i2" target="_blank" rel="noopener" aria-describedby="nt">MaxPreps</a>.</p>
 </div></section>
 </main><span id="nt" hidden>opens in a new tab</span><footer><div class="wrap"><div><p class="big">Gavin Kurtz <span>·</span> 2028 <span>·</span> CM</p><small>FC Pride Elite ECNL RL #00 · Greenwood Christian Academy #24 · (317) 506-4624 · gavin.kurtz.2028@gmail.com</small></div>
@@ -171,7 +171,7 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 (function(){
  var today=new Date();today.setHours(0,0,0,0);
  function iso(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2]);}
- [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today)tr.classList.add('is-past');});
+ [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today&&!tr.hasAttribute('data-final'))tr.classList.add('is-past');});
  var nx=document.getElementById('next');
  if(nx){var g=JSON.parse(nx.getAttribute('data-games')).filter(function(x){return iso(x.d)>=today;})[0];
   if(g){nx.querySelector('.next__date').textContent=g.ds;nx.querySelector('.next__m').innerHTML='';
