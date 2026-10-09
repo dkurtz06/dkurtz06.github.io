@@ -6,7 +6,7 @@
 :root{--red:#2b2d31;--red-d:#44474d;--acc:#b9bdc4;--ink:#0b0b0c;--ink2:#151517;--ink3:#1f1f22;--line:#2c2c30;
 --paper:#f4f4f2;--card:#fff;--txt:#111;--mute:#6b6b70;--white:#fff;
 --disp:'Oswald','Arial Narrow',Impact,sans-serif;--body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}.skip{position:absolute;left:8px;top:-60px;z-index:100;background:#fff;color:#0b0b0c;padding:10px 16px;font-weight:700;text-decoration:none}.skip:focus{top:8px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}a:focus-visible,button:focus-visible,video:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px #0b0b0c}
 body{margin:0;background:var(--paper);color:var(--txt);font:16px/1.5 var(--body)}
 a{color:inherit}img,video{max-width:100%;display:block}
 .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
@@ -136,12 +136,12 @@ footer .big span{color:var(--acc)}
 footer small{display:block;margin-top:6px}
 footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 .fine{font-size:13px;color:var(--mute);margin:12px 0 0}
-</style></head><body><header class="topbar"><div class="wrap"><a class="mark" href="/"><b>GK</b><span>Gavin Kurtz<small>Class of 2028 · Center Mid</small></span></a><nav class="tabs" aria-label="Site"><a href="/" aria-current="page">Bio</a><a href="/schedule.html">Schedule</a><a href="/stats.html">Stats</a><a href="/#contact">Contact</a></nav></div></header>
+</style></head><body><a class="skip" href="#main">Skip to content</a><header class="topbar"><div class="wrap"><a class="mark" href="/"><b>GK</b><span>Gavin Kurtz<small>Class of 2028 · Center Mid</small></span></a><nav class="tabs" aria-label="Site"><a href="/" aria-current="page">Bio</a><a href="/schedule.html">Schedule</a><a href="/stats.html">Stats</a><a href="/#contact">Contact</a></nav></div></header><main id="main">
 <section class="hero"><div class="wrap">
  <div class="hero__txt">
   <p class="hero__num" aria-hidden="true">2028</p>
   <p class="hero__eyebrow">Center Midfielder · Class of 2028</p>
-  <h1><span>Gavin</span><span>Kurtz</span></h1>
+  <h1><span>Gavin</span> <span>Kurtz</span></h1>
   <p class="hero__sub">FC Pride Elite (ECNL RL) #00 · Greenwood Christian Academy #24 · Indianapolis, Ind.</p>
   <div class="hero__cta"><a class="btn" href="#film">▶ Watch highlights</a><a class="btn btn--ghost" href="#contact">Contact Gavin</a></div>
  </div>
@@ -152,11 +152,11 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 <section class="sec sec--dark" id="film"><div class="wrap">
  <div class="h"><h2>2026 Highlights</h2><p>High school season · 3:52 · game audio</p></div>
  <div class="reel">
-  <video id="reel-video" src="reel.mp4" poster="gavin_reel_poster.jpg" controls playsinline preload="metadata">Your browser can't play this video.</video>
+  <video id="reel-video" src="reel.mp4" poster="gavin_reel_poster.jpg" controls playsinline preload="metadata">Your browser can't play this video.</video><p class="sr">Video description: game footage of Gavin Kurtz, marked by a yellow arrow, in five chapters: goals, assists, on the ball, defending and shots. Game sound only, no narration.</p>
   <button class="reel__cover" id="reel-cover" type="button" aria-label="Play the 2026 highlight reel"><img src="gavin_reel_poster.jpg" alt="Reel title: Gavin Kurtz, #24, Central Midfielder, Class of 2028"><span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg></span></button>
  </div>
- <div class="chap" role="group" aria-label="Jump to"><button type="button" data-t="4.05">Goals<span>0:04</span></button><button type="button" data-t="70.52">Assists<span>1:10</span></button><button type="button" data-t="124.44">On the ball<span>2:04</span></button><button type="button" data-t="153.13">Defending<span>2:33</span></button><button type="button" data-t="198.01">Shots<span>3:18</span></button></div>
- <p class="note">More film: <a href="https://youtube.com/@kurtzsportsbroadcasting-i2g" target="_blank" rel="noopener">Kurtz Sports Broadcasting on YouTube</a></p>
+ <div class="chap" role="group" aria-label="Jump to"><button type="button" data-t="4.05" aria-label="Play Goals chapter, starts at 0:04">Goals<span>0:04</span></button><button type="button" data-t="70.52" aria-label="Play Assists chapter, starts at 1:10">Assists<span>1:10</span></button><button type="button" data-t="124.44" aria-label="Play On the ball chapter, starts at 2:04">On the ball<span>2:04</span></button><button type="button" data-t="153.13" aria-label="Play Defending chapter, starts at 2:33">Defending<span>2:33</span></button><button type="button" data-t="198.01" aria-label="Play Shots chapter, starts at 3:18">Shots<span>3:18</span></button></div>
+ <p class="note">More film: <a href="https://youtube.com/@kurtzsportsbroadcasting-i2g" target="_blank" rel="noopener" aria-describedby="nt">Kurtz Sports Broadcasting on YouTube</a></p>
 </div></section>
 
 <section class="sec sec--tight"><div class="wrap">
@@ -177,21 +177,21 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 <section class="sec" style="padding-top:0"><div class="wrap">
  <div class="h"><h2>Teams</h2></div>
  <div class="teams">
-  <div class="team"><span class="team__k">Club · ECNL Regional League</span><h3>FC Pride Elite U17</h3><span class="jersey">#00</span><p>Indianapolis · Head coach Larz Coy</p><a class="btn btn--dark" href="https://fcpride.org/club/travel-teams" target="_blank" rel="noopener">FC Pride</a></div>
-  <div class="team"><span class="team__k">High school · Varsity</span><h3>Greenwood Christian Academy</h3><span class="jersey">#24</span><p>Greenwood, Ind. · Head coach Tom Iliff</p><a class="btn btn--dark" href="https://www.maxpreps.com/in/greenwood/greenwood-christian-academy-cougars/athletes/gavin-kurtz/?careerid=od11c0s3uo3i2" target="_blank" rel="noopener">MaxPreps profile</a></div>
+  <div class="team"><span class="team__k">Club · ECNL Regional League</span><h3>FC Pride Elite U17</h3><span class="jersey">#00</span><p>Indianapolis · Head coach Larz Coy</p><a class="btn btn--dark" href="https://fcpride.org/club/travel-teams" target="_blank" rel="noopener" aria-describedby="nt">FC Pride</a></div>
+  <div class="team"><span class="team__k">High school · Varsity</span><h3>Greenwood Christian Academy</h3><span class="jersey">#24</span><p>Greenwood, Ind. · Head coach Tom Iliff</p><a class="btn btn--dark" href="https://www.maxpreps.com/in/greenwood/greenwood-christian-academy-cougars/athletes/gavin-kurtz/?careerid=od11c0s3uo3i2" target="_blank" rel="noopener" aria-describedby="nt">MaxPreps profile</a></div>
  </div>
 </div></section>
 
 <section class="sec sec--dark" id="contact"><div class="wrap">
  <div class="h"><h2>Contact</h2><p>Reach Gavin, his coaches or his parent directly.</p></div>
  <div class="people"><div class="person"><h3>Gavin Kurtz</h3><p>Player</p><a class="l" href="tel:+13175064624">(317) 506-4624</a><a class="l" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM">gavin.kurtz.2028@gmail.com</a>
-<div class="acts"><a class="btn" href="tel:+13175064624">Call</a><a class="btn btn--ghost" href="sms:+13175064624">Text</a></div></div><div class="person"><h3>Larz Coy</h3><p>Head Coach · FC Pride Elite ECNL RL</p><a class="l" href="tel:+13175136033">(317) 513-6033</a><a class="l" href="mailto:larzcoy@fcpride.org">larzcoy@fcpride.org</a>
-<div class="acts"><a class="btn" href="tel:+13175136033">Call</a><a class="btn btn--ghost" href="sms:+13175136033">Text</a></div></div><div class="person"><h3>Tom Iliff</h3><p>Head Coach · Greenwood Christian Academy</p><a class="l" href="tel:+13172016938">(317) 201-6938</a><a class="l" href="mailto:tiliff@gcak12.org">tiliff@gcak12.org</a>
-<div class="acts"><a class="btn" href="tel:+13172016938">Call</a><a class="btn btn--ghost" href="sms:+13172016938">Text</a></div></div><div class="person"><h3>Derick Kurtz</h3><p>Parent</p><a class="l" href="tel:+15745365852">(574) 536-5852</a><a class="l" href="mailto:dkurtz06@gmail.com">dkurtz06@gmail.com</a>
-<div class="acts"><a class="btn" href="tel:+15745365852">Call</a><a class="btn btn--ghost" href="sms:+15745365852">Text</a></div></div></div>
+<div class="acts"><a class="btn" href="tel:+13175064624" aria-label="Call Gavin Kurtz">Call</a><a class="btn btn--ghost" href="sms:+13175064624" aria-label="Text Gavin Kurtz">Text</a></div></div><div class="person"><h3>Larz Coy</h3><p>Head Coach · FC Pride Elite ECNL RL</p><a class="l" href="tel:+13175136033">(317) 513-6033</a><a class="l" href="mailto:larzcoy@fcpride.org">larzcoy@fcpride.org</a>
+<div class="acts"><a class="btn" href="tel:+13175136033" aria-label="Call Larz Coy">Call</a><a class="btn btn--ghost" href="sms:+13175136033" aria-label="Text Larz Coy">Text</a></div></div><div class="person"><h3>Tom Iliff</h3><p>Head Coach · Greenwood Christian Academy</p><a class="l" href="tel:+13172016938">(317) 201-6938</a><a class="l" href="mailto:tiliff@gcak12.org">tiliff@gcak12.org</a>
+<div class="acts"><a class="btn" href="tel:+13172016938" aria-label="Call Tom Iliff">Call</a><a class="btn btn--ghost" href="sms:+13172016938" aria-label="Text Tom Iliff">Text</a></div></div><div class="person"><h3>Derick Kurtz</h3><p>Parent</p><a class="l" href="tel:+15745365852">(574) 536-5852</a><a class="l" href="mailto:dkurtz06@gmail.com">dkurtz06@gmail.com</a>
+<div class="acts"><a class="btn" href="tel:+15745365852" aria-label="Call Derick Kurtz">Call</a><a class="btn btn--ghost" href="sms:+15745365852" aria-label="Text Derick Kurtz">Text</a></div></div></div>
 </div></section>
-<footer><div class="wrap"><div><p class="big">Gavin Kurtz <span>·</span> 2028 <span>·</span> CM</p><small>FC Pride Elite ECNL RL #00 · Greenwood Christian Academy #24 · (317) 506-4624 · gavin.kurtz.2028@gmail.com</small></div>
-<div class="acts"><a class="btn" href="tel:+13175064624">Call</a><a class="btn" href="sms:+13175064624">Text</a><a class="btn" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM">Email</a></div></div></footer><script>
+</main><span id="nt" hidden>opens in a new tab</span><footer><div class="wrap"><div><p class="big">Gavin Kurtz <span>·</span> 2028 <span>·</span> CM</p><small>FC Pride Elite ECNL RL #00 · Greenwood Christian Academy #24 · (317) 506-4624 · gavin.kurtz.2028@gmail.com</small></div>
+<div class="acts"><a class="btn" href="tel:+13175064624" aria-label="Call Gavin">Call</a><a class="btn" href="sms:+13175064624" aria-label="Text Gavin">Text</a><a class="btn" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM" aria-label="Email Gavin">Email</a></div></div></footer><script>
 (function(){
  var today=new Date();today.setHours(0,0,0,0);
  function iso(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2]);}
