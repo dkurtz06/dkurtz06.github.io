@@ -822,14 +822,22 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
       .x-thanks { width: 100%; font: var(--type-heading); color: var(--text-primary); }
       .foot .x-contact { width: 100%; }
     </style>
-  </head>
+  <style>
+  .x-sitenav{display:flex;gap:8px;padding-top:16px;flex-wrap:wrap}
+  .x-sitenav a{font:var(--type-label);text-decoration:none;padding:8px 16px;border-radius:var(--r-pill);background:var(--fill-tertiary);color:var(--text-primary);min-height:var(--tap);display:inline-flex;align-items:center}
+  .x-sitenav a[aria-current="page"]{background:var(--fill-primary);color:var(--text-primary-on)}
+  .x-sched td:first-child{white-space:nowrap}
+  .x-sched tr.is-past{display:none}
+  .x-tag{font:var(--type-tag);color:var(--text-secondary)}
+</style></head>
   <body>
     <div class="page" id="top">
+      <nav class="x-sitenav" aria-label="Site"><a href="/" aria-current="page">Highlights</a><a href="/schedule.html">Schedule</a></nav>
       <main class="main">
         <section class="x-reel" aria-label="2026 highlight reel">
           <p class="x-reel__line">Gavin Kurtz · Class of 2028 · Central Midfielder · 2026 High School Season Highlights</p>
           <div class="x-reel__frame">
-            <video class="x-reel__video" id="reel-video" src="reel.mp4" poster="gavin_reel_poster.jpg" controls="" playsinline="" preload="metadata">
+            <video class="x-reel__video" id="reel-video" src="reel-v15.mp4" poster="gavin_reel_poster.jpg" controls="" playsinline="" preload="metadata">
               Your browser can’t play this video.
             </video>
             <button class="x-reel__cover" id="reel-cover" type="button" aria-label="Play the 2026 highlight reel">
@@ -858,7 +866,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
                 <div class="row"><dt>Foot</dt><dd>Right (comfortable with left)</dd></div>
                 <div class="row"><dt>Height / Weight</dt><dd>6&#39;0&#34; · 160 lbs</dd></div>
                 <div class="row"><dt>GPA</dt><dd>4.01</dd></div>
-                <div class="row"><dt>Club</dt><dd>FC Pride Elite · ECNL Regional League</dd></div>
+                <div class="row"><dt>Club</dt><dd>FC Pride Elite · ECNL Regional League · #00</dd></div>
                 <div class="row"><dt>High school</dt><dd>Greenwood Christian Academy (Greenwood, IN) · #24</dd></div>
                 <div class="row"><dt>Intended major</dt><dd>Finance or Engineering</dd></div>
               </dl>
@@ -892,7 +900,7 @@ tr.is-highlight > :last-child { box-shadow: 12px 0 var(--fill-tertiary); }
               <div>
                 <h3>Club</h3>
                 <p class="quote">FC Pride Elite</p>
-                <p>ECNL Regional League (ECNL RL) · Head coach Larz Coy</p>
+                <p>ECNL Regional League (ECNL RL) · #00 · Head coach Larz Coy</p>
                 <div class="links"><a class="btn" href="https://fcpride.org/club/travel-teams" rel="noopener" target="_blank">FC Pride travel teams</a></div>
               </div>
               <div>
