@@ -116,7 +116,12 @@ tbody td{padding:13px 14px;border-bottom:1px solid #ececea;vertical-align:top}
 tbody tr:nth-child(even){background:#fafaf8}
 tr.tot td{background:#efefec;font-weight:700;border-top:2px solid var(--red)}
 td.n,th.n{text-align:center}
-tr.is-past{display:none}
+tr.is-past td{color:#6b6b70}
+tr.is-next{background:#111114!important}
+tr.is-next td{background:#111114!important;color:#fff;border-bottom-color:#111114}
+tr.is-next .tag{background:#fff;color:#111114}
+.nextb{display:inline-block;margin-left:8px;font:700 10px/1 var(--disp);letter-spacing:1.4px;text-transform:uppercase;padding:4px 6px;background:#fff;color:#111114;vertical-align:middle}
+td.fin b{font-family:var(--disp);letter-spacing:.5px}
 .tag{display:inline-block;font:600 11px/1 var(--disp);letter-spacing:1.4px;text-transform:uppercase;padding:5px 7px;background:var(--ink);color:#fff}
 .tag--hs{background:#3b3b40}.tag--red{background:var(--red)}
 .ha{font:700 12px/1 var(--disp);color:var(--red);margin-right:4px}
@@ -155,7 +160,10 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 (function(){
  var today=new Date();today.setHours(0,0,0,0);
  function iso(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2]);}
- [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today&&!tr.hasAttribute('data-final'))tr.classList.add('is-past');});
+ [].forEach.call(document.querySelectorAll('tbody'),function(tb){var found=false;
+  [].forEach.call(tb.querySelectorAll('tr[data-date]'),function(tr){var past=iso(tr.getAttribute('data-date'))<today;
+   if(past||tr.hasAttribute('data-final')){tr.classList.add('is-past');if(!tr.hasAttribute('data-final')){var c=tr.lastElementChild;c.setAttribute('data-l','Final');c.textContent='Score pending';}}
+   else if(!found){found=true;tr.classList.add('is-next');var d=tr.firstElementChild;var b=document.createElement('span');b.className='nextb';b.textContent='Next game';d.appendChild(b);tr.setAttribute('aria-label','Next game');}});});
  var nx=document.getElementById('next');
  if(nx){var g=JSON.parse(nx.getAttribute('data-games')).filter(function(x){return iso(x.d)>=today;})[0];
   if(g){nx.querySelector('.next__date').textContent=g.ds;nx.querySelector('.next__m').innerHTML='';

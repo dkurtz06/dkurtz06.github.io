@@ -116,7 +116,12 @@ tbody td{padding:13px 14px;border-bottom:1px solid #ececea;vertical-align:top}
 tbody tr:nth-child(even){background:#fafaf8}
 tr.tot td{background:#efefec;font-weight:700;border-top:2px solid var(--red)}
 td.n,th.n{text-align:center}
-tr.is-past{display:none}
+tr.is-past td{color:#6b6b70}
+tr.is-next{background:#111114!important}
+tr.is-next td{background:#111114!important;color:#fff;border-bottom-color:#111114}
+tr.is-next .tag{background:#fff;color:#111114}
+.nextb{display:inline-block;margin-left:8px;font:700 10px/1 var(--disp);letter-spacing:1.4px;text-transform:uppercase;padding:4px 6px;background:#fff;color:#111114;vertical-align:middle}
+td.fin b{font-family:var(--disp);letter-spacing:.5px}
 .tag{display:inline-block;font:600 11px/1 var(--disp);letter-spacing:1.4px;text-transform:uppercase;padding:5px 7px;background:var(--ink);color:#fff}
 .tag--hs{background:#3b3b40}.tag--red{background:var(--red)}
 .ha{font:700 12px/1 var(--disp);color:var(--red);margin-right:4px}
@@ -159,7 +164,7 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 <tr data-date="2027-04-18"><td data-l="Date">Sun, Apr 18, 2027</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">@ Louisville City Academy</td><td data-l="Location">Lynn Family Sports Vision &amp; Training Facility, Louisville, KY</td><td data-l="Kickoff">3:00 PM</td></tr>
 <tr data-date="2027-05-08"><td data-l="Date">Sat, May 8, 2027</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">@ Elite FC</td><td data-l="Location">Shelly Park, Field B</td><td data-l="Kickoff">1:00 PM</td></tr>
 <tr data-date="2027-05-09"><td data-l="Date">Sun, May 9, 2027</td><td data-l="Event"><span class="tag">ECNL RL</span></td><td data-l="Match">@ Blast FC Academy</td><td data-l="Location">Away · venue TBA</td><td data-l="Kickoff">TBA</td></tr></tbody></table></div>
- <p class="fine">Times and fields marked TBA are still being posted by the league. Past games drop off automatically.</p>
+ <p class="fine">Times and fields marked TBA are still being posted by the league. Finished games stay listed with the final score. The next game is highlighted.</p>
 </div></section>
 <section class="sec" style="padding-top:0"><div class="wrap">
  <div class="h"><h2>High School · Greenwood Christian</h2><p>Varsity · #24</p></div>
@@ -171,7 +176,10 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 (function(){
  var today=new Date();today.setHours(0,0,0,0);
  function iso(s){var p=s.split('-');return new Date(+p[0],p[1]-1,+p[2]);}
- [].forEach.call(document.querySelectorAll('tr[data-date]'),function(tr){if(iso(tr.getAttribute('data-date'))<today&&!tr.hasAttribute('data-final'))tr.classList.add('is-past');});
+ [].forEach.call(document.querySelectorAll('tbody'),function(tb){var found=false;
+  [].forEach.call(tb.querySelectorAll('tr[data-date]'),function(tr){var past=iso(tr.getAttribute('data-date'))<today;
+   if(past||tr.hasAttribute('data-final')){tr.classList.add('is-past');if(!tr.hasAttribute('data-final')){var c=tr.lastElementChild;c.setAttribute('data-l','Final');c.textContent='Score pending';}}
+   else if(!found){found=true;tr.classList.add('is-next');var d=tr.firstElementChild;var b=document.createElement('span');b.className='nextb';b.textContent='Next game';d.appendChild(b);tr.setAttribute('aria-label','Next game');}});});
  var nx=document.getElementById('next');
  if(nx){var g=JSON.parse(nx.getAttribute('data-games')).filter(function(x){return iso(x.d)>=today;})[0];
   if(g){nx.querySelector('.next__date').textContent=g.ds;nx.querySelector('.next__m').innerHTML='';
@@ -184,6 +192,6 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
  [].forEach.call(document.querySelectorAll('[data-t]'),function(b){b.addEventListener('click',function(){var t=+b.getAttribute('data-t');
   document.getElementById('film').scrollIntoView({behavior:'smooth',block:'start'});
   if(v.readyState<1){v.addEventListener('loadedmetadata',function f(){v.removeEventListener('loadedmetadata',f);go(t);});v.load();if(c)c.style.display='none';}else go(t);});});
-var b=document.querySelectorAll('section')[1];if(b&&!b.querySelector('tr[data-date]:not(.is-past)')){b.querySelector('table').parentNode.style.display='none';document.getElementById('hs-done').hidden=false;}
+var b=document.querySelectorAll('section')[1];if(b&&!b.querySelector('tr[data-date]:not(.is-past)')){document.getElementById('hs-done').hidden=false;}
 })();
 </script></body></html>
