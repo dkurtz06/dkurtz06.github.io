@@ -99,8 +99,8 @@ a{color:inherit}img,video{max-width:100%;display:block}
 .team p{margin:0 0 12px;color:var(--mute)}.team .btn{align-self:flex-start;margin-top:auto}
 .jersey{font:700 40px/1 var(--disp);color:var(--ink)}
 /* contacts */
-.people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media(max-width:980px){.people{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.people{grid-template-columns:1fr}}
+.people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.people--coaches{grid-template-columns:repeat(2,1fr)}.pcard{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:#fff;color:var(--ink);border-top:6px solid var(--acc);padding:30px 32px}.pcard__k{font:600 13px/1 var(--disp);letter-spacing:2px;text-transform:uppercase;color:#55565b}.pcard h3{font:700 clamp(40px,6vw,64px)/.95 var(--disp);text-transform:uppercase;margin:8px 0 12px}.pcard__l{display:inline-block;margin-right:22px;color:var(--ink);font-weight:700;font-size:20px;text-decoration:none;overflow-wrap:anywhere}.pcard__l:hover{text-decoration:underline}.pcard__acts{display:flex;gap:10px}.pcard__acts .btn{background:var(--ink);color:#fff;border-color:var(--ink);min-height:52px;padding:0 26px;font-size:15px}.coaches__h{font:600 15px/1 var(--disp);letter-spacing:2.5px;text-transform:uppercase;color:#a9a9ae;margin:36px 0 14px}
+@media(max-width:980px){.people{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.people,.people--coaches{grid-template-columns:1fr}.pcard{padding:24px 20px}.pcard__acts{width:100%}.pcard__acts .btn{flex:1;justify-content:center;padding:0 10px}.pcard__l{display:block;font-size:18px;margin:4px 0}}
 .person{background:var(--ink2);border:1px solid var(--line);border-top:4px solid #fff;padding:20px;color:#fff}
 .person h3{font:700 22px/1.1 var(--disp);text-transform:uppercase;margin:0}
 .person p{margin:4px 0 14px;color:#a9a9ae;font-size:14px}
@@ -183,12 +183,14 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 </div></section>
 
 <section class="sec sec--dark" id="contact"><div class="wrap">
- <div class="h"><h2>Contact</h2><p>Reach Gavin, his coaches or his parent directly.</p></div>
- <div class="people"><div class="person"><h3>Gavin Kurtz</h3><p>Player</p><a class="l" href="tel:+13175064624">(317) 506-4624</a><a class="l" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM">gavin.kurtz.2028@gmail.com</a>
-<div class="acts"><a class="btn" href="tel:+13175064624" aria-label="Call Gavin Kurtz">Call</a><a class="btn btn--ghost" href="sms:+13175064624" aria-label="Text Gavin Kurtz">Text</a></div></div><div class="person"><h3>Larz Coy</h3><p>Head Coach · FC Pride Elite ECNL RL</p><a class="l" href="tel:+13175136033">(317) 513-6033</a><a class="l" href="mailto:larzcoy@fcpride.org">larzcoy@fcpride.org</a>
+ <div class="h"><h2>Contact</h2><p>Reach Gavin directly, or talk to his coaches.</p></div>
+ <div class="pcard"><div class="pcard__id"><span class="pcard__k">Player · Class of 2028</span><h3>Gavin Kurtz</h3>
+<a class="pcard__l" href="tel:+13175064624">(317) 506-4624</a><a class="pcard__l" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM">gavin.kurtz.2028@gmail.com</a></div>
+<div class="acts pcard__acts"><a class="btn" href="tel:+13175064624" aria-label="Call Gavin">Call</a><a class="btn" href="sms:+13175064624" aria-label="Text Gavin">Text</a><a class="btn" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM" aria-label="Email Gavin">Email</a></div></div>
+ <h3 class="coaches__h">Coaches</h3>
+ <div class="people people--coaches"><div class="person"><h3>Larz Coy</h3><p>Head Coach · FC Pride Elite ECNL RL</p><a class="l" href="tel:+13175136033">(317) 513-6033</a><a class="l" href="mailto:larzcoy@fcpride.org">larzcoy@fcpride.org</a>
 <div class="acts"><a class="btn" href="tel:+13175136033" aria-label="Call Larz Coy">Call</a><a class="btn btn--ghost" href="sms:+13175136033" aria-label="Text Larz Coy">Text</a></div></div><div class="person"><h3>Tom Iliff</h3><p>Head Coach · Greenwood Christian Academy</p><a class="l" href="tel:+13172016938">(317) 201-6938</a><a class="l" href="mailto:tiliff@gcak12.org">tiliff@gcak12.org</a>
-<div class="acts"><a class="btn" href="tel:+13172016938" aria-label="Call Tom Iliff">Call</a><a class="btn btn--ghost" href="sms:+13172016938" aria-label="Text Tom Iliff">Text</a></div></div><div class="person"><h3>Derick Kurtz</h3><p>Parent</p><a class="l" href="tel:+15745365852">(574) 536-5852</a><a class="l" href="mailto:dkurtz06@gmail.com">dkurtz06@gmail.com</a>
-<div class="acts"><a class="btn" href="tel:+15745365852" aria-label="Call Derick Kurtz">Call</a><a class="btn btn--ghost" href="sms:+15745365852" aria-label="Text Derick Kurtz">Text</a></div></div></div>
+<div class="acts"><a class="btn" href="tel:+13172016938" aria-label="Call Tom Iliff">Call</a><a class="btn btn--ghost" href="sms:+13172016938" aria-label="Text Tom Iliff">Text</a></div></div></div>
 </div></section>
 </main><span id="nt" hidden>opens in a new tab</span><footer><div class="wrap"><div><p class="big">Gavin Kurtz <span>·</span> 2028 <span>·</span> CM</p><small>FC Pride Elite ECNL RL #00 · Greenwood Christian Academy #24 · (317) 506-4624 · gavin.kurtz.2028@gmail.com</small></div>
 <div class="acts"><a class="btn" href="tel:+13175064624" aria-label="Call Gavin">Call</a><a class="btn" href="sms:+13175064624" aria-label="Text Gavin">Text</a><a class="btn" href="mailto:gavin.kurtz.2028@gmail.com?subject=Gavin%20Kurtz%20%E2%80%93%20Class%20of%202028%20CM" aria-label="Email Gavin">Email</a></div></div></footer><script>

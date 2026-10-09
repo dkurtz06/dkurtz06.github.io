@@ -99,8 +99,8 @@ a{color:inherit}img,video{max-width:100%;display:block}
 .team p{margin:0 0 12px;color:var(--mute)}.team .btn{align-self:flex-start;margin-top:auto}
 .jersey{font:700 40px/1 var(--disp);color:var(--ink)}
 /* contacts */
-.people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media(max-width:980px){.people{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.people{grid-template-columns:1fr}}
+.people{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.people--coaches{grid-template-columns:repeat(2,1fr)}.pcard{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:#fff;color:var(--ink);border-top:6px solid var(--acc);padding:30px 32px}.pcard__k{font:600 13px/1 var(--disp);letter-spacing:2px;text-transform:uppercase;color:#55565b}.pcard h3{font:700 clamp(40px,6vw,64px)/.95 var(--disp);text-transform:uppercase;margin:8px 0 12px}.pcard__l{display:inline-block;margin-right:22px;color:var(--ink);font-weight:700;font-size:20px;text-decoration:none;overflow-wrap:anywhere}.pcard__l:hover{text-decoration:underline}.pcard__acts{display:flex;gap:10px}.pcard__acts .btn{background:var(--ink);color:#fff;border-color:var(--ink);min-height:52px;padding:0 26px;font-size:15px}.coaches__h{font:600 15px/1 var(--disp);letter-spacing:2.5px;text-transform:uppercase;color:#a9a9ae;margin:36px 0 14px}
+@media(max-width:980px){.people{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.people,.people--coaches{grid-template-columns:1fr}.pcard{padding:24px 20px}.pcard__acts{width:100%}.pcard__acts .btn{flex:1;justify-content:center;padding:0 10px}.pcard__l{display:block;font-size:18px;margin:4px 0}}
 .person{background:var(--ink2);border:1px solid var(--line);border-top:4px solid #fff;padding:20px;color:#fff}
 .person h3{font:700 22px/1.1 var(--disp);text-transform:uppercase;margin:0}
 .person p{margin:4px 0 14px;color:#a9a9ae;font-size:14px}
