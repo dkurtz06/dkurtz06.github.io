@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Open in Gmail</title>
+<style>
+body{font:17px -apple-system,system-ui,sans-serif;background:#111;color:#eee;margin:0;padding:32px 22px;text-align:center}
+a.b{display:block;margin:14px auto;max-width:340px;padding:16px;border-radius:14px;text-decoration:none;font-weight:600}
+.p{background:#fff;color:#111}.s{border:1px solid #555;color:#eee}
+p{color:#aaa;font-size:15px}
+</style></head><body>
+<h1 style="font-size:22px">Opening Gmail…</h1>
+<a class="b p" id="g" href="#">Open in Gmail app</a>
+<a class="b s" id="m" href="#">Use Mail app instead</a>
+<p>Make sure Gmail is switched to gavin.kurtz.2028@gmail.com before you tap Send.</p>
+<script>
+(function(){
+  var q = new URLSearchParams(location.hash.slice(1));
+  var e = encodeURIComponent;
+  var to = q.get("to")||"", cc = q.get("cc")||"", su = q.get("su")||"", body = q.get("body")||"";
+  var g = "googlegmail://co?to="+e(to)+"&cc="+e(cc)+"&subject="+e(su)+"&body="+e(body);
+  var m = "mailto:"+e(to)+"?cc="+e(cc)+"&subject="+e(su)+"&body="+e(body);
+  document.getElementById("g").href = g;
+  document.getElementById("m").href = m;
+  if (to) setTimeout(function(){ location.href = g; }, 150);
+})();
+</script>
+</body></html>
