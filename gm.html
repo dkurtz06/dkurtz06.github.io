@@ -11,6 +11,7 @@ p{color:#aaa;font-size:15px}
 </style></head><body>
 <h1 style="font-size:22px">Opening Gmail…</h1>
 <a class="b p" id="g" href="#">Open in Gmail app</a>
+<a class="b s" id="g2" href="#">Try Gmail again (alt link)</a>
 <a class="b s" id="m" href="#">Use Mail app instead</a>
 <p>Make sure Gmail is switched to gavin.kurtz.2028@gmail.com before you tap Send.</p>
 <script>
@@ -18,10 +19,12 @@ p{color:#aaa;font-size:15px}
   var q = new URLSearchParams(location.hash.slice(1));
   var e = encodeURIComponent;
   var to = q.get("to")||"", cc = q.get("cc")||"", su = q.get("su")||"", body = q.get("body")||"";
-  var g = "googlegmail://co?to="+e(to)+"&cc="+e(cc)+"&subject="+e(su)+"&body="+e(body);
+  var qs = "?to="+e(to)+"&cc="+e(cc)+"&subject="+e(su)+"&body="+e(body);
+  var g = "googlegmail:///co"+qs, g2 = "googlegmail://co"+qs;
   var m = "mailto:"+e(to)+"?cc="+e(cc)+"&subject="+e(su)+"&body="+e(body);
   document.getElementById("g").href = g;
   document.getElementById("m").href = m;
+  document.getElementById("g2").href = g2;
   if (to) setTimeout(function(){ location.href = g; }, 150);
 })();
 </script>
