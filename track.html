@@ -108,6 +108,8 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
+var BUILD="1792184158";
+(function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function toast(t){var x=$("toast");x.textContent=t;x.classList.add("s");clearTimeout(x._t);x._t=setTimeout(function(){x.classList.remove("s");},1400);}
