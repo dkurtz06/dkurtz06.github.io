@@ -49,7 +49,7 @@ label{font-size:13px;color:var(--m)}
 <section id="v-setup" hidden>
  <h1>Connect the tracker</h1>
  <p class="m">One-time setup on this phone. Paste the GitHub token for gavinkurtzsoccer.com. It stays on this phone only.</p>
- <label for="tok">GitHub token</label><input id="tok" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+ <form id="tokform" onsubmit="return false" style="margin:0"><input type="text" name="username" autocomplete="username" value="Gavin tracker" readonly hidden aria-hidden="true"><label for="tok">GitHub token</label><input id="tok" name="password" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" placeholder="github_pat_…"></form>
  <button class="b" id="tok-save">Save and test</button>
  <p class="m" id="tok-msg" role="status"></p>
  <button class="b b2" id="tok-skip">Skip for now (save on phone only)</button>
