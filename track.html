@@ -58,7 +58,7 @@ label{font-size:13px;color:var(--m)}
 
 <!-- HOME -->
 <section id="v-home" hidden>
- <div class="top"><h1>Gavin game tracker</h1><span class="sync" id="sync-h"></span></div>
+ <div class="top"><h1 id="apptitle" style="-webkit-user-select:none;user-select:none;-webkit-touch-callout:none">Gavin game tracker</h1><span class="sync" id="sync-h"></span></div>
  <h2>New game</h2>
  <div class="seg" role="group" aria-label="Team"><button data-team="club" aria-pressed="true">FC Pride #00</button><button data-team="hs" aria-pressed="false">GCA #24</button></div>
  <label for="g-date">Date</label><input id="g-date" type="date">
@@ -66,8 +66,7 @@ label{font-size:13px;color:var(--m)}
  <button class="b" id="start">Start game</button>
  <h2>Saved games</h2>
  <div class="list" id="list"></div>
- <button class="b b2" id="settings" style="margin-top:22px">Token settings</button>
- <button class="b b2" id="testmode" style="margin-top:10px">Switch to test mode</button>
+ <button class="b b2" id="testmode" style="margin-top:22px">Switch to test mode</button>
 </section>
 
 <!-- GAME -->
@@ -85,7 +84,7 @@ label{font-size:13px;color:var(--m)}
  <div class="cell"><button class="tile" data-act="sog"><b id="c-sog">0</b><span>Shot on target</span></button><button class="minus" data-act="sog_minus" aria-label="Remove one shot on target">− 1</button></div>
  <div class="cell"><button class="tile" data-act="sh"><b id="c-sh">0</b><span>Shot off target</span></button><button class="minus" data-act="sh_minus" aria-label="Remove one shot off target">− 1</button></div>
  </div>
- <p class="m" style="text-align:center">A goal also counts as a shot on target and adds to the score. Use − 1 under any stat to fix a mistake.</p>
+ <p class="m" style="text-align:center">A Gavin goal also adds a shot on target and a goal to the score. Use − 1 under any stat to fix a mistake.</p>
  <div class="card min">
   <div class="clock" id="clock" aria-live="off">0'</div>
   <button class="b b2" id="field" style="margin:0">Gavin on field</button>
@@ -133,7 +132,7 @@ function renderGame(){var g=cur,t=tally(g);
  $("g-title").textContent=(g.team==="hs"?"GCA #24 ":"FC Pride #00 ")+"· "+(g.opp||"Opponent TBA");
  var p=g.date.split("-");$("g-sub").textContent=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})+(g.status==="final"?" · Final":" · Live");
  $("us-l").textContent=g.team==="hs"?"GCA":"FC Pride";
- $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog-t.g:k==="sh"?t.sh-t.sog:t[k];});
+ $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog:k==="sh"?t.sh-t.sog:t[k];});
  $("c-g").textContent=t.g;
  $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap when subbed off":"Gavin on field";
  $("final").textContent=g.status==="final"?"Update site":"Final whistle · post to site";
@@ -173,7 +172,7 @@ function push(tries){tries=tries||0;if(busy){schedulePush(3000);return;}if(!tok(
   return gh("PUT",body);})
  .then(function(r){busy=false;if(r.status===409||r.status===422){if(tries<2)return push(tries+1);throw r.status;}if(!r.ok)throw r.status;
   dirty=false;LS.set("gk_dirty"+SX,false);LS.set("gk_deleted"+SX,[]);setSync((TEST?"Test saved ":"Posted ")+new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+(TEST?" · not on the site":" · site updates in ~1 min"),"ok");})
- .catch(function(e){busy=false;setSync(e===401||e===403?"Token rejected · check settings":"Couldn't post · will retry","bad");if(e!==401&&e!==403)schedulePush(20000);});}
+ .catch(function(e){busy=false;setSync(e===401||e===403?"Token rejected · hold the title to update it":"Couldn't post · will retry","bad");if(e!==401&&e!==403)schedulePush(20000);});}
 
 /* ---- wiring ---- */
 document.addEventListener("click",function(ev){var b=ev.target.closest("button");if(!b)return;
@@ -191,7 +190,8 @@ $("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now(
 $("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted"+SX,[]);d.push(cur.id);LS.set("gk_deleted"+SX,d);
  games=games.filter(function(g){return g.id!==cur.id;});cur=null;save();dirty=true;LS.set("gk_dirty"+SX,true);show("home");renderHome();schedulePush(300);});
 $("back").addEventListener("click",function(){cur=null;show("home");renderHome();});
-$("settings").addEventListener("click",function(){$("tok").value="";$("tok-msg").textContent=tok()?"A token is saved. Paste a new one to replace it.":"";show("setup");});
+function openSettings(){$("tok").value="";$("tok-msg").textContent=tok()?"A token is saved. Paste a new one to replace it.":"";show("setup");}
+(function(){var h=$("apptitle"),lt=null;function st(){lt=setTimeout(openSettings,1500);}function en(){clearTimeout(lt);}h.addEventListener("touchstart",st,{passive:true});h.addEventListener("touchend",en);h.addEventListener("touchmove",en);h.addEventListener("touchcancel",en);h.addEventListener("contextmenu",function(e){e.preventDefault();});})();
 $("tok-skip").addEventListener("click",function(){LS.set("gk_skip",true);show("home");renderHome();});
 $("tok-save").addEventListener("click",function(){var v=$("tok").value.trim();if(!v){$("tok-msg").textContent="Paste the token first.";return;}
  localStorage.setItem("gk_token",v);$("tok-msg").textContent="Testing…";
