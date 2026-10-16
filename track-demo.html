@@ -43,6 +43,26 @@ label{font-size:13px;color:var(--m)}
 [hidden]{display:none!important}
 .defs p{font-size:14px;color:var(--m);margin:10px 0 0}.defs b{color:#fff}
 .testbar{position:sticky;top:0;z-index:50;background:#f5c518;color:#111;font-weight:800;text-align:center;padding:9px 10px;font-size:15px;margin:-4px -4px 10px;border-radius:8px}
+
+.gv:not([hidden]){display:flex;flex-direction:column;gap:6px;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 50px)}
+body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 100px)}
+.gh{display:flex;align-items:center;gap:8px}.gt{flex:1;min-width:0;text-align:center;line-height:1.15}.gt b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gt span{font-size:12px}
+.lnk{border:0;background:none;color:var(--m);padding:6px 4px;font-size:15px;min-width:44px}#help{border:1px solid var(--ln);border-radius:50%;width:32px;height:32px;min-width:32px;padding:0;font-weight:700}
+#sync-g{text-align:center;font-size:12px;margin-top:-4px}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.side{display:flex;align-items:center;gap:8px;background:var(--c);border:1px solid var(--ln);border-radius:12px;padding:6px 8px}
+.side small{color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:1px;width:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.side b{font-size:30px;flex:1;text-align:center}
+.side button{border:1px solid var(--ln);background:var(--c2);border-radius:9px;width:38px;height:38px;font-size:20px;font-weight:700;padding:0;touch-action:manipulation}
+.grid3{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:8px}
+.grid3 .cell{min-height:0;gap:5px}.grid3 .tile{flex:1;min-height:0;padding:6px 4px;display:flex;flex-direction:column;justify-content:center}
+.grid3 .tile b{font-size:38px}.grid3 .tile span{font-size:13px;margin-top:4px;line-height:1.15}.grid3 .minus{padding:7px 0;font-size:14px}
+.mrow,.brow{display:flex;gap:8px;align-items:center}
+.mrow .clock{font-size:26px;font-weight:700;min-width:62px;text-align:center}
+.sm,.sm2,.fld,.fin{border:1px solid var(--ln);background:var(--c2);border-radius:11px;height:46px;font-weight:700;padding:0 12px;touch-action:manipulation}
+.sm{width:50px;padding:0}.fld{flex:1}.fin{flex:1;background:#fff;color:#000;border:0}.del{color:var(--bad);border-color:var(--bad);background:transparent}
+.sg{flex:1;margin:0;padding:3px}.sg button{padding:9px 6px}
+.last{font-size:13px;text-align:center;min-height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:60;display:flex;align-items:center;padding:16px}.ov .card{max-height:90dvh;overflow:auto;width:100%}.ov p{font-size:14px;color:var(--m);margin:0 0 10px}.ov b{color:#fff}
 </style></head><body><div class="w">
 <div class="testbar" id="testbar" hidden>DEMO · try it out, nothing is saved online</div>
 
@@ -71,41 +91,32 @@ label{font-size:13px;color:var(--m)}
 </section>
 
 <!-- GAME -->
-<section id="v-game" hidden>
- <div class="top"><button class="mini" id="back" style="border:0;background:none;color:var(--m);padding:0">‹ Games</button><span class="sync" id="sync-g" role="status"></span></div>
- <h1 id="g-title"></h1><p class="m" id="g-sub"></p>
- <div class="seg" role="group" aria-label="Started or sub"><button data-start="1" aria-pressed="true">Started</button><button data-start="0" aria-pressed="false">Off the bench</button></div>
- <div class="card score">
-  <div><small id="us-l">Us</small><b id="us">0</b><div class="mini"><button data-act="team_goal" aria-label="Teammate goal">+ Goal</button><button data-act="us_minus" aria-label="Remove our goal">−</button></div></div>
-  <div style="color:var(--m)">–</div>
-  <div><small>Them</small><b id="them">0</b><div class="mini"><button data-act="opp_goal" aria-label="Opponent goal">+ Goal</button><button data-act="them_minus" aria-label="Remove opponent goal">−</button></div></div>
+<section id="v-game" class="gv" hidden>
+ <div class="gh"><button id="back" class="lnk">‹ Games</button><div class="gt"><b id="g-title"></b><span class="m" id="g-sub"></span></div><button id="help" class="lnk" aria-label="What counts as each stat">?</button></div>
+ <span class="sync" id="sync-g" role="status"></span>
+ <div class="sc">
+  <div class="side"><small id="us-l">Us</small><b id="us">0</b><button data-act="team_goal" aria-label="Teammate goal">+</button><button data-act="us_minus" aria-label="Remove our goal">−</button></div>
+  <div class="side"><small>Them</small><b id="them">0</b><button data-act="opp_goal" aria-label="Opponent goal">+</button><button data-act="them_minus" aria-label="Remove opponent goal">−</button></div>
  </div>
- <div class="grid">
+ <div class="grid3">
  <div class="cell"><button class="tile goal" data-act="g"><b id="c-g">0</b><span>Gavin goal</span></button><button class="minus" data-act="g_minus" aria-label="Remove one gavin goal">− 1</button></div>
  <div class="cell"><button class="tile" data-act="a"><b id="c-a">0</b><span>Assist</span></button><button class="minus" data-act="a_minus" aria-label="Remove one assist">− 1</button></div>
+ <div class="cell"><button class="tile" data-act="ch"><b id="c-ch">0</b><span>Chance created</span></button><button class="minus" data-act="ch_minus" aria-label="Remove one chance created">− 1</button></div>
  <div class="cell"><button class="tile" data-act="sog"><b id="c-sog">0</b><span>Shot on target</span></button><button class="minus" data-act="sog_minus" aria-label="Remove one shot on target">− 1</button></div>
  <div class="cell"><button class="tile" data-act="sh"><b id="c-sh">0</b><span>Shot off target</span></button><button class="minus" data-act="sh_minus" aria-label="Remove one shot off target">− 1</button></div>
- <div class="cell"><button class="tile" data-act="ch"><b id="c-ch">0</b><span>Chance created</span></button><button class="minus" data-act="ch_minus" aria-label="Remove one chance created">− 1</button></div>
  <div class="cell"><button class="tile" data-act="tk"><b id="c-tk">0</b><span>Tackle won</span></button><button class="minus" data-act="tk_minus" aria-label="Remove one tackle won">− 1</button></div>
  </div>
- <p class="m" style="text-align:center">A Gavin goal also adds a shot on target and a goal to the score. An assist also counts as a chance created. Use − 1 under any stat to fix a mistake.</p>
- <details class="card defs" style="margin-top:4px"><summary style="font-weight:700;cursor:pointer">What counts?</summary>
-  <p><b>Chance created:</b> Gavin's pass leads straight to a teammate's shot, whether it's saved, blocked or missed. If the shot goes in, tap Assist instead (it counts as both). The pass two touches before the shot doesn't count, and neither does a rebound.</p>
-  <p><b>Tackle won:</b> Gavin takes the ball off an opponent with a tackle or a poke, and his team keeps it (Gavin or a teammate comes away with it). A tackle that just knocks it out of bounds, or a foul, doesn't count.</p>
+ <div class="mrow"><div class="clock" id="clock" aria-live="off">0'</div><button class="sm" data-act="min_minus" aria-label="Minus one minute">−1</button><button class="sm" data-act="min_plus" aria-label="Plus one minute">+1</button><button class="fld" id="field">Gavin on field</button></div>
+ <div class="brow"><div class="seg sg" role="group" aria-label="Started or sub"><button data-start="1" aria-pressed="true">Started</button><button data-start="0" aria-pressed="false">Bench</button></div><button class="sm2" id="undo">Undo</button></div>
+ <div class="last m" id="log" aria-label="Last action"></div>
+ <div class="brow"><button class="fin" id="final">Final · post</button><button class="sm2" id="recap" aria-label="Share game recap">Share</button><button class="sm2 del" id="del" aria-label="Delete this game">Delete</button></div>
+ <div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
+  <p><b>Gavin goal</b> also adds a shot on target and a goal to the score. <b>Assist</b> also counts as a chance created. Use − 1 under any stat, or Undo, to fix a mistake.</p>
+  <p><b>Chance created:</b> Gavin's pass leads straight to a teammate's shot, whether it's saved, blocked or missed. If the shot goes in, tap Assist instead. The pass two touches before the shot doesn't count, and neither does a rebound.</p>
+  <p><b>Tackle won:</b> Gavin takes the ball off an opponent and his team keeps it. A tackle that just knocks it out of bounds, or a foul, doesn't count.</p>
   <p><b>Assist:</b> Gavin's pass is the last touch before a teammate scores.</p>
-  <p><b>Shot on target:</b> would go in without the keeper or a defender on the line. Goals count too.</p>
-  <p><b>Shot off target:</b> wide, over, or hits the post or bar without going in. Blocked shots go here too.</p>
- </details>
- <div class="card min">
-  <div class="clock" id="clock" aria-live="off">0'</div>
-  <button class="b b2" id="field" style="margin:0">Gavin on field</button>
- </div>
- <div class="row" style="margin-top:6px"><button class="b b2" data-act="min_minus">− 1 min</button><button class="b b2" data-act="min_plus">+ 1 min</button></div>
- <button class="b b2" id="undo">Undo last</button>
- <div class="log" id="log" aria-label="Game log"></div>
- <button class="b" id="final">Final whistle · post to site</button>
- <button class="b b2" id="recap">Share game recap</button>
- <button class="b bd" id="del">Delete this game</button>
+  <p><b>Shot on target:</b> would go in without the keeper or a defender on the line. <b>Off target:</b> wide, over, post or bar, or blocked.</p>
+  <button class="b" id="defs-x">Got it</button></div></div>
 </section>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -120,7 +131,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=false;$("testmode").hidden=true;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792186098";
+var BUILD="1792190050";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return "demo";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -143,15 +154,15 @@ var NAMES={g:"Gavin goal",a:"Assist",sog:"Shot on target",sh:"Shot off target",t
 
 /* ---- render ---- */
 function renderGame(){var g=cur,t=tally(g);
- $("g-title").textContent=(g.team==="hs"?"GCA #24 ":"FC Pride #00 ")+"· "+(g.opp||"Opponent TBA");
- var p=g.date.split("-");$("g-sub").textContent=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})+(g.status==="final"?" · Final":" · Live");
+ $("g-title").textContent=(g.team==="hs"?"GCA #24 ":"FC Pride #00 ")+"vs "+(g.opp||"TBA");
+ var p=g.date.split("-");$("g-sub").textContent=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})+(g.status==="final"?" · Final":" · Live");
  $("us-l").textContent=g.team==="hs"?"GCA":"FC Pride";
  $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog:k==="sh"?t.sh-t.sog:t[k];});
  $("c-g").textContent=t.g;$("c-ch").textContent=t.ch;$("c-tk").textContent=t.tk;
  [].forEach.call(document.querySelectorAll("[data-start]"),function(b){b.setAttribute("aria-pressed",(b.getAttribute("data-start")==="1")===(g.start!==false)?"true":"false");});
- $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap when subbed off":"Gavin on field";
- $("final").textContent=g.status==="final"?"Update site":"Final whistle · post to site";
- $("log").innerHTML=(g.ev||[]).slice().reverse().map(function(e){var d=new Date(e.t);return "<div>"+d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+" · "+esc(NAMES[e.k]||e.k)+"</div>";}).join("");}
+ $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap = off":"Gavin on field";
+ $("final").textContent=g.status==="final"?"Update site":"Final · post";
+ var le=(g.ev||[])[(g.ev||[]).length-1];$("log").textContent=le?"Last: "+(NAMES[le.k]||le.k)+" · "+new Date(le.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"Tap a tile to log a stat";}
 function renderHome(){var d=$("g-date");if(!d.value)d.value=today();fillOpps();
  [].forEach.call(document.querySelectorAll("[data-team]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-team")===team?"true":"false");});
  var l=games.slice().sort(function(a,b){return a.date<b.date?1:-1;});
@@ -201,6 +212,7 @@ $("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString
  games.push(g);cur=g;$("g-opp").value="";$("g-opp").dataset.typed="";save();show("game");changed();schedulePush(500);});
 $("field").addEventListener("click",function(){buzz();if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
 $("undo").addEventListener("click",undo);
+$("help").addEventListener("click",function(){$("defs").hidden=false;});$("defs-x").addEventListener("click",function(){$("defs").hidden=true;});$("defs").addEventListener("click",function(e){if(e.target===this)this.hidden=true;});
 function pl(n,a,b){return n+" "+(n===1?a:b);}
 function recapText(g){var r=record(g),p=g.date.split("-"),d=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
  var res=r.us>r.them?"W":r.us<r.them?"L":"T",tm=g.team==="hs"?"Greenwood Christian Academy #24":"FC Pride Elite ECNL RL #00";
