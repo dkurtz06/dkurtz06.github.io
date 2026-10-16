@@ -51,6 +51,7 @@ label{font-size:13px;color:var(--m)}
  <button class="b" id="tok-save">Save and test</button>
  <p class="m" id="tok-msg" role="status"></p>
  <button class="b b2" id="tok-skip">Skip for now (save on phone only)</button>
+ <button class="b b2" id="testmode2" style="margin-top:10px">Try it in test mode</button>
 </section>
 
 <!-- HOME -->
@@ -105,6 +106,7 @@ var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSO
 var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,busy=false,dirty=LS.get("gk_dirty"+SX,false);
 $("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
+$("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function toast(t){var x=$("toast");x.textContent=t;x.classList.add("s");clearTimeout(x._t);x._t=setTimeout(function(){x.classList.remove("s");},1400);}
