@@ -1,23 +1,4 @@
 {
- "updated": "2026-10-16T21:37:46.768Z",
- "games": [
-  {
-   "id": "gmvbhnvql",
-   "team": "club",
-   "date": "2026-10-16",
-   "opp": "",
-   "status": "live",
-   "us": 1,
-   "them": 0,
-   "min": 0,
-   "g": 1,
-   "a": 1,
-   "sh": 2,
-   "sog": 1,
-   "ch": 1,
-   "tk": 0,
-   "start": true,
-   "updated": "2026-10-16T21:37:46.768Z"
-  }
- ]
+ "updated": "2026-10-16T21:37:54.413Z",
+ "games": []
 }
