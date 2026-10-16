@@ -39,7 +39,9 @@ label{font-size:13px;color:var(--m)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 18px);transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:20px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.s{opacity:1}
 [hidden]{display:none!important}
+.testbar{position:sticky;top:0;z-index:50;background:#f5c518;color:#111;font-weight:800;text-align:center;padding:9px 10px;font-size:15px;margin:-4px -4px 10px;border-radius:8px}
 </style></head><body><div class="w">
+<div class="testbar" id="testbar" hidden>TEST MODE · nothing goes on the site</div>
 
 <!-- SETUP -->
 <section id="v-setup" hidden>
@@ -62,6 +64,7 @@ label{font-size:13px;color:var(--m)}
  <h2>Saved games</h2>
  <div class="list" id="list"></div>
  <button class="b b2" id="settings" style="margin-top:22px">Token settings</button>
+ <button class="b b2" id="testmode" style="margin-top:10px">Switch to test mode</button>
 </section>
 
 <!-- GAME -->
@@ -95,16 +98,19 @@ label{font-size:13px;color:var(--m)}
 <script>
 (function(){
 var SCHED=[{"d": "2026-10-10", "team": "hs", "m": "@ Indianapolis Lutheran"}, {"d": "2026-10-15", "team": "hs", "m": "vs Indianapolis Scecina Memorial"}, {"d": "2026-11-15", "team": "club", "m": "Opponents TBA"}, {"d": "2026-12-05", "team": "club", "m": "vs Columbus Force"}, {"d": "2026-12-06", "team": "club", "m": "vs Ohio Premier"}, {"d": "2026-12-12", "team": "club", "m": "@ Ohio Elite SA"}, {"d": "2026-12-13", "team": "club", "m": "@ Cincinnati Elite FC"}, {"d": "2026-12-19", "team": "club", "m": "vs Ohio Galaxies FC"}, {"d": "2027-02-20", "team": "club", "m": "vs Lexington Sporting Club"}, {"d": "2027-02-21", "team": "club", "m": "vs Louisville City Academy"}, {"d": "2027-02-27", "team": "club", "m": "vs Elite FC"}, {"d": "2027-02-28", "team": "club", "m": "vs Blast FC Academy"}, {"d": "2027-03-06", "team": "club", "m": "@ Ohio Galaxies FC"}, {"d": "2027-03-13", "team": "club", "m": "@ Columbus Force"}, {"d": "2027-03-14", "team": "club", "m": "@ Ohio Premier"}, {"d": "2027-03-20", "team": "club", "m": "vs Ohio Elite SA"}, {"d": "2027-03-21", "team": "club", "m": "vs Cincinnati Elite FC"}, {"d": "2027-04-17", "team": "club", "m": "@ Lexington Sporting Club"}, {"d": "2027-04-18", "team": "club", "m": "@ Louisville City Academy"}, {"d": "2027-05-08", "team": "club", "m": "@ Elite FC"}, {"d": "2027-05-09", "team": "club", "m": "@ Blast FC Academy"}];
-var OWNER="dkurtz06",REPO="dkurtz06.github.io",PATH="games.json",API="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+PATH;
+var TEST=localStorage.getItem("gk_test")==="1",SX=TEST?"_test":"";
+var OWNER="dkurtz06",REPO="dkurtz06.github.io",PATH=TEST?"games-test.json":"games.json",API="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+PATH;
 var $=function(i){return document.getElementById(i);};
 var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){localStorage.setItem(k,JSON.stringify(v));}};
-var games=LS.get("gk_games",[]),cur=null,team="club",timer=null,pushT=null,busy=false,dirty=LS.get("gk_dirty",false);
+var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,busy=false,dirty=LS.get("gk_dirty"+SX,false);
+$("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
+$("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function toast(t){var x=$("toast");x.textContent=t;x.classList.add("s");clearTimeout(x._t);x._t=setTimeout(function(){x.classList.remove("s");},1400);}
 function buzz(){try{navigator.vibrate&&navigator.vibrate(30);}catch(e){}}
 function show(v){["setup","home","game"].forEach(function(n){$("v-"+n).hidden=n!==v;});window.scrollTo(0,0);}
-function save(){LS.set("gk_games",games);}
+function save(){LS.set("gk_games"+SX,games);}
 function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
 /* ---- minutes ---- */
@@ -144,7 +150,7 @@ function act(k){if(!cur)return;buzz();
  if(cur.status==="final"&&k!=="min_plus"&&k!=="min_minus"){} 
  toast(NAMES[k]||k);changed();}
 function undo(){if(!cur||!cur.ev||!cur.ev.length)return;var e=cur.ev.pop();if(e.k==="min_plus")cur.adj--;if(e.k==="min_minus")cur.adj++;toast("Undid "+(NAMES[e.k]||e.k).toLowerCase());changed();}
-function changed(){save();renderGame();dirty=true;LS.set("gk_dirty",true);setSync();schedulePush(6000);}
+function changed(){save();renderGame();dirty=true;LS.set("gk_dirty"+SX,true);setSync();schedulePush(6000);}
 function schedulePush(ms){clearTimeout(pushT);if(!tok())return;pushT=setTimeout(push,ms);}
 
 /* ---- GitHub ---- */
@@ -155,13 +161,13 @@ function push(tries){tries=tries||0;if(busy){schedulePush(3000);return;}if(!tok(
  busy=true;setSync("Posting…");
  gh("GET").then(function(r){if(r.status===404)return {sha:null,data:{games:[]}};if(!r.ok)throw r.status;return r.json().then(function(j){var d;try{d=JSON.parse(b64d(j.content));}catch(e){d={games:[]};}return {sha:j.sha,data:d};});})
  .then(function(x){var mine={};games.forEach(function(g){mine[g.id]=record(g);});
-  var deleted=LS.get("gk_deleted",[]);
+  var deleted=LS.get("gk_deleted"+SX,[]);
   var out=(x.data.games||[]).filter(function(g){return !mine[g.id]&&deleted.indexOf(g.id)<0;});
   Object.keys(mine).forEach(function(k){out.push(mine[k]);});out.sort(function(a,b){return a.date<b.date?-1:1;});
   var body={message:"Game stats update "+new Date().toISOString().slice(0,16),content:b64e(JSON.stringify({updated:new Date().toISOString(),games:out},null,1)),branch:"main"};if(x.sha)body.sha=x.sha;
   return gh("PUT",body);})
  .then(function(r){busy=false;if(r.status===409||r.status===422){if(tries<2)return push(tries+1);throw r.status;}if(!r.ok)throw r.status;
-  dirty=false;LS.set("gk_dirty",false);LS.set("gk_deleted",[]);setSync("Posted "+new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+" · site updates in ~1 min","ok");})
+  dirty=false;LS.set("gk_dirty"+SX,false);LS.set("gk_deleted"+SX,[]);setSync((TEST?"Test saved ":"Posted ")+new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+(TEST?" · not on the site":" · site updates in ~1 min"),"ok");})
  .catch(function(e){busy=false;setSync(e===401||e===403?"Token rejected · check settings":"Couldn't post · will retry","bad");if(e!==401&&e!==403)schedulePush(20000);});}
 
 /* ---- wiring ---- */
@@ -175,10 +181,10 @@ $("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString
  games.push(g);cur=g;$("g-opp").value="";$("g-opp").dataset.typed="";save();show("game");changed();schedulePush(500);});
 $("field").addEventListener("click",function(){buzz();if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
 $("undo").addEventListener("click",undo);
-$("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty",true);
+$("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty"+SX,true);
  if(!tok()){toast("Saved on phone · connect a token to post");return;}push();toast("Posting final");});
-$("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted",[]);d.push(cur.id);LS.set("gk_deleted",d);
- games=games.filter(function(g){return g.id!==cur.id;});cur=null;save();dirty=true;LS.set("gk_dirty",true);show("home");renderHome();schedulePush(300);});
+$("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted"+SX,[]);d.push(cur.id);LS.set("gk_deleted"+SX,d);
+ games=games.filter(function(g){return g.id!==cur.id;});cur=null;save();dirty=true;LS.set("gk_dirty"+SX,true);show("home");renderHome();schedulePush(300);});
 $("back").addEventListener("click",function(){cur=null;show("home");renderHome();});
 $("settings").addEventListener("click",function(){$("tok").value="";$("tok-msg").textContent=tok()?"A token is saved. Paste a new one to replace it.":"";show("setup");});
 $("tok-skip").addEventListener("click",function(){LS.set("gk_skip",true);show("home");renderHome();});
