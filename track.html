@@ -41,6 +41,7 @@ label{font-size:13px;color:var(--m)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 18px);transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:20px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.s{opacity:1}
 [hidden]{display:none!important}
+.defs p{font-size:14px;color:var(--m);margin:10px 0 0}.defs b{color:#fff}
 .testbar{position:sticky;top:0;z-index:50;background:#f5c518;color:#111;font-weight:800;text-align:center;padding:9px 10px;font-size:15px;margin:-4px -4px 10px;border-radius:8px}
 </style></head><body><div class="w">
 <div class="testbar" id="testbar" hidden>TEST MODE · nothing goes on the site</div>
@@ -73,6 +74,7 @@ label{font-size:13px;color:var(--m)}
 <section id="v-game" hidden>
  <div class="top"><button class="mini" id="back" style="border:0;background:none;color:var(--m);padding:0">‹ Games</button><span class="sync" id="sync-g" role="status"></span></div>
  <h1 id="g-title"></h1><p class="m" id="g-sub"></p>
+ <div class="seg" role="group" aria-label="Started or sub"><button data-start="1" aria-pressed="true">Started</button><button data-start="0" aria-pressed="false">Off the bench</button></div>
  <div class="card score">
   <div><small id="us-l">Us</small><b id="us">0</b><div class="mini"><button data-act="team_goal" aria-label="Teammate goal">+ Goal</button><button data-act="us_minus" aria-label="Remove our goal">−</button></div></div>
   <div style="color:var(--m)">–</div>
@@ -83,8 +85,17 @@ label{font-size:13px;color:var(--m)}
  <div class="cell"><button class="tile" data-act="a"><b id="c-a">0</b><span>Assist</span></button><button class="minus" data-act="a_minus" aria-label="Remove one assist">− 1</button></div>
  <div class="cell"><button class="tile" data-act="sog"><b id="c-sog">0</b><span>Shot on target</span></button><button class="minus" data-act="sog_minus" aria-label="Remove one shot on target">− 1</button></div>
  <div class="cell"><button class="tile" data-act="sh"><b id="c-sh">0</b><span>Shot off target</span></button><button class="minus" data-act="sh_minus" aria-label="Remove one shot off target">− 1</button></div>
+ <div class="cell"><button class="tile" data-act="ch"><b id="c-ch">0</b><span>Chance created</span></button><button class="minus" data-act="ch_minus" aria-label="Remove one chance created">− 1</button></div>
+ <div class="cell"><button class="tile" data-act="tk"><b id="c-tk">0</b><span>Tackle won</span></button><button class="minus" data-act="tk_minus" aria-label="Remove one tackle won">− 1</button></div>
  </div>
- <p class="m" style="text-align:center">A Gavin goal also adds a shot on target and a goal to the score. Use − 1 under any stat to fix a mistake.</p>
+ <p class="m" style="text-align:center">A Gavin goal also adds a shot on target and a goal to the score. An assist also counts as a chance created. Use − 1 under any stat to fix a mistake.</p>
+ <details class="card defs" style="margin-top:4px"><summary style="font-weight:700;cursor:pointer">What counts?</summary>
+  <p><b>Chance created:</b> Gavin's pass leads straight to a teammate's shot, whether it's saved, blocked or missed. If the shot goes in, tap Assist instead (it counts as both). The pass two touches before the shot doesn't count, and neither does a rebound.</p>
+  <p><b>Tackle won:</b> Gavin takes the ball off an opponent with a tackle or a poke, and his team keeps it (Gavin or a teammate comes away with it). A tackle that just knocks it out of bounds, or a foul, doesn't count.</p>
+  <p><b>Assist:</b> Gavin's pass is the last touch before a teammate scores.</p>
+  <p><b>Shot on target:</b> would go in without the keeper or a defender on the line. Goals count too.</p>
+  <p><b>Shot off target:</b> wide, over, or hits the post or bar without going in. Blocked shots go here too.</p>
+ </details>
  <div class="card min">
   <div class="clock" id="clock" aria-live="off">0'</div>
   <button class="b b2" id="field" style="margin:0">Gavin on field</button>
@@ -93,6 +104,7 @@ label{font-size:13px;color:var(--m)}
  <button class="b b2" id="undo">Undo last</button>
  <div class="log" id="log" aria-label="Game log"></div>
  <button class="b" id="final">Final whistle · post to site</button>
+ <button class="b b2" id="recap">Share game recap</button>
  <button class="b bd" id="del">Delete this game</button>
 </section>
 </div>
@@ -108,7 +120,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792184158";
+var BUILD="1792185143";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -122,12 +134,12 @@ function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&
 function liveMs(g){return (g.ms||0)+(g.onSince?Date.now()-g.onSince:0);}
 function mins(g){return Math.max(0,Math.round(liveMs(g)/60000)+(g.adj||0));}
 /* ---- counts from event log ---- */
-function tally(g){var t={g:0,a:0,sh:0,sog:0,us:0,them:0};(g.ev||[]).forEach(function(e){var k=e.k;
- if(k==="g"){t.g++;t.sog++;t.sh++;t.us++;}else if(k==="a"){t.a++;}else if(k==="sog"){t.sog++;t.sh++;}else if(k==="sh"){t.sh++;}
- else if(k==="g_minus"){if(t.g>0){t.g--;t.sog--;t.sh--;t.us=Math.max(0,t.us-1);}}else if(k==="a_minus"){if(t.a>0)t.a--;}else if(k==="sog_minus"){if(t.sog-t.g>0){t.sog--;t.sh--;}}else if(k==="sh_minus"){if(t.sh-t.sog>0)t.sh--;}
+function tally(g){var t={g:0,a:0,sh:0,sog:0,us:0,them:0,ch:0,tk:0};(g.ev||[]).forEach(function(e){var k=e.k;
+ if(k==="g"){t.g++;t.sog++;t.sh++;t.us++;}else if(k==="a"){t.a++;t.ch++;}else if(k==="ch"){t.ch++;}else if(k==="tk"){t.tk++;}else if(k==="ch_minus"){if(t.ch-t.a>0)t.ch--;}else if(k==="tk_minus"){if(t.tk>0)t.tk--;}else if(k==="sog"){t.sog++;t.sh++;}else if(k==="sh"){t.sh++;}
+ else if(k==="g_minus"){if(t.g>0){t.g--;t.sog--;t.sh--;t.us=Math.max(0,t.us-1);}}else if(k==="a_minus"){if(t.a>0){t.a--;t.ch--;}}else if(k==="sog_minus"){if(t.sog-t.g>0){t.sog--;t.sh--;}}else if(k==="sh_minus"){if(t.sh-t.sog>0)t.sh--;}
  else if(k==="team_goal"){t.us++;}else if(k==="opp_goal"){t.them++;}else if(k==="us_minus"){t.us=Math.max(0,t.us-1);}else if(k==="them_minus"){t.them=Math.max(0,t.them-1);}});return t;}
-function record(g){var t=tally(g);return {id:g.id,team:g.team,date:g.date,opp:g.opp,status:g.status,us:t.us,them:t.them,min:mins(g),g:t.g,a:t.a,sh:t.sh,sog:t.sog,updated:new Date().toISOString()};}
-var NAMES={g:"Gavin goal",a:"Assist",sog:"Shot on target",sh:"Shot off target",team_goal:"Teammate goal",opp_goal:"Opponent goal",us_minus:"Our goal removed",them_minus:"Opponent goal removed",g_minus:"Gavin goal removed",a_minus:"Assist removed",sog_minus:"Shot on target removed",sh_minus:"Shot off target removed",min_plus:"+1 minute",min_minus:"−1 minute"};
+function record(g){var t=tally(g);return {id:g.id,team:g.team,date:g.date,opp:g.opp,status:g.status,us:t.us,them:t.them,min:mins(g),g:t.g,a:t.a,sh:t.sh,sog:t.sog,ch:t.ch,tk:t.tk,start:g.start===false?false:true,updated:new Date().toISOString()};}
+var NAMES={g:"Gavin goal",a:"Assist",sog:"Shot on target",sh:"Shot off target",team_goal:"Teammate goal",opp_goal:"Opponent goal",us_minus:"Our goal removed",them_minus:"Opponent goal removed",g_minus:"Gavin goal removed",a_minus:"Assist removed",sog_minus:"Shot on target removed",sh_minus:"Shot off target removed",ch:"Chance created",tk:"Tackle won",ch_minus:"Chance created removed",tk_minus:"Tackle won removed",min_plus:"+1 minute",min_minus:"−1 minute"};
 
 /* ---- render ---- */
 function renderGame(){var g=cur,t=tally(g);
@@ -135,14 +147,15 @@ function renderGame(){var g=cur,t=tally(g);
  var p=g.date.split("-");$("g-sub").textContent=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})+(g.status==="final"?" · Final":" · Live");
  $("us-l").textContent=g.team==="hs"?"GCA":"FC Pride";
  $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog:k==="sh"?t.sh-t.sog:t[k];});
- $("c-g").textContent=t.g;
+ $("c-g").textContent=t.g;$("c-ch").textContent=t.ch;$("c-tk").textContent=t.tk;
+ [].forEach.call(document.querySelectorAll("[data-start]"),function(b){b.setAttribute("aria-pressed",(b.getAttribute("data-start")==="1")===(g.start!==false)?"true":"false");});
  $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap when subbed off":"Gavin on field";
  $("final").textContent=g.status==="final"?"Update site":"Final whistle · post to site";
  $("log").innerHTML=(g.ev||[]).slice().reverse().map(function(e){var d=new Date(e.t);return "<div>"+d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+" · "+esc(NAMES[e.k]||e.k)+"</div>";}).join("");}
 function renderHome(){var d=$("g-date");if(!d.value)d.value=today();fillOpps();
  [].forEach.call(document.querySelectorAll("[data-team]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-team")===team?"true":"false");});
  var l=games.slice().sort(function(a,b){return a.date<b.date?1:-1;});
- $("list").innerHTML=l.length?l.map(function(g){var r=record(g);return '<div class="it"><div><b>'+esc(r.date)+" · "+esc(r.opp||"TBA")+'</b><br><span class="m">'+(g.team==="hs"?"GCA":"Club")+" · "+r.us+"-"+r.them+" · "+r.g+" G, "+r.a+" A, "+r.sh+" Sh, "+r.min+"' "+(g.status==="live"?"· Live":"")+'</span></div><button data-open="'+g.id+'">Open</button></div>';}).join(""):'<p class="m">No games yet.</p>';
+ $("list").innerHTML=l.length?l.map(function(g){var r=record(g);return '<div class="it"><div><b>'+esc(r.date)+" · "+esc(r.opp||"TBA")+'</b><br><span class="m">'+(g.team==="hs"?"GCA":"Club")+" · "+r.us+"-"+r.them+" · "+r.g+" G, "+r.a+" A, "+r.sh+" Sh, "+r.ch+" CC, "+r.tk+" TW, "+r.min+"' "+(g.status==="live"?"· Live":"")+'</span></div><button data-open="'+g.id+'">Open</button></div>';}).join(""):'<p class="m">No games yet.</p>';
  setSync();}
 function fillOpps(){var d=$("g-date").value,o=SCHED.filter(function(s){return s.team===team;});
  $("opps").innerHTML=o.map(function(s){return '<option value="'+esc(s.m)+'">'+esc(s.d)+'</option>';}).join("");
@@ -180,13 +193,22 @@ function push(tries){tries=tries||0;if(busy){schedulePush(3000);return;}if(!tok(
 document.addEventListener("click",function(ev){var b=ev.target.closest("button");if(!b)return;
  var a=b.getAttribute("data-act");if(a){act(a);return;}
  var tm=b.getAttribute("data-team");if(tm){team=tm;$("g-opp").dataset.typed="";$("g-opp").value="";renderHome();return;}
+ var st=b.getAttribute("data-start");if(st!=null&&cur){cur.start=st==="1";buzz();toast(cur.start?"Started":"Off the bench");changed();return;}
  var o=b.getAttribute("data-open");if(o){cur=games.filter(function(g){return g.id===o;})[0];if(cur){show("game");renderGame();}return;}});
 $("g-date").addEventListener("change",function(){fillOpps();});
 $("g-opp").addEventListener("input",function(){this.dataset.typed="1";});
-$("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString(36),team:team,date:$("g-date").value||today(),opp:$("g-opp").value.trim(),status:"live",ev:[],ms:0,adj:0,onSince:null};
+$("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString(36),team:team,date:$("g-date").value||today(),opp:$("g-opp").value.trim(),status:"live",start:true,ev:[],ms:0,adj:0,onSince:null};
  games.push(g);cur=g;$("g-opp").value="";$("g-opp").dataset.typed="";save();show("game");changed();schedulePush(500);});
 $("field").addEventListener("click",function(){buzz();if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
 $("undo").addEventListener("click",undo);
+function pl(n,a,b){return n+" "+(n===1?a:b);}
+function recapText(g){var r=record(g),p=g.date.split("-"),d=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+ var res=r.us>r.them?"W":r.us<r.them?"L":"T",tm=g.team==="hs"?"Greenwood Christian Academy #24":"FC Pride Elite ECNL RL #00";
+ var line=[pl(r.g,"goal","goals"),pl(r.a,"assist","assists"),pl(r.sh,"shot","shots")+" ("+r.sog+" on target)",pl(r.ch,"chance created","chances created"),pl(r.tk,"tackle won","tackles won")].join(", ");
+ return "Gavin Kurtz, "+tm+"\n"+d+" vs "+(g.opp||"TBA")+(g.status==="live"?" (in progress)":"")+"\n"+res+" "+r.us+"-"+r.them+" · "+(r.start?"Started":"Off the bench")+" · "+r.min+" min\n"+line+"\nFilm and full stats: gavinkurtzsoccer.com";}
+$("recap").addEventListener("click",function(){if(!cur)return;var t=recapText(cur);
+ if(navigator.share){navigator.share({text:t}).catch(function(){});}
+ else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){toast("Recap copied");},function(){prompt("Copy the recap:",t);});}else{prompt("Copy the recap:",t);}});
 $("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty"+SX,true);
  if(!tok()){toast("Saved on phone · connect a token to post");return;}push();toast("Posting final");});
 $("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted"+SX,[]);d.push(cur.id);LS.set("gk_deleted"+SX,d);
