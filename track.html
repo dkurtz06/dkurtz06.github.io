@@ -199,6 +199,6 @@ window.addEventListener("online",function(){if(dirty)schedulePush(500);});
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&cur)renderGame();});
 setInterval(function(){if(cur&&cur.onSince)$("clock").textContent=mins(cur)+"'";},5000);
 setInterval(function(){if(cur&&cur.onSince&&cur.status==="live"&&tok())schedulePush(1000);},300000);
-if(!tok()&&!LS.get("gk_skip",false)){show("setup");}else{var live=games.filter(function(g){return g.status==="live";}).pop();if(live){cur=live;show("game");renderGame();}else{show("home");renderHome();}if(dirty)schedulePush(1500);}
+if(!tok()&&!TEST&&!LS.get("gk_skip",false)){show("setup");}else{var live=games.filter(function(g){return g.status==="live";}).pop();if(live){cur=live;show("game");renderGame();}else{show("home");renderHome();}if(dirty)schedulePush(1500);}
 })();
 </script></body></html>
