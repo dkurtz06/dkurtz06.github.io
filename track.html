@@ -1,0 +1,196 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b0b0c">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Gavin Stats">
+<title>Gavin game tracker</title>
+<style>
+:root{--bg:#0b0b0c;--c:#18181b;--c2:#232327;--ln:#33333a;--t:#fff;--m:#a3a3ab;--ok:#2fbf71;--bad:#e5484d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 20px)}
+.w{max-width:560px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:6px 0 2px}h2{font-size:15px;color:var(--m);text-transform:uppercase;letter-spacing:1px;margin:22px 0 8px}
+p{margin:6px 0}.m{color:var(--m);font-size:14px}
+button,input,select{font:inherit;color:inherit}
+input,select{width:100%;background:var(--c2);border:1px solid var(--ln);border-radius:10px;padding:12px;margin:4px 0 10px}
+label{font-size:13px;color:var(--m)}
+.b{display:block;width:100%;border:0;border-radius:12px;padding:15px;font-weight:700;background:#fff;color:#000;margin:8px 0}
+.b2{background:var(--c2);color:#fff;border:1px solid var(--ln)}.bd{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.seg{display:flex;background:var(--c2);border-radius:12px;padding:4px;margin:4px 0 12px}
+.seg button{flex:1;border:0;background:transparent;padding:11px;border-radius:9px;font-weight:700;color:var(--m)}
+.seg button[aria-pressed=true]{background:#fff;color:#000}
+.card{background:var(--c);border:1px solid var(--ln);border-radius:14px;padding:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sync{font-size:13px;color:var(--m)}.sync.ok{color:var(--ok)}.sync.bad{color:var(--bad)}
+.score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-align:center;gap:6px}
+.score b{font-size:48px;line-height:1}.score small{display:block;color:var(--m);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.mini{display:flex;gap:6px;justify-content:center;margin-top:6px}.mini button{border:1px solid var(--ln);background:var(--c2);border-radius:9px;padding:8px 12px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tile{position:relative;border:0;border-radius:16px;background:var(--c2);padding:18px 10px 14px;text-align:center;min-height:118px;touch-action:manipulation}
+.tile:active{transform:scale(.97);background:#2e2e34}
+.tile b{display:block;font-size:46px;line-height:1}.tile span{display:block;margin-top:6px;font-weight:700;font-size:15px}
+.tile.goal{background:#fff;color:#000}.tile.goal:active{background:#ddd}
+.min{display:flex;align-items:center;gap:10px;margin-top:12px}
+.min .clock{font-size:30px;font-weight:700;min-width:92px;text-align:center}
+.min button{flex:1}.on{background:var(--ok)!important;color:#000!important}
+.log{font-size:14px;color:var(--m);max-height:150px;overflow:auto;margin-top:8px}
+.list .it{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--ln)}
+.list .it button{border:1px solid var(--ln);background:var(--c2);border-radius:9px;padding:8px 12px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 18px);transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:20px;font-weight:700;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.s{opacity:1}
+[hidden]{display:none!important}
+</style></head><body><div class="w">
+
+<!-- SETUP -->
+<section id="v-setup" hidden>
+ <h1>Connect the tracker</h1>
+ <p class="m">One-time setup on this phone. Paste the GitHub token for gavinkurtzsoccer.com. It stays on this phone only.</p>
+ <label for="tok">GitHub token</label><input id="tok" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+ <button class="b" id="tok-save">Save and test</button>
+ <p class="m" id="tok-msg" role="status"></p>
+ <button class="b b2" id="tok-skip">Skip for now (save on phone only)</button>
+</section>
+
+<!-- HOME -->
+<section id="v-home" hidden>
+ <div class="top"><h1>Gavin game tracker</h1><span class="sync" id="sync-h"></span></div>
+ <h2>New game</h2>
+ <div class="seg" role="group" aria-label="Team"><button data-team="club" aria-pressed="true">FC Pride #00</button><button data-team="hs" aria-pressed="false">GCA #24</button></div>
+ <label for="g-date">Date</label><input id="g-date" type="date">
+ <label for="g-opp">Opponent</label><input id="g-opp" list="opps" placeholder="vs Columbus Force"><datalist id="opps"></datalist>
+ <button class="b" id="start">Start game</button>
+ <h2>Saved games</h2>
+ <div class="list" id="list"></div>
+ <button class="b b2" id="settings" style="margin-top:22px">Token settings</button>
+</section>
+
+<!-- GAME -->
+<section id="v-game" hidden>
+ <div class="top"><button class="mini" id="back" style="border:0;background:none;color:var(--m);padding:0">‹ Games</button><span class="sync" id="sync-g" role="status"></span></div>
+ <h1 id="g-title"></h1><p class="m" id="g-sub"></p>
+ <div class="card score">
+  <div><small id="us-l">Us</small><b id="us">0</b><div class="mini"><button data-act="team_goal" aria-label="Teammate goal">+ Goal</button><button data-act="us_minus" aria-label="Remove our goal">−</button></div></div>
+  <div style="color:var(--m)">–</div>
+  <div><small>Them</small><b id="them">0</b><div class="mini"><button data-act="opp_goal" aria-label="Opponent goal">+ Goal</button><button data-act="them_minus" aria-label="Remove opponent goal">−</button></div></div>
+ </div>
+ <div class="grid">
+  <button class="tile goal" data-act="g"><b id="c-g">0</b><span>Gavin goal</span></button>
+  <button class="tile" data-act="a"><b id="c-a">0</b><span>Assist</span></button>
+  <button class="tile" data-act="sog"><b id="c-sog">0</b><span>Shot on target</span></button>
+  <button class="tile" data-act="sh"><b id="c-sh">0</b><span>Shot off target</span></button>
+ </div>
+ <p class="m" style="text-align:center">A goal also counts as a shot on target and adds to the score.</p>
+ <div class="card min">
+  <div class="clock" id="clock" aria-live="off">0'</div>
+  <button class="b b2" id="field" style="margin:0">Gavin on field</button>
+ </div>
+ <div class="row" style="margin-top:6px"><button class="b b2" data-act="min_minus">− 1 min</button><button class="b b2" data-act="min_plus">+ 1 min</button></div>
+ <button class="b b2" id="undo">Undo last</button>
+ <div class="log" id="log" aria-label="Game log"></div>
+ <button class="b" id="final">Final whistle · post to site</button>
+ <button class="b bd" id="del">Delete this game</button>
+</section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+var SCHED=[{"d": "2026-10-10", "team": "hs", "m": "@ Indianapolis Lutheran"}, {"d": "2026-10-15", "team": "hs", "m": "vs Indianapolis Scecina Memorial"}, {"d": "2026-11-15", "team": "club", "m": "Opponents TBA"}, {"d": "2026-12-05", "team": "club", "m": "vs Columbus Force"}, {"d": "2026-12-06", "team": "club", "m": "vs Ohio Premier"}, {"d": "2026-12-12", "team": "club", "m": "@ Ohio Elite SA"}, {"d": "2026-12-13", "team": "club", "m": "@ Cincinnati Elite FC"}, {"d": "2026-12-19", "team": "club", "m": "vs Ohio Galaxies FC"}, {"d": "2027-02-20", "team": "club", "m": "vs Lexington Sporting Club"}, {"d": "2027-02-21", "team": "club", "m": "vs Louisville City Academy"}, {"d": "2027-02-27", "team": "club", "m": "vs Elite FC"}, {"d": "2027-02-28", "team": "club", "m": "vs Blast FC Academy"}, {"d": "2027-03-06", "team": "club", "m": "@ Ohio Galaxies FC"}, {"d": "2027-03-13", "team": "club", "m": "@ Columbus Force"}, {"d": "2027-03-14", "team": "club", "m": "@ Ohio Premier"}, {"d": "2027-03-20", "team": "club", "m": "vs Ohio Elite SA"}, {"d": "2027-03-21", "team": "club", "m": "vs Cincinnati Elite FC"}, {"d": "2027-04-17", "team": "club", "m": "@ Lexington Sporting Club"}, {"d": "2027-04-18", "team": "club", "m": "@ Louisville City Academy"}, {"d": "2027-05-08", "team": "club", "m": "@ Elite FC"}, {"d": "2027-05-09", "team": "club", "m": "@ Blast FC Academy"}];
+var OWNER="dkurtz06",REPO="dkurtz06.github.io",PATH="games.json",API="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+PATH;
+var $=function(i){return document.getElementById(i);};
+var LS={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){localStorage.setItem(k,JSON.stringify(v));}};
+var games=LS.get("gk_games",[]),cur=null,team="club",timer=null,pushT=null,busy=false,dirty=LS.get("gk_dirty",false);
+function tok(){return localStorage.getItem("gk_token")||"";}
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function toast(t){var x=$("toast");x.textContent=t;x.classList.add("s");clearTimeout(x._t);x._t=setTimeout(function(){x.classList.remove("s");},1400);}
+function buzz(){try{navigator.vibrate&&navigator.vibrate(30);}catch(e){}}
+function show(v){["setup","home","game"].forEach(function(n){$("v-"+n).hidden=n!==v;});window.scrollTo(0,0);}
+function save(){LS.set("gk_games",games);}
+function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+/* ---- minutes ---- */
+function liveMs(g){return (g.ms||0)+(g.onSince?Date.now()-g.onSince:0);}
+function mins(g){return Math.max(0,Math.round(liveMs(g)/60000)+(g.adj||0));}
+/* ---- counts from event log ---- */
+function tally(g){var t={g:0,a:0,sh:0,sog:0,us:0,them:0};(g.ev||[]).forEach(function(e){var k=e.k;
+ if(k==="g"){t.g++;t.sog++;t.sh++;t.us++;}else if(k==="a"){t.a++;}else if(k==="sog"){t.sog++;t.sh++;}else if(k==="sh"){t.sh++;}
+ else if(k==="team_goal"){t.us++;}else if(k==="opp_goal"){t.them++;}else if(k==="us_minus"){t.us=Math.max(0,t.us-1);}else if(k==="them_minus"){t.them=Math.max(0,t.them-1);}});return t;}
+function record(g){var t=tally(g);return {id:g.id,team:g.team,date:g.date,opp:g.opp,status:g.status,us:t.us,them:t.them,min:mins(g),g:t.g,a:t.a,sh:t.sh,sog:t.sog,updated:new Date().toISOString()};}
+var NAMES={g:"Gavin goal",a:"Assist",sog:"Shot on target",sh:"Shot off target",team_goal:"Teammate goal",opp_goal:"Opponent goal",us_minus:"Our goal removed",them_minus:"Opponent goal removed",min_plus:"+1 minute",min_minus:"−1 minute"};
+
+/* ---- render ---- */
+function renderGame(){var g=cur,t=tally(g);
+ $("g-title").textContent=(g.team==="hs"?"GCA #24 ":"FC Pride #00 ")+"· "+(g.opp||"Opponent TBA");
+ var p=g.date.split("-");$("g-sub").textContent=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"})+(g.status==="final"?" · Final":" · Live");
+ $("us-l").textContent=g.team==="hs"?"GCA":"FC Pride";
+ $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog-t.g:k==="sh"?t.sh-t.sog:t[k];});
+ $("c-g").textContent=t.g;
+ $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap when subbed off":"Gavin on field";
+ $("final").textContent=g.status==="final"?"Update site":"Final whistle · post to site";
+ $("log").innerHTML=(g.ev||[]).slice().reverse().map(function(e){var d=new Date(e.t);return "<div>"+d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+" · "+esc(NAMES[e.k]||e.k)+"</div>";}).join("");}
+function renderHome(){var d=$("g-date");if(!d.value)d.value=today();fillOpps();
+ [].forEach.call(document.querySelectorAll("[data-team]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-team")===team?"true":"false");});
+ var l=games.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+ $("list").innerHTML=l.length?l.map(function(g){var r=record(g);return '<div class="it"><div><b>'+esc(r.date)+" · "+esc(r.opp||"TBA")+'</b><br><span class="m">'+(g.team==="hs"?"GCA":"Club")+" · "+r.us+"-"+r.them+" · "+r.g+" G, "+r.a+" A, "+r.sh+" Sh, "+r.min+"' "+(g.status==="live"?"· Live":"")+'</span></div><button data-open="'+g.id+'">Open</button></div>';}).join(""):'<p class="m">No games yet.</p>';
+ setSync();}
+function fillOpps(){var d=$("g-date").value,o=SCHED.filter(function(s){return s.team===team;});
+ $("opps").innerHTML=o.map(function(s){return '<option value="'+esc(s.m)+'">'+esc(s.d)+'</option>';}).join("");
+ var hit=o.filter(function(s){return s.d===d;})[0];if(hit&&!$("g-opp").dataset.typed)$("g-opp").value=hit.m;}
+function setSync(msg,cls){["sync-h","sync-g"].forEach(function(i){var x=$(i);x.className="sync"+(cls?" "+cls:"");x.textContent=msg||(!tok()?"Not connected":dirty?"Not posted yet":"Site up to date");});}
+
+/* ---- actions ---- */
+function act(k){if(!cur)return;buzz();
+ if(k==="min_plus"){cur.adj=(cur.adj||0)+1;}else if(k==="min_minus"){if(mins(cur)>0)cur.adj=(cur.adj||0)-1;}
+ cur.ev=cur.ev||[];cur.ev.push({k:k,t:Date.now()});
+ if(cur.status==="final"&&k!=="min_plus"&&k!=="min_minus"){} 
+ toast(NAMES[k]||k);changed();}
+function undo(){if(!cur||!cur.ev||!cur.ev.length)return;var e=cur.ev.pop();if(e.k==="min_plus")cur.adj--;if(e.k==="min_minus")cur.adj++;toast("Undid "+(NAMES[e.k]||e.k).toLowerCase());changed();}
+function changed(){save();renderGame();dirty=true;LS.set("gk_dirty",true);setSync();schedulePush(6000);}
+function schedulePush(ms){clearTimeout(pushT);if(!tok())return;pushT=setTimeout(push,ms);}
+
+/* ---- GitHub ---- */
+function b64e(s){return btoa(unescape(encodeURIComponent(s)));}
+function b64d(s){return decodeURIComponent(escape(atob(s.replace(/\n/g,""))));}
+function gh(method,body){return fetch(API+(method==="GET"?"?ref=main&t="+Date.now():""),{method:method,cache:"no-store",headers:{"Authorization":"Bearer "+tok(),"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},body:body?JSON.stringify(body):undefined});}
+function push(tries){tries=tries||0;if(busy){schedulePush(3000);return;}if(!tok()){setSync();return;}if(!navigator.onLine){setSync("Offline · will post when back","bad");return;}
+ busy=true;setSync("Posting…");
+ gh("GET").then(function(r){if(r.status===404)return {sha:null,data:{games:[]}};if(!r.ok)throw r.status;return r.json().then(function(j){var d;try{d=JSON.parse(b64d(j.content));}catch(e){d={games:[]};}return {sha:j.sha,data:d};});})
+ .then(function(x){var mine={};games.forEach(function(g){mine[g.id]=record(g);});
+  var deleted=LS.get("gk_deleted",[]);
+  var out=(x.data.games||[]).filter(function(g){return !mine[g.id]&&deleted.indexOf(g.id)<0;});
+  Object.keys(mine).forEach(function(k){out.push(mine[k]);});out.sort(function(a,b){return a.date<b.date?-1:1;});
+  var body={message:"Game stats update "+new Date().toISOString().slice(0,16),content:b64e(JSON.stringify({updated:new Date().toISOString(),games:out},null,1)),branch:"main"};if(x.sha)body.sha=x.sha;
+  return gh("PUT",body);})
+ .then(function(r){busy=false;if(r.status===409||r.status===422){if(tries<2)return push(tries+1);throw r.status;}if(!r.ok)throw r.status;
+  dirty=false;LS.set("gk_dirty",false);LS.set("gk_deleted",[]);setSync("Posted "+new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})+" · site updates in ~1 min","ok");})
+ .catch(function(e){busy=false;setSync(e===401||e===403?"Token rejected · check settings":"Couldn't post · will retry","bad");if(e!==401&&e!==403)schedulePush(20000);});}
+
+/* ---- wiring ---- */
+document.addEventListener("click",function(ev){var b=ev.target.closest("button");if(!b)return;
+ var a=b.getAttribute("data-act");if(a){act(a);return;}
+ var tm=b.getAttribute("data-team");if(tm){team=tm;$("g-opp").dataset.typed="";$("g-opp").value="";renderHome();return;}
+ var o=b.getAttribute("data-open");if(o){cur=games.filter(function(g){return g.id===o;})[0];if(cur){show("game");renderGame();}return;}});
+$("g-date").addEventListener("change",function(){fillOpps();});
+$("g-opp").addEventListener("input",function(){this.dataset.typed="1";});
+$("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString(36),team:team,date:$("g-date").value||today(),opp:$("g-opp").value.trim(),status:"live",ev:[],ms:0,adj:0,onSince:null};
+ games.push(g);cur=g;$("g-opp").value="";$("g-opp").dataset.typed="";save();show("game");changed();schedulePush(500);});
+$("field").addEventListener("click",function(){buzz();if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
+$("undo").addEventListener("click",undo);
+$("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty",true);
+ if(!tok()){toast("Saved on phone · connect a token to post");return;}push();toast("Posting final");});
+$("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted",[]);d.push(cur.id);LS.set("gk_deleted",d);
+ games=games.filter(function(g){return g.id!==cur.id;});cur=null;save();dirty=true;LS.set("gk_dirty",true);show("home");renderHome();schedulePush(300);});
+$("back").addEventListener("click",function(){cur=null;show("home");renderHome();});
+$("settings").addEventListener("click",function(){$("tok").value="";$("tok-msg").textContent=tok()?"A token is saved. Paste a new one to replace it.":"";show("setup");});
+$("tok-skip").addEventListener("click",function(){LS.set("gk_skip",true);show("home");renderHome();});
+$("tok-save").addEventListener("click",function(){var v=$("tok").value.trim();if(!v){$("tok-msg").textContent="Paste the token first.";return;}
+ localStorage.setItem("gk_token",v);$("tok-msg").textContent="Testing…";
+ fetch("https://api.github.com/repos/"+OWNER+"/"+REPO,{headers:{"Authorization":"Bearer "+v,"Accept":"application/vnd.github+json"}}).then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+ .then(function(j){if(j.permissions&&!j.permissions.push){throw "ro";}$("tok-msg").textContent="Connected.";setTimeout(function(){show("home");renderHome();if(dirty)push();},600);})
+ .catch(function(e){localStorage.removeItem("gk_token");$("tok-msg").textContent=e==="ro"?"That token can read but not write. It needs Contents: Read and write.":"GitHub didn't accept that token.";});});
+window.addEventListener("online",function(){if(dirty)schedulePush(500);});
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&cur)renderGame();});
+setInterval(function(){if(cur&&cur.onSince)$("clock").textContent=mins(cur)+"'";},5000);
+setInterval(function(){if(cur&&cur.onSince&&cur.status==="live"&&tok())schedulePush(1000);},300000);
+if(!tok()&&!LS.get("gk_skip",false)){show("setup");}else{var live=games.filter(function(g){return g.status==="live";}).pop();if(live){cur=live;show("game");renderGame();}else{show("home");renderHome();}if(dirty)schedulePush(1500);}
+})();
+</script></body></html>
