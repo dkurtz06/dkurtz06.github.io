@@ -67,12 +67,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (orientation:landscape) and (max-height:560px){
 body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .w{max-width:980px;padding:8px max(12px,env(safe-area-inset-left)) 8px max(12px,env(safe-area-inset-right))}
-.gv:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);grid-template-rows:repeat(7,auto) 1fr;column-gap:12px;row-gap:6px;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px)}
+.gv:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-rows:repeat(7,auto) 1fr;column-gap:12px;row-gap:6px;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px)}
 body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 62px)}
 .gv>*{grid-column:1;min-width:0}
 .gv>.grid3{grid-column:2;grid-row:1 / -1}
 .testbar{padding:6px 10px;margin:0 0 8px;font-size:14px}
-.side b{font-size:26px}.sm,.sm2,.fld,.fin{height:40px}.mrow .clock{font-size:22px}
+.sc{gap:6px}.side{gap:4px;padding:4px 6px}.side small{width:auto;max-width:40px;font-size:10px;letter-spacing:.5px}.side b{font-size:24px;min-width:0}.side button{width:32px;height:32px;min-width:32px;font-size:18px;flex:none}.sm,.sm2,.fld,.fin{height:40px}.mrow .clock{font-size:22px}
 .grid3 .tile b{font-size:34px}
 .ov .card{max-width:640px;margin:0 auto}
 }
@@ -144,7 +144,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792198093";
+var BUILD="1792198315";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
