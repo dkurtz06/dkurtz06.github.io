@@ -125,7 +125,8 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
  <div class="brow"><button class="fin" id="final">Final · post</button><button class="sm2" id="recap" aria-label="Share game recap">Share</button><button class="sm2 del" id="del" aria-label="Delete this game">Delete</button></div>
  <div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
   <p><b>Gavin goal</b> also adds a shot on target and a goal to the score. <b>Assist</b> also counts as a chance created. Use − 1 under any stat, or Undo, to fix a mistake.</p>
-  <p><b>Chance created:</b> Gavin's pass leads straight to a teammate's shot, whether it's saved, blocked or missed. If the shot goes in, tap Assist instead. The pass two touches before the shot doesn't count, and neither does a rebound.</p>
+  <p><b>Chance created:</b> Gavin makes the last pass to a teammate, and that teammate shoots. Saved, blocked or missed all count. If the shot goes in, tap Assist instead.</p>
+  <p><b>Only Gavin's pass right before the shot counts.</b> Example: Gavin passes to Sam, Sam passes to Alex, Alex shoots. That's Sam's chance, not Gavin's. And if Gavin's own shot is saved and a teammate scores the rebound, that's a shot for Gavin, not a chance.</p>
   <p><b>Tackle won:</b> Gavin takes the ball off an opponent and his team keeps it. A tackle that just knocks it out of bounds, or a foul, doesn't count.</p>
   <p><b>Assist:</b> Gavin's pass is the last touch before a teammate scores.</p>
   <p><b>Shot on target:</b> would go in without the keeper or a defender on the line. <b>Off target:</b> wide, over, post or bar, or blocked.</p>
@@ -144,7 +145,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=false;$("testmode").hidden=true;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792198315";
+var BUILD="1792198539";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return "demo";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
