@@ -56,7 +56,8 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
 .grid3{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:8px}
 .grid3 .cell{min-height:0;gap:5px}.grid3 .tile{flex:1;min-height:0;padding:6px 4px;display:flex;flex-direction:column;justify-content:center}
 .grid3 .tile b{font-size:38px}.grid3 .tile span{font-size:13px;margin-top:4px;line-height:1.15}.grid3 .minus{padding:7px 0;font-size:14px}
-.mrow,.brow{display:flex;gap:8px;align-items:center}
+.mrow,.brow,.crow{display:flex;gap:8px;align-items:center}
+.crow .gc{flex:1.3;border:1px solid var(--ln);background:var(--c);border-radius:11px;height:46px;font-weight:800;font-size:24px;font-variant-numeric:tabular-nums;padding:0 8px;letter-spacing:.5px}.crow .gc small{font-size:12px;color:var(--m);margin-right:6px;font-weight:700}.crow .sm2{flex:1}#gc-go.on{background:var(--ok);color:#000;border-color:var(--ok)}
 .mrow .clock{font-size:26px;font-weight:700;min-width:62px;text-align:center}
 .sm,.sm2,.fld,.fin{border:1px solid var(--ln);background:var(--c2);border-radius:11px;height:46px;font-weight:700;padding:0 12px;touch-action:manipulation}
 .sm{width:50px;padding:0}.fld{flex:1}.fin{flex:1;background:#fff;color:#000;border:0}.del{color:var(--bad);border-color:var(--bad);background:transparent}
@@ -67,12 +68,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (orientation:landscape) and (max-height:560px){
 body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .w{max-width:980px;padding:8px max(12px,env(safe-area-inset-left)) 8px max(12px,env(safe-area-inset-right))}
-.gv:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-rows:repeat(7,auto) 1fr;column-gap:12px;row-gap:6px;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px)}
+.gv:not([hidden]){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);grid-template-rows:repeat(8,auto) 1fr;column-gap:12px;row-gap:6px;height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 16px)}
 body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 62px)}
 .gv>*{grid-column:1;min-width:0}
 .gv>.grid3{grid-column:2;grid-row:1 / -1}
 .testbar{padding:6px 10px;margin:0 0 8px;font-size:14px}
-.sc{gap:6px}.side{gap:4px;padding:4px 6px}.side small{width:auto;max-width:40px;font-size:10px;letter-spacing:.5px}.side b{font-size:24px;min-width:0}.side button{width:32px;height:32px;min-width:32px;font-size:18px;flex:none}.sm,.sm2,.fld,.fin{height:40px}.mrow .clock{font-size:22px}
+.sc{gap:6px}.side{gap:4px;padding:4px 6px}.side small{width:auto;max-width:40px;font-size:10px;letter-spacing:.5px}.side b{font-size:24px;min-width:0}.side button{width:32px;height:32px;min-width:32px;font-size:18px;flex:none}.sm,.sm2,.fld,.fin,.crow .gc{height:40px}.crow .gc{font-size:21px}.mrow .clock{font-size:22px}
 .grid3 .tile b{font-size:34px}
 .ov .card{max-width:640px;margin:0 auto}
 }
@@ -119,11 +120,13 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
  <div class="cell"><button class="tile" data-act="sh"><b id="c-sh">0</b><span>Shot off target</span></button><button class="minus" data-act="sh_minus" aria-label="Remove one shot off target">− 1</button></div>
  <div class="cell"><button class="tile" data-act="tk"><b id="c-tk">0</b><span>Tackle won</span></button><button class="minus" data-act="tk_minus" aria-label="Remove one tackle won">− 1</button></div>
  </div>
+ <div class="crow"><button class="gc" id="gc" aria-label="Game clock, tap to set the time"><small id="gc-h">1H</small><span id="gc-t">0:00</span></button><button class="sm2" id="gc-go">Start clock</button><button class="sm2" id="gc-half">2nd half</button></div>
  <div class="mrow"><div class="clock" id="clock" aria-live="off">0'</div><button class="sm" data-act="min_minus" aria-label="Minus one minute">−1</button><button class="sm" data-act="min_plus" aria-label="Plus one minute">+1</button><button class="fld" id="field">Gavin on field</button></div>
  <div class="brow"><div class="seg sg" role="group" aria-label="Started or sub"><button data-start="1" aria-pressed="true">Started</button><button data-start="0" aria-pressed="false">Bench</button></div><button class="sm2" id="undo">Undo</button></div>
  <div class="last m" id="log" aria-label="Last action"></div>
  <div class="brow"><button class="fin" id="final">Final · post</button><button class="sm2" id="recap" aria-label="Share game recap">Share</button><button class="sm2 del" id="del" aria-label="Delete this game">Delete</button></div>
  <div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
+  <p><b>Game clock:</b> tap Start at kickoff and Pause for stoppages or halftime. Gavin's minutes pause with it. Tap 2nd half at halftime, then Start. Tap the time to fix it. Every stat you tap gets the game minute.</p>
   <p><b>Gavin goal</b> also adds a shot on target and a goal to the score. <b>Assist</b> also counts as a chance created. Use − 1 under any stat, or Undo, to fix a mistake.</p>
   <p><b>Chance created:</b> Gavin makes the last pass to a teammate, and that teammate shoots. Saved, blocked or missed all count. If the shot goes in, tap Assist instead.</p>
   <p><b>Only Gavin's pass right before the shot counts.</b> Example: Gavin passes to Sam, Sam passes to Alex, Alex shoots. That's Sam's chance, not Gavin's. And if Gavin's own shot is saved and a teammate scores the rebound, that's a shot for Gavin, not a chance.</p>
@@ -145,7 +148,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=false;$("testmode").hidden=true;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792198539";
+var BUILD="1792198886";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return "demo";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -158,6 +161,14 @@ function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&
 /* ---- minutes ---- */
 function liveMs(g){return (g.ms||0)+(g.onSince?Date.now()-g.onSince:0);}
 function mins(g){return Math.max(0,Math.round(liveMs(g)/60000)+(g.adj||0));}
+function gcs(g){if(!g.gc)g.gc={ms:0,run:null,half:1};return g.gc;}
+function gcMs(g){var c=gcs(g);return c.ms+(c.run?Date.now()-c.run:0);}
+function gcMin(g){var c=gcs(g);if(!c.run&&!c.ms)return null;return Math.floor(gcMs(g)/60000)+1;}
+function halfLen(g){return g.team==="hs"?40:45;}
+function gcFmt(ms){var t=Math.floor(ms/1000),m=Math.floor(t/60),x=t%60;return m+":"+(x<10?"0":"")+x;}
+function gcPaint(g){var c=gcs(g);$("gc-t").textContent=gcFmt(gcMs(g));$("gc-h").textContent=c.half===2?"2H":"1H";var b=$("gc-go");b.classList.toggle("on",!!c.run);b.textContent=c.run?"Pause":(c.ms?"Resume":"Start clock");$("gc-half").textContent=c.half===2?"1st half":"2nd half";}
+function gcStop(g){var c=gcs(g);if(c.run){c.ms+=Date.now()-c.run;c.run=null;}if(g.onSince){g.ms=(g.ms||0)+Date.now()-g.onSince;g.onSince=null;g.onPaused=true;}}
+function gcStart(g){var c=gcs(g);if(!c.run)c.run=Date.now();if(g.onPaused){g.onSince=Date.now();g.onPaused=false;}}
 /* ---- counts from event log ---- */
 function tally(g){var t={g:0,a:0,sh:0,sog:0,us:0,them:0,ch:0,tk:0};(g.ev||[]).forEach(function(e){var k=e.k;
  if(k==="g"){t.g++;t.sog++;t.sh++;t.us++;}else if(k==="a"){t.a++;t.ch++;}else if(k==="ch"){t.ch++;}else if(k==="tk"){t.tk++;}else if(k==="ch_minus"){if(t.ch-t.a>0)t.ch--;}else if(k==="tk_minus"){if(t.tk>0)t.tk--;}else if(k==="sog"){t.sog++;t.sh++;}else if(k==="sh"){t.sh++;}
@@ -174,9 +185,9 @@ function renderGame(){var g=cur,t=tally(g);
  $("us").textContent=t.us;$("them").textContent=t.them;["g","a","sog","sh"].forEach(function(k){$("c-"+k).textContent=k==="sog"?t.sog:k==="sh"?t.sh-t.sog:t[k];});
  $("c-g").textContent=t.g;$("c-ch").textContent=t.ch;$("c-tk").textContent=t.tk;
  [].forEach.call(document.querySelectorAll("[data-start]"),function(b){b.setAttribute("aria-pressed",(b.getAttribute("data-start")==="1")===(g.start!==false)?"true":"false");});
- $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince);f.textContent=g.onSince?"On field · tap = off":"Gavin on field";
+ $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince||!!g.onPaused);f.textContent=g.onSince?"On field · tap = off":(g.onPaused?"On field · clock paused":"Gavin on field");gcPaint(g);
  $("final").textContent=g.status==="final"?"Update site":"Final · post";
- var le=(g.ev||[])[(g.ev||[]).length-1];$("log").textContent=le?"Last: "+(NAMES[le.k]||le.k)+" · "+new Date(le.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):"Tap a tile to log a stat";}
+ var le=(g.ev||[])[(g.ev||[]).length-1];$("log").textContent=le?"Last: "+(NAMES[le.k]||le.k)+" · "+(le.gm?le.gm+"'":new Date(le.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})):"Tap a tile to log a stat";}
 function renderHome(){var d=$("g-date");if(!d.value)d.value=today();fillOpps();
  [].forEach.call(document.querySelectorAll("[data-team]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-team")===team?"true":"false");});
  var l=games.slice().sort(function(a,b){return a.date<b.date?1:-1;});
@@ -190,7 +201,7 @@ function setSync(msg,cls){["sync-h","sync-g"].forEach(function(i){var x=$(i);x.c
 /* ---- actions ---- */
 function act(k){if(!cur)return;buzz();
  if(k==="min_plus"){cur.adj=(cur.adj||0)+1;}else if(k==="min_minus"){if(mins(cur)>0)cur.adj=(cur.adj||0)-1;}
- cur.ev=cur.ev||[];cur.ev.push({k:k,t:Date.now()});
+ cur.ev=cur.ev||[];var _gm=gcMin(cur);cur.ev.push(_gm?{k:k,t:Date.now(),gm:_gm}:{k:k,t:Date.now()});
  if(cur.status==="final"&&k!=="min_plus"&&k!=="min_minus"){} 
  toast(NAMES[k]||k);changed();}
 function undo(){if(!cur||!cur.ev||!cur.ev.length)return;var e=cur.ev.pop();if(e.k==="min_plus")cur.adj--;if(e.k==="min_minus")cur.adj++;toast("Undid "+(NAMES[e.k]||e.k).toLowerCase());changed();}
@@ -224,8 +235,13 @@ $("g-date").addEventListener("change",function(){fillOpps();});
 $("g-opp").addEventListener("input",function(){this.dataset.typed="1";});
 $("start").addEventListener("click",function(){var g={id:"g"+Date.now().toString(36),team:team,date:$("g-date").value||today(),opp:$("g-opp").value.trim(),status:"live",start:true,ev:[],ms:0,adj:0,onSince:null};
  games.push(g);cur=g;$("g-opp").value="";$("g-opp").dataset.typed="";save();show("game");changed();schedulePush(500);});
-$("field").addEventListener("click",function(){buzz();if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
+$("field").addEventListener("click",function(){buzz();if(cur.onPaused){cur.onPaused=false;toast("Subbed off");}else if(cur.onSince){cur.ms=(cur.ms||0)+Date.now()-cur.onSince;cur.onSince=null;toast("Subbed off");}else{cur.onSince=Date.now();toast("On field");}changed();});
 $("undo").addEventListener("click",undo);
+$("gc-go").addEventListener("click",function(){if(!cur)return;buzz();var c=gcs(cur);if(c.run){gcStop(cur);toast("Clock paused");}else{gcStart(cur);toast("Clock running");}changed();});
+$("gc-half").addEventListener("click",function(){if(!cur)return;var c=gcs(cur);
+ if(c.half===1){if(!confirm("Start the 2nd half? The clock goes to "+halfLen(cur)+":00 and waits for you to tap Start."))return;gcStop(cur);c.half=2;c.ms=halfLen(cur)*60000;}
+ else{if(!confirm("Go back to the 1st half?"))return;gcStop(cur);c.half=1;c.ms=Math.min(c.ms,halfLen(cur)*60000);}changed();});
+$("gc").addEventListener("click",function(){if(!cur)return;var v=prompt("Set the game clock (minutes:seconds)",gcFmt(gcMs(cur)));if(v==null)return;var m=String(v).trim().match(/^(\d{1,3})(?::(\d{1,2}))?$/);if(!m){toast("Use minutes:seconds, like 23:10");return;}var c=gcs(cur);c.ms=(+m[1]*60+(+(m[2]||0)))*1000;if(c.run)c.run=Date.now();changed();});
 $("help").addEventListener("click",function(){$("defs").hidden=false;});$("defs-x").addEventListener("click",function(){$("defs").hidden=true;});$("defs").addEventListener("click",function(e){if(e.target===this)this.hidden=true;});
 function pl(n,a,b){return n+" "+(n===1?a:b);}
 function recapText(g){var r=record(g),p=g.date.split("-"),d=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
@@ -235,7 +251,7 @@ function recapText(g){var r=record(g),p=g.date.split("-"),d=new Date(+p[0],p[1]-
 $("recap").addEventListener("click",function(){if(!cur)return;var t=recapText(cur);
  if(navigator.share){navigator.share({text:t}).catch(function(){});}
  else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){toast("Recap copied");},function(){prompt("Copy the recap:",t);});}else{prompt("Copy the recap:",t);}});
-$("final").addEventListener("click",function(){if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty"+SX,true);
+$("final").addEventListener("click",function(){gcStop(cur);cur.onPaused=false;if(cur.onSince){cur.ms+=Date.now()-cur.onSince;cur.onSince=null;}cur.status="final";save();renderGame();dirty=true;LS.set("gk_dirty"+SX,true);
  if(!tok()){toast("Saved on phone · connect a token to post");return;}push();toast("Posting final");});
 $("del").addEventListener("click",function(){if(!confirm("Delete this game from the tracker and the site?"))return;var d=LS.get("gk_deleted"+SX,[]);d.push(cur.id);LS.set("gk_deleted"+SX,d);
  games=games.filter(function(g){return g.id!==cur.id;});cur=null;save();dirty=true;LS.set("gk_dirty"+SX,true);show("home");renderHome();schedulePush(300);});
@@ -251,6 +267,7 @@ $("tok-save").addEventListener("click",function(){var v=$("tok").value.trim();if
 window.addEventListener("online",function(){if(dirty)schedulePush(500);});
 document.addEventListener("visibilitychange",function(){if(!document.hidden&&cur)renderGame();});
 setInterval(function(){if(cur&&cur.onSince)$("clock").textContent=mins(cur)+"'";},5000);
+setInterval(function(){if(cur&&cur.gc&&cur.gc.run)$("gc-t").textContent=gcFmt(gcMs(cur));},1000);
 setInterval(function(){if(cur&&cur.onSince&&cur.status==="live"&&tok())schedulePush(1000);},300000);
 if(!tok()&&!TEST&&!LS.get("gk_skip",false)){show("setup");}else{var live=games.filter(function(g){return g.status==="live";}).pop();if(live){cur=live;show("game");renderGame();}else{show("home");renderHome();}if(dirty)schedulePush(1500);}
 })();
