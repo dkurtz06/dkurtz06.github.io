@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-18T01:16:53.050Z",
+ "updated": "2026-10-18T01:16:56.641Z",
  "games": [
   {
    "id": "gmvd4utcg",
    "team": "club",
    "date": "2026-10-17",
    "opp": "",
-   "status": "live",
+   "status": "final",
    "us": 2,
    "them": 1,
    "min": 2,
@@ -17,7 +17,7 @@
    "ch": 4,
    "tk": 3,
    "start": false,
-   "updated": "2026-10-18T01:16:53.050Z"
+   "updated": "2026-10-18T01:16:56.641Z"
   }
  ]
 }
