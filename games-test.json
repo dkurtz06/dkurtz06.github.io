@@ -1,23 +1,4 @@
 {
- "updated": "2026-10-18T19:06:10.471Z",
- "games": [
-  {
-   "id": "gmve74sav",
-   "team": "club",
-   "date": "2026-10-18",
-   "opp": "",
-   "status": "live",
-   "us": 0,
-   "them": 0,
-   "min": 0,
-   "g": 0,
-   "a": 0,
-   "sh": 0,
-   "sog": 0,
-   "ch": 0,
-   "tk": 0,
-   "start": true,
-   "updated": "2026-10-18T19:06:10.471Z"
-  }
- ]
+ "updated": "2026-10-18T19:06:18.146Z",
+ "games": []
 }
