@@ -28,5 +28,5 @@ if(ios){ev.preventDefault();location.href=url;}});
 var ios=/iP(hone|ad|od)|Android/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
 if(ios){m.hidden=false;m.textContent="On a phone, both buttons open the PDF. To print, tap Share, then Print.";}
 document.getElementById("pr").addEventListener("click",function(){if(ios){if(url){location.href=url;}else{m.hidden=false;m.textContent="Still loading, tap again in a second.";}}else{window.print();}});})();</script>
-<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yva9ml7ni8");</script>
+<script>(function(c,l,a,r,i,t,y){try{var m=new URLSearchParams(location.search).get("me");if(m==="1")localStorage.setItem("gk_me","1");if(m==="0")localStorage.removeItem("gk_me");if(localStorage.getItem("gk_me")){c[a]=function(){};return;}}catch(e){}c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yva9ml7ni8");</script>
 </body></html>
