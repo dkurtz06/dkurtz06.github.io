@@ -10,7 +10,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 .pr{text-align:center;padding:14px}.back{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#0b0b0c;padding:12px 16px;font-weight:700;font-size:15px}.back a{color:#fff;text-decoration:none}.back span{color:#8a8a90}.pbtn{display:inline-block;font:700 15px sans-serif;padding:12px 20px;background:#0b0b0c;color:#fff;border:0;cursor:pointer;text-decoration:none;margin:0 4px}.pbtn--g{background:#fff;color:#0b0b0c;border:2px solid #0b0b0c;padding:10px 18px}
 @media print{body{background:#fff}.pr,.back{display:none}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}@media(max-width:640px){.hd{grid-template-columns:1fr 110px}.bio{grid-template-columns:repeat(3,1fr);row-gap:10px}.cols{grid-template-columns:1fr}h1{font-size:34px}.bd,.hd .t{padding:20px}}</style></head><body>
 <nav class="back"><a href="/">&larr; Back to gavinkurtzsoccer.com</a><span><a href="/film.html">Film</a> · <a href="/stats.html">Stats</a> · <a href="/#contact">Contact</a></span></nav>
-<div class="pr"><a id="dl" class="pbtn" href="#" download="Gavin-Kurtz-Recruiting-Profile.pdf">Download PDF</a> <button type="button" class="pbtn pbtn--g" onclick="window.print()">Print</button><p id="dlmsg" class="fine" hidden></p></div>
+<div class="pr"><a id="dl" class="pbtn" href="#" download="Gavin-Kurtz-Recruiting-Profile.pdf">Download PDF</a> <button type="button" id="pr" class="pbtn pbtn--g">Print</button><p id="dlmsg" class="fine" hidden></p></div>
 <div class="pg"><header class="hd"><div class="t"><div class="ey">Uncommitted · Center Midfielder · Class of 2028</div><h1>Gavin Kurtz</h1>
 <div class="sub">FC Pride Elite (ECNL RL) #00 · Greenwood Christian Academy #24 · Indianapolis, Ind.</div><div class="snap">Two-way center mid · Right foot, comfortable with left · 4.01 GPA · Finance or Engineering</div></div>
 <img src="gavin-hero.jpg" alt="Gavin Kurtz in his #24 Greenwood Christian Academy kit"></header>
@@ -24,6 +24,9 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 <script>(function(){var a=document.getElementById("dl"),m=document.getElementById("dlmsg"),url=null;
 fetch("/profile-pdf.txt",{cache:"no-cache"}).then(function(r){return r.text();}).then(function(t){var b=atob(t.trim()),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);url=URL.createObjectURL(new Blob([u],{type:"application/pdf"}));a.href=url;}).catch(function(){});
 a.addEventListener("click",function(ev){try{clarity("event","profile_pdf");}catch(e){}if(!url){ev.preventDefault();m.hidden=false;m.textContent="Still loading, tap again in a second.";return;}
-var ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);if(ios){ev.preventDefault();location.href=url;}});})();</script>
+if(ios){ev.preventDefault();location.href=url;}});
+var ios=/iP(hone|ad|od)|Android/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+if(ios){m.hidden=false;m.textContent="On a phone, both buttons open the PDF. To print, tap Share, then Print.";}
+document.getElementById("pr").addEventListener("click",function(){if(ios){if(url){location.href=url;}else{m.hidden=false;m.textContent="Still loading, tap again in a second.";}}else{window.print();}});})();</script>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","yva9ml7ni8");</script>
 </body></html>
