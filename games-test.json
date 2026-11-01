@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-01T19:25:54.867Z",
+ "updated": "2026-11-01T23:49:46.935Z",
  "games": [
   {
    "id": "gmvy7zkx3",
@@ -64,6 +64,29 @@
      "min": 1
     }
    ]
+  },
+  {
+   "id": "gmvyhffdu",
+   "team": "club",
+   "date": "2026-11-01",
+   "opp": "",
+   "status": "live",
+   "us": 0,
+   "them": 0,
+   "min": 0,
+   "g": 0,
+   "a": 0,
+   "sh": 0,
+   "sog": 0,
+   "ch": 0,
+   "tk": 0,
+   "start": true,
+   "updated": "2026-11-01T23:49:46.934Z",
+   "tz": "America/Chicago",
+   "kick": {},
+   "vid": null,
+   "clock_log": [],
+   "log": []
   }
  ]
 }
