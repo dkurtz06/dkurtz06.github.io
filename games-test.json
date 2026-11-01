@@ -1,4 +1,28 @@
 {
- "updated": "2026-10-18T19:06:18.146Z",
- "games": []
+ "updated": "2026-11-01T19:25:30.941Z",
+ "games": [
+  {
+   "id": "gmvy7zkx3",
+   "team": "club",
+   "date": "2026-11-01",
+   "opp": "",
+   "status": "live",
+   "us": 0,
+   "them": 0,
+   "min": 0,
+   "g": 0,
+   "a": 0,
+   "sh": 0,
+   "sog": 0,
+   "ch": 0,
+   "tk": 0,
+   "start": true,
+   "updated": "2026-11-01T19:25:30.941Z",
+   "tz": "America/Indiana/Indianapolis",
+   "kick": {},
+   "vid": null,
+   "clock_log": [],
+   "log": []
+  }
+ ]
 }
