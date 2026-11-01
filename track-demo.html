@@ -77,6 +77,7 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
 .grid3 .tile b{font-size:34px}
 .ov .card{max-width:640px;margin:0 auto}
 }
+.vtc{max-height:88vh;overflow:auto}.vtc label{display:block;margin:8px 0 3px;font-size:13px}.vtc input{width:100%;box-sizing:border-box;font-size:17px;padding:8px;border-radius:8px;border:1px solid #444;background:#111;color:#fff}.vtl button{display:block;width:100%;text-align:left;margin:4px 0;padding:9px 10px;border-radius:8px;border:1px solid #333;background:#151517;color:#fff;font-size:14px;line-height:1.35}.vtl b{font-size:15px}.vtl .vv{float:right;font-weight:700}
 </style></head><body><div class="w">
 <div class="testbar" id="testbar" hidden>DEMO · try it out, nothing is saved online</div>
 
@@ -124,9 +125,19 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
  <div class="mrow"><div class="clock" id="clock" aria-live="off">0'</div><button class="sm" data-act="min_minus" aria-label="Minus one minute">−1</button><button class="sm" data-act="min_plus" aria-label="Plus one minute">+1</button><button class="fld" id="field">Gavin on field</button></div>
  <div class="brow"><div class="seg sg" role="group" aria-label="Started or sub"><button data-start="1" aria-pressed="true">Started</button><button data-start="0" aria-pressed="false">Bench</button></div><button class="sm2" id="undo">Undo</button></div>
  <div class="last m" id="log" aria-label="Last action"></div>
- <div class="brow"><button class="fin" id="final">Final · post</button><button class="sm2" id="recap" aria-label="Share game recap">Share</button><button class="sm2 del" id="del" aria-label="Delete this game">Delete</button></div>
- <div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
-  <p><b>Game clock:</b> tap Start at kickoff and Pause for stoppages or halftime. Gavin's minutes pause with it. Tap 2nd half at halftime, then Start. Tap the time to fix it. Every stat you tap gets the game minute.</p>
+ <div class="brow"><button class="fin" id="final">Final · post</button><button class="sm2" id="recap" aria-label="Share game recap">Share</button><button class="sm2" id="vt" aria-label="Video timestamps for every stat">Video</button><button class="sm2 del" id="del" aria-label="Delete this game">Delete</button></div>
+ <div class="ov" id="vtov" hidden role="dialog" aria-modal="true" aria-label="Video timestamps"><div class="card vtc">
+ <h2 style="margin:0 0 6px">Video timestamps</h2>
+ <p class="m" style="margin:0 0 10px">Every stat is saved with its half, game clock and time of day. Line it up with the video one of these ways:</p>
+ <label for="vt1">1st-half kickoff is at video time</label><input id="vt1" inputmode="numeric" placeholder="e.g. 4:05 or 1:02:30">
+ <label for="vt2">2nd-half kickoff is at video time (leave blank if it's one video that keeps running)</label><input id="vt2" inputmode="numeric" placeholder="e.g. 0:15 for a separate 2nd-half video">
+ <label for="vt0">Or: the video started recording at (time of day)</label><input id="vt0" type="time" step="1">
+ <div class="brow"><button class="sm2" id="vt-save">Save</button><button class="sm2" id="vt-copy">Copy list</button><button class="sm2" id="vt-x">Close</button></div>
+ <p class="m" style="margin:8px 0">Or tap any stat below and type the video time where you see it. The rest line up from it.</p>
+ <div id="vt-list" class="vtl"></div>
+</div></div>
+<div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
+  <p><b>Game clock:</b> tap Start at kickoff and Pause for stoppages or halftime. Gavin's minutes pause with it. Tap 2nd half at halftime, then Start. Tap the time to fix it. Every stat you tap is saved with the half, game clock and time of day. Tap <b>Video</b> to line them up with the game film.</p>
   <p><b>Gavin goal</b> also adds a shot on target and a goal to the score. <b>Assist</b> also counts as a chance created. Use − 1 under any stat, or Undo, to fix a mistake.</p>
   <p><b>Chance created:</b> Gavin makes the last pass to a teammate, and that teammate shoots. Saved, blocked or missed all count. If the shot goes in, tap Assist instead.</p>
   <p><b>Only Gavin's pass right before the shot counts.</b> Example: Gavin passes to Sam, Sam passes to Alex, Alex shoots. That's Sam's chance, not Gavin's. And if Gavin's own shot is saved and a teammate scores the rebound, that's a shot for Gavin, not a chance.</p>
@@ -139,7 +150,7 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
 <div class="toast" id="toast" role="status"></div>
 <script>
 (function(){
-var SCHED=[{"d": "2026-10-10", "team": "hs", "m": "@ Indianapolis Lutheran"}, {"d": "2026-10-15", "team": "hs", "m": "vs Indianapolis Scecina Memorial"}, {"d": "2026-11-15", "team": "club", "m": "Opponents TBA"}, {"d": "2026-12-05", "team": "club", "m": "vs Columbus Force"}, {"d": "2026-12-06", "team": "club", "m": "vs Ohio Premier"}, {"d": "2026-12-12", "team": "club", "m": "@ Ohio Elite SA"}, {"d": "2026-12-13", "team": "club", "m": "@ Cincinnati Elite FC"}, {"d": "2026-12-19", "team": "club", "m": "vs Ohio Galaxies FC"}, {"d": "2027-02-20", "team": "club", "m": "vs Lexington Sporting Club"}, {"d": "2027-02-21", "team": "club", "m": "vs Louisville City Academy"}, {"d": "2027-02-27", "team": "club", "m": "vs Elite FC"}, {"d": "2027-02-28", "team": "club", "m": "vs Blast FC Academy"}, {"d": "2027-03-06", "team": "club", "m": "@ Ohio Galaxies FC"}, {"d": "2027-03-13", "team": "club", "m": "@ Columbus Force"}, {"d": "2027-03-14", "team": "club", "m": "@ Ohio Premier"}, {"d": "2027-03-20", "team": "club", "m": "vs Ohio Elite SA"}, {"d": "2027-03-21", "team": "club", "m": "vs Cincinnati Elite FC"}, {"d": "2027-04-17", "team": "club", "m": "@ Lexington Sporting Club"}, {"d": "2027-04-18", "team": "club", "m": "@ Louisville City Academy"}, {"d": "2027-05-08", "team": "club", "m": "@ Elite FC"}, {"d": "2027-05-09", "team": "club", "m": "@ Blast FC Academy"}];
+var SCHED=[{"d": "2026-10-10", "team": "hs", "m": "@ Indianapolis Lutheran"}, {"d": "2026-10-15", "team": "hs", "m": "vs Indianapolis Scecina Memorial"}, {"d": "2026-11-13", "team": "club", "m": "@ Nationals Anchor Bay (MI)"}, {"d": "2026-11-14", "team": "club", "m": "@ Nationals SC Capital Area"}, {"d": "2026-11-15", "team": "club", "m": "vs Liverpool FC-IA Michigan Hartland"}, {"d": "2026-12-05", "team": "club", "m": "vs Columbus Force"}, {"d": "2026-12-06", "team": "club", "m": "vs Ohio Premier"}, {"d": "2026-12-12", "team": "club", "m": "@ Ohio Elite SA"}, {"d": "2026-12-13", "team": "club", "m": "@ Cincinnati Elite FC"}, {"d": "2026-12-19", "team": "club", "m": "vs Ohio Galaxies FC"}, {"d": "2027-02-20", "team": "club", "m": "vs Lexington Sporting Club"}, {"d": "2027-02-21", "team": "club", "m": "vs Louisville City Academy"}, {"d": "2027-02-27", "team": "club", "m": "vs Elite FC"}, {"d": "2027-02-28", "team": "club", "m": "vs Blast FC Academy"}, {"d": "2027-03-06", "team": "club", "m": "@ Ohio Galaxies FC"}, {"d": "2027-03-13", "team": "club", "m": "@ Columbus Force"}, {"d": "2027-03-14", "team": "club", "m": "@ Ohio Premier"}, {"d": "2027-03-20", "team": "club", "m": "vs Ohio Elite SA"}, {"d": "2027-03-21", "team": "club", "m": "vs Cincinnati Elite FC"}, {"d": "2027-04-17", "team": "club", "m": "@ Lexington Sporting Club"}, {"d": "2027-04-18", "team": "club", "m": "@ Louisville City Academy"}, {"d": "2027-05-08", "team": "club", "m": "@ Elite FC"}, {"d": "2027-05-09", "team": "club", "m": "@ Blast FC Academy"}];
 var TEST=true,DEMO=true,SX="_demo";
 var OWNER="dkurtz06",REPO="dkurtz06.github.io",PATH=TEST?"games-test.json":"games.json",API="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+PATH;
 var $=function(i){return document.getElementById(i);};
@@ -148,7 +159,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=false;$("testmode").hidden=true;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1792198886";
+var BUILD="1793560853";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return "demo";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -167,14 +178,26 @@ function gcMin(g){var c=gcs(g);if(!c.run&&!c.ms)return null;return Math.floor(gc
 function halfLen(g){return g.team==="hs"?40:45;}
 function gcFmt(ms){var t=Math.floor(ms/1000),m=Math.floor(t/60),x=t%60;return m+":"+(x<10?"0":"")+x;}
 function gcPaint(g){var c=gcs(g);$("gc-t").textContent=gcFmt(gcMs(g));$("gc-h").textContent=c.half===2?"2H":"1H";var b=$("gc-go");b.classList.toggle("on",!!c.run);b.textContent=c.run?"Pause":(c.ms?"Resume":"Start clock");$("gc-half").textContent=c.half===2?"1st half":"2nd half";}
-function gcStop(g){var c=gcs(g);if(c.run){c.ms+=Date.now()-c.run;c.run=null;}if(g.onSince){g.ms=(g.ms||0)+Date.now()-g.onSince;g.onSince=null;g.onPaused=true;}}
-function gcStart(g){var c=gcs(g);if(!c.run)c.run=Date.now();if(g.onPaused){g.onSince=Date.now();g.onPaused=false;}}
+function gcStop(g){var c=gcs(g);if(c.run){c.ms+=Date.now()-c.run;c.run=null;clog(g,"pause");}if(g.onSince){g.ms=(g.ms||0)+Date.now()-g.onSince;g.onSince=null;g.onPaused=true;}}
+function gcStart(g){var c=gcs(g);if(!c.run){c.run=Date.now();g.kick=g.kick||{};if(!g.kick[c.half])g.kick[c.half]=c.run;clog(g,"start");}if(g.onPaused){g.onSince=Date.now();g.onPaused=false;}}
+/* ---- timestamps for video review (saved to games.json, not shown on the site) ---- */
+function p2(n){return String(n).padStart(2,"0");}
+function isoLocal(ms){var d=new Date(ms),o=-d.getTimezoneOffset(),a=Math.abs(o);return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate())+"T"+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+(o>=0?"+":"-")+p2(Math.floor(a/60))+":"+p2(a%60);}
+function tzName(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"";}catch(e){return "";}}
+function clog(g,a){g.clog=g.clog||[];var c=gcs(g);g.clog.push({a:a,h:c.half,gc:gcFmt(gcMs(g)),t:Date.now(),wall:isoLocal(Date.now())});}
+function hmsIn(v){v=String(v||"").trim();if(!v)return null;var p=v.split(":");if(p.length>3)return null;var n=0;for(var i=0;i<p.length;i++){if(!/^\d+$/.test(p[i]))return null;n=n*60+(+p[i]);}return n;}
+function hmsOut(sec){if(sec==null||isNaN(sec))return "";var neg=sec<0;sec=Math.abs(Math.round(sec));var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),x=sec%60;return (neg?"-":"")+(h?h+":"+p2(m):m)+":"+p2(x);}
+function anchorFor(g,e){var v=g.vid||{};return (e.h===2&&v.a2)?v.a2:(v.a1||null);}
+function vidSec(g,e){var a=anchorFor(g,e);if(!a)return null;return a.v+(e.t-a.t)/1000;}
+function wallTime(ms){return new Date(ms).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",second:"2-digit"});}
 /* ---- counts from event log ---- */
 function tally(g){var t={g:0,a:0,sh:0,sog:0,us:0,them:0,ch:0,tk:0};(g.ev||[]).forEach(function(e){var k=e.k;
  if(k==="g"){t.g++;t.sog++;t.sh++;t.us++;}else if(k==="a"){t.a++;t.ch++;}else if(k==="ch"){t.ch++;}else if(k==="tk"){t.tk++;}else if(k==="ch_minus"){if(t.ch-t.a>0)t.ch--;}else if(k==="tk_minus"){if(t.tk>0)t.tk--;}else if(k==="sog"){t.sog++;t.sh++;}else if(k==="sh"){t.sh++;}
  else if(k==="g_minus"){if(t.g>0){t.g--;t.sog--;t.sh--;t.us=Math.max(0,t.us-1);}}else if(k==="a_minus"){if(t.a>0){t.a--;t.ch--;}}else if(k==="sog_minus"){if(t.sog-t.g>0){t.sog--;t.sh--;}}else if(k==="sh_minus"){if(t.sh-t.sog>0)t.sh--;}
  else if(k==="team_goal"){t.us++;}else if(k==="opp_goal"){t.them++;}else if(k==="us_minus"){t.us=Math.max(0,t.us-1);}else if(k==="them_minus"){t.them=Math.max(0,t.them-1);}});return t;}
-function record(g){var t=tally(g);return {id:g.id,team:g.team,date:g.date,opp:g.opp,status:g.status,us:t.us,them:t.them,min:mins(g),g:t.g,a:t.a,sh:t.sh,sog:t.sog,ch:t.ch,tk:t.tk,start:g.start===false?false:true,updated:new Date().toISOString()};}
+function record(g){var t=tally(g);return {id:g.id,team:g.team,date:g.date,opp:g.opp,status:g.status,us:t.us,them:t.them,min:mins(g),g:t.g,a:t.a,sh:t.sh,sog:t.sog,ch:t.ch,tk:t.tk,start:g.start===false?false:true,updated:new Date().toISOString(),tz:g.tz||tzName(),kick:kickIso(g),vid:g.vid||null,clock_log:g.clog||[],log:evLog(g)};}
+function kickIso(g){var k=g.kick||{},o={};Object.keys(k).forEach(function(h){o[h]=isoLocal(k[h]);});return o;}
+function evLog(g){return (g.ev||[]).filter(function(e){return e.k!=="min_plus"&&e.k!=="min_minus";}).map(function(e){var r={k:e.k,stat:NAMES[e.k]||e.k,t:e.t,wall:e.wall||isoLocal(e.t)};if(e.h){r.half=e.h;r.clock=e.gc;r.clock_sec=e.gs;}if(e.gm)r.min=e.gm;var vs=vidSec(g,e);if(vs!=null)r.video=hmsOut(vs);return r;});}
 var NAMES={g:"Gavin goal",a:"Assist",sog:"Shot on target",sh:"Shot off target",team_goal:"Teammate goal",opp_goal:"Opponent goal",us_minus:"Our goal removed",them_minus:"Opponent goal removed",g_minus:"Gavin goal removed",a_minus:"Assist removed",sog_minus:"Shot on target removed",sh_minus:"Shot off target removed",ch:"Chance created",tk:"Tackle won",ch_minus:"Chance created removed",tk_minus:"Tackle won removed",min_plus:"+1 minute",min_minus:"−1 minute"};
 
 /* ---- render ---- */
@@ -187,7 +210,7 @@ function renderGame(){var g=cur,t=tally(g);
  [].forEach.call(document.querySelectorAll("[data-start]"),function(b){b.setAttribute("aria-pressed",(b.getAttribute("data-start")==="1")===(g.start!==false)?"true":"false");});
  $("clock").textContent=mins(g)+"'";var f=$("field");f.classList.toggle("on",!!g.onSince||!!g.onPaused);f.textContent=g.onSince?"On field · tap = off":(g.onPaused?"On field · clock paused":"Gavin on field");gcPaint(g);
  $("final").textContent=g.status==="final"?"Update site":"Final · post";
- var le=(g.ev||[])[(g.ev||[]).length-1];$("log").textContent=le?"Last: "+(NAMES[le.k]||le.k)+" · "+(le.gm?le.gm+"'":new Date(le.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})):"Tap a tile to log a stat";}
+ var le=(g.ev||[])[(g.ev||[]).length-1];$("log").textContent=le?"Last: "+(NAMES[le.k]||le.k)+" · "+(le.gc?(le.h===2?"2H ":"1H ")+le.gc:le.gm?le.gm+"'":new Date(le.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})):"Tap a tile to log a stat";}
 function renderHome(){var d=$("g-date");if(!d.value)d.value=today();fillOpps();
  [].forEach.call(document.querySelectorAll("[data-team]"),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-team")===team?"true":"false");});
  var l=games.slice().sort(function(a,b){return a.date<b.date?1:-1;});
@@ -201,7 +224,7 @@ function setSync(msg,cls){["sync-h","sync-g"].forEach(function(i){var x=$(i);x.c
 /* ---- actions ---- */
 function act(k){if(!cur)return;buzz();
  if(k==="min_plus"){cur.adj=(cur.adj||0)+1;}else if(k==="min_minus"){if(mins(cur)>0)cur.adj=(cur.adj||0)-1;}
- cur.ev=cur.ev||[];var _gm=gcMin(cur);cur.ev.push(_gm?{k:k,t:Date.now(),gm:_gm}:{k:k,t:Date.now()});
+ cur.ev=cur.ev||[];if(!cur.tz)cur.tz=tzName();var _now=Date.now(),_gm=gcMin(cur),_e={k:k,t:_now,wall:isoLocal(_now)};if(_gm){var _c=gcs(cur),_ms=gcMs(cur);_e.gm=_gm;_e.h=_c.half;_e.gs=Math.floor(_ms/1000);_e.gc=gcFmt(_ms);}cur.ev.push(_e);
  if(cur.status==="final"&&k!=="min_plus"&&k!=="min_minus"){} 
  toast(NAMES[k]||k);changed();}
 function undo(){if(!cur||!cur.ev||!cur.ev.length)return;var e=cur.ev.pop();if(e.k==="min_plus")cur.adj--;if(e.k==="min_minus")cur.adj++;toast("Undid "+(NAMES[e.k]||e.k).toLowerCase());changed();}
@@ -239,10 +262,30 @@ $("field").addEventListener("click",function(){buzz();if(cur.onPaused){cur.onPau
 $("undo").addEventListener("click",undo);
 $("gc-go").addEventListener("click",function(){if(!cur)return;buzz();var c=gcs(cur);if(c.run){gcStop(cur);toast("Clock paused");}else{gcStart(cur);toast("Clock running");}changed();});
 $("gc-half").addEventListener("click",function(){if(!cur)return;var c=gcs(cur);
- if(c.half===1){if(!confirm("Start the 2nd half? The clock goes to "+halfLen(cur)+":00 and waits for you to tap Start."))return;gcStop(cur);c.half=2;c.ms=halfLen(cur)*60000;}
+ if(c.half===1){if(!confirm("Start the 2nd half? The clock goes to "+halfLen(cur)+":00 and waits for you to tap Start."))return;gcStop(cur);c.half=2;c.ms=halfLen(cur)*60000;clog(cur,"2nd half");}
  else{if(!confirm("Go back to the 1st half?"))return;gcStop(cur);c.half=1;c.ms=Math.min(c.ms,halfLen(cur)*60000);}changed();});
 $("gc").addEventListener("click",function(){if(!cur)return;var v=prompt("Set the game clock (minutes:seconds)",gcFmt(gcMs(cur)));if(v==null)return;var m=String(v).trim().match(/^(\d{1,3})(?::(\d{1,2}))?$/);if(!m){toast("Use minutes:seconds, like 23:10");return;}var c=gcs(cur);c.ms=(+m[1]*60+(+(m[2]||0)))*1000;if(c.run)c.run=Date.now();changed();});
 $("help").addEventListener("click",function(){$("defs").hidden=false;});$("defs-x").addEventListener("click",function(){$("defs").hidden=true;});$("defs").addEventListener("click",function(e){if(e.target===this)this.hidden=true;});
+/* ---- video timestamps view ---- */
+function vtRows(g){return (g.ev||[]).map(function(e,i){return {e:e,i:i};}).filter(function(x){return x.e.k!=="min_plus"&&x.e.k!=="min_minus";});}
+function vtLine(g,e){var vs=vidSec(g,e);return (e.gc?(e.h===2?"2H ":"1H ")+e.gc:(e.gm?e.gm+"'":"--"))+" · "+wallTime(e.t)+" · "+(vs!=null?"video "+hmsOut(vs):"video ?")+" · "+(NAMES[e.k]||e.k);}
+function vtPaint(){var g=cur;if(!g)return;var v=g.vid||{};
+ $("vt1").value=v.k1!=null?hmsOut(v.k1):"";$("vt2").value=v.k2!=null?hmsOut(v.k2):"";$("vt0").value=v.s0||"";
+ var r=vtRows(g);$("vt-list").innerHTML=r.length?r.map(function(x){var e=x.e,vs=vidSec(g,e);return '<button data-vti="'+x.i+'"><span class="vv">'+(vs!=null?esc(hmsOut(vs)):"set")+'</span><b>'+esc(NAMES[e.k]||e.k)+'</b><br><span class="m">'+(e.gc?(e.h===2?"2H ":"1H ")+esc(e.gc):(e.gm?e.gm+"'":"clock off"))+" · "+esc(wallTime(e.t))+'</span></button>';}).join(""):'<p class="m">No stats logged yet.</p>';}
+$("vt").addEventListener("click",function(){if(!cur)return;vtPaint();$("vtov").hidden=false;});
+$("vt-x").addEventListener("click",function(){$("vtov").hidden=true;});
+$("vtov").addEventListener("click",function(e){if(e.target===this){this.hidden=true;return;}var b=e.target.closest("[data-vti]");if(!b||!cur)return;var ev=cur.ev[+b.getAttribute("data-vti")];
+ var cv=vidSec(cur,ev),v=prompt("Video time for this "+(NAMES[ev.k]||ev.k).toLowerCase()+" (minutes:seconds or h:mm:ss)",cv!=null?hmsOut(cv):"");if(v==null)return;var sec=hmsIn(v);if(sec==null){toast("Use minutes:seconds, like 23:10");return;}
+ cur.vid=cur.vid||{};var a={t:ev.t,v:sec};if(ev.h===2&&cur.vid.a2){cur.vid.a2=a;}else if(ev.h===2&&cur.vid.k2!=null){cur.vid.a2=a;}else{cur.vid.a1=a;if(ev.h!==2)delete cur.vid.k1;}cur.vid.src="event";changed();vtPaint();toast("Lined up");});
+$("vt-save").addEventListener("click",function(){if(!cur)return;var k=cur.kick||{},v={},s1=hmsIn($("vt1").value),s2=hmsIn($("vt2").value),s0=$("vt0").value;
+ if($("vt1").value.trim()&&s1==null||$("vt2").value.trim()&&s2==null){toast("Use minutes:seconds, like 4:05");return;}
+ if(s1!=null){if(!k[1]){toast("Start the game clock at kickoff first");return;}v.k1=s1;v.a1={t:k[1],v:s1};}
+ else if(s0){var p=cur.date.split("-"),q=s0.split(":");v.s0=s0;v.a1={t:new Date(+p[0],p[1]-1,+p[2],+q[0],+q[1],+(q[2]||0)).getTime(),v:0};}
+ else if(cur.vid&&cur.vid.a1&&cur.vid.src==="event"){v.a1=cur.vid.a1;v.src="event";}
+ if(s2!=null){if(!k[2]){toast("Start the clock for the 2nd half first");return;}v.k2=s2;v.a2={t:k[2],v:s2};}
+ cur.vid=v;changed();vtPaint();toast("Saved");});
+$("vt-copy").addEventListener("click",function(){if(!cur)return;var t=(cur.team==="hs"?"GCA":"FC Pride")+" vs "+(cur.opp||"TBA")+" · "+cur.date+"\n"+vtRows(cur).map(function(x){return vtLine(cur,x.e);}).join("\n");
+ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast("Copied");}).catch(function(){prompt("Copy this:",t);});});
 function pl(n,a,b){return n+" "+(n===1?a:b);}
 function recapText(g){var r=record(g),p=g.date.split("-"),d=new Date(+p[0],p[1]-1,+p[2]).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
  var res=r.us>r.them?"W":r.us<r.them?"L":"T",tm=g.team==="hs"?"Greenwood Christian Academy #24":"FC Pride Elite ECNL RL #00";
