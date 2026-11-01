@@ -137,6 +137,13 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
  <div id="vt-list" class="vtl"></div>
 </div></div>
 <div class="ov" id="defs" hidden role="dialog" aria-modal="true" aria-label="What counts"><div class="card">
+  <p><b>Game day checklist</b></p>
+  <p><b>Before kickoff:</b> open the tracker, pick Club or HS, check the date and opponent, tap Start game. Set Started or Bench, and tap Gavin on field when he's in.</p>
+  <p><b>At kickoff:</b> tap Start clock the moment the ball is kicked. That moment is saved and used to line up the video.</p>
+  <p><b>During:</b> tap stats as they happen. Pause the clock for halftime. At halftime tap 2nd half, then Start clock at the 2nd-half kickoff.</p>
+  <p><b>After the whistle:</b> tap Final · post.</p>
+  <p><b>Once the film is up:</b> open the game, tap Video, type the video time where the 1st-half kickoff happens (like 4:05) and tap Save. If the 2nd half is its own video, also fill in where that kickoff happens. Or tap any stat and type its video time. Copy list gives you every stat with its video time.</p>
+  <hr style="border:0;border-top:1px solid #333;margin:12px 0">
   <p><b>Game clock:</b> tap Start at kickoff and Pause for stoppages or halftime. Gavin's minutes pause with it. Tap 2nd half at halftime, then Start. Tap the time to fix it. Every stat you tap is saved with the half, game clock and time of day. Tap <b>Video</b> to line them up with the game film.</p>
   <p><b>Gavin goal</b> also adds a shot on target and a goal to the score. <b>Assist</b> also counts as a chance created. Use − 1 under any stat, or Undo, to fix a mistake.</p>
   <p><b>Chance created:</b> Gavin makes the last pass to a teammate, and that teammate shoots. Saved, blocked or missed all count. If the shot goes in, tap Assist instead.</p>
@@ -159,7 +166,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=false;$("testmode").hidden=true;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1793560853";
+var BUILD="1793561225";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return "demo";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
