@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+<meta name="robots" content="noindex">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Universal Park Days</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="icon-512.png" />
+    <meta name="apple-mobile-web-app-title" content="Park Days" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap"
+    />
+    <link rel="stylesheet" href="hark.css" />
+    <link rel="stylesheet" href="hark-hero.css" />
+    <link rel="stylesheet" href="hark-charts.css" />
+    <style>
+      /* Slim header image */
+      .x-banner { position: relative; height: clamp(104px, 22vw, 168px); border-radius: var(--r-l); overflow: hidden; background: var(--hero-surface); color: var(--hero-text); isolation: isolate; box-shadow: var(--hark-shadow); }
+      .x-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; z-index: -2; }
+      .x-banner::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, var(--hero-scrim-strong) 0%, var(--hero-scrim-soft) 60%, transparent 100%); }
+      .x-banner__copy { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 18px; display: grid; gap: 2px; }
+      .x-banner h1 { font: var(--type-heading); font-size: clamp(20px, 3vw, 26px); }
+      .x-banner p { font: var(--type-caption); color: var(--hero-text-muted); }
+
+      /* Sticky app bar: tabs, park picker, busy badge, updated time */
+      .x-bar { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 8px); z-index: 30; display: grid; gap: 6px; padding: 5px; border-radius: var(--r-l); background: var(--fill-primary); border: 1px solid var(--stroke-primary-on); box-shadow: var(--hark-shadow); color: var(--text-primary-on); }
+      .x-bar :focus-visible { outline-color: var(--fill-primary-on); }
+      .x-bar__row { display: flex; align-items: center; gap: 6px; min-width: 0; }
+      .x-tabs, .x-parks { display: flex; flex: 1; min-width: 0; border-radius: var(--r-pill); }
+      .x-tabs { background: var(--fill-segment); }
+      .x-parks { background: var(--fill-primary); }
+      .x-tabs button, .x-parks button { flex: 1 1 0; min-width: 0; min-height: var(--tap); padding: 0 8px; border: 0; border-radius: var(--r-pill); background: none; color: var(--text-secondary-on); font: var(--type-label); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .x-tabs button[aria-selected="true"] { background: var(--fill-primary-on); color: var(--text-primary); }
+      .x-parks button[aria-pressed="true"] { color: var(--text-primary-on); box-shadow: inset 0 0 0 1.5px var(--text-primary-on); }
+      .x-short { display: none; }
+      @media (max-width: 640px) { .x-long { display: none; } .x-short { display: inline; } }
+      .x-meta { flex: none; display: grid; justify-items: end; gap: 1px; min-height: var(--tap); align-content: center; padding: 0 10px 0 4px; border: 0; background: none; color: inherit; cursor: pointer; text-align: right; }
+      .x-meta__busy { display: inline-flex; align-items: center; gap: 6px; font: var(--type-tag); color: var(--text-primary-on); }
+      .x-meta__busy::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--text-secondary-on); }
+      .x-meta__busy[data-level="low"]::before { background: var(--fill-system-green); }
+      .x-meta__busy[data-level="mid"]::before { background: var(--fill-system-orange); }
+      .x-meta__busy[data-level="high"]::before { background: var(--fill-system-red); }
+      .x-meta__time { font: var(--type-caption); color: var(--text-secondary-on); white-space: nowrap; }
+
+      /* Panels and blocks */
+      .x-panel { display: grid; gap: 0; min-width: 0; }
+      .x-panel[hidden] { display: none; }
+      .x-block { padding-block: 24px 8px; border-top: 1px solid var(--stroke-secondary); min-width: 0; scroll-margin-top: 140px; }
+      .x-panel > .x-block:first-child, .x-panel > :first-child + .x-block { border-top: 0; }
+      .x-block > * + * { margin-top: 14px; }
+      .x-block__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      .x-block__head h2, .x-block > h2 { font: var(--type-heading); }
+      .x-block__head .fineprint { flex-basis: 100%; }
+      .x-sub { font: var(--type-label); color: var(--text-secondary); padding-top: 8px; }
+
+      .x-card { padding: 14px 16px; border-radius: var(--r-m); background: var(--fill-tertiary); }
+      .x-card + .x-card { margin-top: 8px; }
+      .x-hours { display: grid; gap: 4px; margin-top: 16px; }
+      .x-hours__main { font: var(--type-body-strong); }
+      .x-hours__main span { color: var(--text-secondary); font: var(--type-small); }
+
+      .x-input, .x-select { width: 100%; min-height: var(--tap); padding: 0 14px; border-radius: var(--r-s); border: 1px solid var(--stroke-primary); background: var(--fill-primary-on); color: var(--text-primary); font: var(--type-body); }
+      .x-input::placeholder { color: var(--text-secondary); }
+      .x-controls { display: flex; gap: 8px; align-items: center; }
+      .x-controls .x-input { flex: 1; }
+      .x-toggle { display: flex; flex: none; border-radius: var(--r-pill); background: var(--fill-tertiary); padding: 2px; }
+      .x-toggle button { min-height: var(--tap); min-width: var(--tap); padding: 0 12px; border: 0; border-radius: var(--r-pill); background: none; color: var(--text-secondary); font: var(--type-label); cursor: pointer; }
+      .x-toggle button[aria-pressed="true"] { background: var(--fill-primary); color: var(--text-primary-on); }
+
+      /* Wait list: the numbers are the focus */
+      .x-waits { display: grid; }
+      .x-ride { display: grid; grid-template-columns: 24px minmax(0, 1fr) 64px 64px; align-items: center; gap: 10px; width: 100%; min-height: 68px; padding: 10px 8px; border: 0; border-bottom: 1px solid var(--stroke-secondary); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+      .x-ride:hover { background: var(--hover-wash); }
+      .x-ride.is-star { background: var(--fill-tertiary); border-radius: var(--r-s); border-bottom-color: transparent; margin-bottom: 4px; }
+      .x-ride__star { font-size: 18px; color: var(--text-secondary); text-align: center; }
+      .x-ride.is-star .x-ride__star { color: var(--text-primary); }
+      .x-ride__name { font: var(--type-body-strong); overflow-wrap: anywhere; }
+      .x-ride__meta { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; align-items: center; }
+      .x-ride__spark { display: block; height: 28px; width: 64px; position: relative; overflow: hidden; }
+      .x-ride__spark canvas { display: block; max-width: 100%; max-height: 100%; }
+      .x-ride__wait { text-align: right; font-variant-numeric: tabular-nums; }
+      .x-ride__wait b { display: block; font-weight: var(--weight-bold); font-size: 34px; line-height: 1; letter-spacing: -0.5px; }
+      .x-ride__wait small { font: var(--type-caption); color: var(--text-secondary); }
+      [data-level="low"] > b { color: var(--fill-system-green); }
+      [data-level="mid"] > b { color: var(--fill-system-orange); }
+      [data-level="high"] > b { color: var(--fill-system-red); }
+      [data-level="none"] > b { color: var(--text-secondary); font-size: 24px; }
+      @media (max-width: 380px) { .x-ride { grid-template-columns: 22px minmax(0, 1fr) 60px; } .x-ride__spark { display: none; } }
+
+      .x-status { display: inline-flex; align-items: center; gap: 5px; font: var(--type-tag); color: var(--text-secondary); }
+      .x-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--text-tertiary); }
+      .x-status[data-s="OPERATING"]::before { background: var(--fill-system-green); }
+      .x-status[data-s="DOWN"] { color: var(--fill-system-red); }
+      .x-status[data-s="DOWN"]::before { background: var(--fill-system-red); }
+
+      .x-msg { padding: 14px 16px; border-radius: var(--r-m); border: 1.5px dashed var(--stroke-primary); display: grid; gap: 10px; justify-items: start; }
+
+      /* Busy gauge */
+      .x-busy { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 20px; align-items: center; }
+      .x-gauge { position: relative; width: 180px; }
+      .x-gauge svg { display: block; width: 100%; height: auto; }
+      .x-gauge__track { stroke: var(--fill-tertiary); }
+      .x-gauge__val { stroke: var(--text-secondary); transition: stroke-dashoffset var(--dur-draw, 600ms) var(--ease-out); }
+      .x-gauge[data-level="low"] .x-gauge__val { stroke: var(--fill-system-green); }
+      .x-gauge[data-level="mid"] .x-gauge__val { stroke: var(--fill-system-orange); }
+      .x-gauge[data-level="high"] .x-gauge__val { stroke: var(--fill-system-red); }
+      .x-gauge__read { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; }
+      .x-gauge__read b { display: block; font: var(--type-display); line-height: 1; font-variant-numeric: tabular-nums; }
+      .x-gauge__read span { font: var(--type-label); color: var(--text-secondary); }
+      @media (max-width: 520px) { .x-busy { grid-template-columns: 1fr; justify-items: center; } .x-busy .stats { width: 100%; } }
+
+      /* Lists of alerts and shows */
+      .x-list { list-style: none; margin: 0; padding: 0; }
+      .x-list > li { display: flex; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--stroke-secondary); }
+      .x-list > li:last-child { border-bottom: 0; }
+      .x-list__when { flex: none; width: 72px; font: var(--type-label); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+      .x-list__what { min-width: 0; }
+      .x-list__what .pill { margin: 4px 4px 0 0; }
+      .x-list > li.is-star .x-list__what { font-weight: var(--weight-bold); }
+
+      /* Toasts */
+      .x-toasts { position: fixed; z-index: 60; top: calc(env(safe-area-inset-top, 0px) + 12px); left: 50%; transform: translateX(-50%); width: min(520px, calc(100% - 2 * var(--gutter))); display: grid; gap: 8px; pointer-events: none; }
+      .x-toast { pointer-events: auto; display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 12px 14px 12px 16px; border-radius: var(--r-m); background: var(--mat-agent); -webkit-backdrop-filter: var(--hark-blur); backdrop-filter: var(--hark-blur); border: 1px solid var(--stroke-composer); box-shadow: var(--hark-shadow); font: var(--type-body); animation: x-in var(--dur-quick) var(--ease-out); }
+      .x-toast.is-strong { background: var(--fill-primary); color: var(--text-primary-on); border-color: var(--stroke-primary-on); font: var(--type-body-strong); }
+      .x-toast button { flex: none; min-width: var(--tap); min-height: var(--tap); border: 0; border-radius: var(--r-pill); background: var(--hover-wash); color: inherit; font: var(--type-label); cursor: pointer; }
+      @keyframes x-in { from { opacity: 0; transform: translateY(-8px); } }
+      @media (prefers-reduced-motion: reduce) { .x-toast { animation: none; } }
+
+      /* Floating line timer */
+      .x-fab { position: fixed; z-index: 40; right: var(--gutter); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); min-height: 56px; padding: 0 22px; border: 0; border-radius: var(--r-pill); background: var(--fill-primary); color: var(--text-primary-on); font: var(--type-body-strong); font-variant-numeric: tabular-nums; box-shadow: var(--hark-shadow); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+      .x-fab[hidden] { display: none; }
+      .x-fab.is-running::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--fill-system-orange); box-shadow: 0 0 0 4px var(--stroke-system-orange); }
+      .x-sheet { width: min(520px, calc(100% - 24px)); max-height: calc(100% - 24px); border: 1px solid var(--stroke-primary); border-radius: var(--r-l); padding: 20px; background: var(--fill-primary-on); color: var(--text-primary); box-shadow: var(--hark-shadow); }
+      .x-sheet::backdrop { background: var(--transparent-primary); }
+      .x-sheet h2 { font: var(--type-heading); }
+      .x-sheet__body { display: grid; gap: 14px; margin-top: 14px; }
+      .x-sheet__close { float: right; min-width: var(--tap); min-height: var(--tap); margin: -10px -10px 0 0; border: 0; border-radius: 50%; background: none; color: var(--text-secondary); font-size: 22px; cursor: pointer; }
+      .x-clock { font-weight: var(--weight-regular); font-size: clamp(56px, 18vw, 80px); line-height: 1; font-variant-numeric: tabular-nums; text-align: center; letter-spacing: -1px; }
+      .x-result { font: var(--type-heading); }
+
+      /* Big buttons */
+      .x-big { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 24px; border: 0; border-radius: var(--r-pill); background: var(--fill-primary); color: var(--text-primary-on); font: var(--type-body-strong); cursor: pointer; text-decoration: none; }
+      .x-big--ghost { background: var(--fill-tertiary); color: var(--text-primary); }
+      .x-big:disabled { opacity: 0.5; cursor: default; }
+      .x-big input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+      .x-big:focus-within { outline: 2px solid var(--fill-primary); outline-offset: 3px; }
+      .x-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      .x-actions > * { flex: 1 1 200px; position: relative; }
+
+      /* Timeline photos */
+      .x-thumb { width: 100%; max-width: 360px; border-radius: var(--r-m); margin-top: 8px; }
+      .x-entry-tools { display: grid; gap: 8px; margin-top: 8px; max-width: 360px; }
+      .x-entry-tools .btn { justify-self: start; }
+      .x-save-img { width: 100%; max-width: 360px; border-radius: var(--r-m); border: 1px solid var(--stroke-primary); }
+
+      /* Walk ring */
+      .x-walk { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 20px; align-items: center; }
+      .x-ring { position: relative; width: 180px; height: 180px; }
+      .x-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+      .x-ring__track { stroke: var(--fill-tertiary); }
+      .x-ring__val { stroke: var(--fill-system-green); transition: stroke-dashoffset 600ms var(--ease-out); }
+      .x-ring__read { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+      .x-ring__read b { font: var(--type-display); line-height: 1; font-variant-numeric: tabular-nums; }
+      .x-ring__read span { font: var(--type-small); color: var(--text-secondary); }
+      .x-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .x-fields label { display: grid; gap: 6px; font: var(--type-label); color: var(--text-secondary); }
+      .x-fun { font: var(--type-body-strong); }
+      @media (max-width: 520px) { .x-walk { grid-template-columns: 1fr; justify-items: center; } .x-walk > div:last-child { width: 100%; } }
+
+      .x-themebtn { min-height: var(--tap); padding: 0 16px; border-radius: var(--r-pill); border: 1px solid var(--stroke-primary); background: none; color: var(--text-primary); font: var(--type-label); cursor: pointer; }
+      .foot { padding-bottom: 72px; }
+    </style>
+  </head>
+  <body>
+    <div class="page" id="top">
+      <header class="x-banner">
+        <img src="hero_epic_wide.jpg" alt="Celestial Park at Universal Epic Universe" />
+        <div class="x-banner__copy">
+          <p>Kurtz family · Universal Orlando</p>
+          <h1>Universal Park Days</h1>
+          <p>Mon Nov 23 Epic Universe · Wed Nov 25 Studios + Islands</p>
+        </div>
+      </header>
+
+      <div class="x-bar">
+        <div class="x-bar__row">
+          <div class="x-tabs" role="tablist" aria-label="Sections">
+            <button type="button" role="tab" id="t-live" data-tab="live" aria-controls="p-live" aria-selected="true">Live</button>
+            <button type="button" role="tab" id="t-timeline" data-tab="timeline" aria-controls="p-timeline" aria-selected="false">Timeline</button>
+            <button type="button" role="tab" id="t-walk" data-tab="walk" aria-controls="p-walk" aria-selected="false">Walk</button>
+            <button type="button" role="tab" id="t-know" data-tab="know" aria-controls="p-know" aria-selected="false">Know</button>
+          </div>
+        </div>
+        <div class="x-bar__row">
+          <div class="x-parks" role="group" aria-label="Park">
+            <button type="button" data-park="epic" aria-pressed="true"><span class="x-long">Epic Universe</span><span class="x-short">Epic</span></button>
+            <button type="button" data-park="usf" aria-pressed="false"><span class="x-long">Universal Studios Florida</span><span class="x-short">Studios</span></button>
+            <button type="button" data-park="ioa" aria-pressed="false"><span class="x-long">Islands of Adventure</span><span class="x-short">Islands</span></button>
+          </div>
+          <button type="button" class="x-meta" id="meta" aria-label="How busy is it">
+            <span class="x-meta__busy" id="busyMini">Busy –</span>
+            <span class="x-meta__time" id="updated">Loading…</span>
+          </button>
+        </div>
+      </div>
+
+      <main class="main">
+        <!-- LIVE -->
+        <section class="x-panel" id="p-live" role="tabpanel" aria-labelledby="t-live">
+          <div class="x-card x-hours" id="hours"><p class="x-hours__main">Park hours loading…</p></div>
+
+          <div class="x-block" id="waits-block">
+            <div class="x-block__head">
+              <h2 id="waits-title">Wait times</h2>
+              <button type="button" class="btn" id="refresh">Refresh</button>
+            </div>
+            <div class="x-controls">
+              <input type="search" class="x-input" id="q" placeholder="Search rides" aria-label="Search rides" autocomplete="off" />
+              <div class="x-toggle" role="group" aria-label="Sort">
+                <button type="button" data-sort="wait" aria-pressed="true">Shortest</button>
+                <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
+              </div>
+            </div>
+            <p class="fineprint">Tap a ride to star it as a must-do. Starred rides stay on top and get stronger alerts.</p>
+            <div id="waitMsg"></div>
+            <div class="x-waits" id="waits" aria-live="polite"></div>
+          </div>
+
+          <div class="x-block" id="busy-block">
+            <h2>How busy is it?</h2>
+            <div class="x-busy">
+              <div class="x-gauge" id="gauge">
+                <svg viewBox="0 0 200 110" aria-hidden="true">
+                  <path class="x-gauge__track" d="M 15 100 A 85 85 0 0 1 185 100" fill="none" stroke-width="16" stroke-linecap="round" />
+                  <path class="x-gauge__val" id="gaugeVal" d="M 15 100 A 85 85 0 0 1 185 100" fill="none" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+                </svg>
+                <div class="x-gauge__read"><b id="busyScore">–</b><span id="busyLabel">Waiting for data</span></div>
+              </div>
+              <section class="stats">
+                <div class="stat"><span class="stat__fig" id="avgWait">–</span><span class="stat__label">Average standby</span></div>
+                <div class="stat"><span class="stat__fig" id="opCount">–</span><span class="stat__label">Rides operating</span></div>
+                <div class="stat"><span class="stat__fig" id="downCount">–</span><span class="stat__label">Down or closed</span></div>
+              </section>
+            </div>
+            <p class="fineprint">An estimate from current posted waits, on a 1–10 scale. There is no public live attendance number.</p>
+          </div>
+
+          <div class="x-block" id="alerts-block">
+            <h2>Alerts</h2>
+            <ul class="x-list" id="alerts"></ul>
+            <p class="fineprint" id="alertsEmpty">No closures or reopenings yet. Checks run every 5 minutes.</p>
+            <p class="fineprint">Alerts only work while this page is open on screen. Starred rides also buzz the phone where supported.</p>
+          </div>
+
+          <div class="x-block">
+            <h2>Today's waits so far</h2>
+            <figure class="chart">
+              <figcaption class="chart__cap">Park-wide average standby wait<small>Since you opened this page · minutes, one point per check</small></figcaption>
+              <div class="chart__canvas"><canvas id="avgChart" role="img" aria-label="Average standby wait at each check since the page was opened"></canvas></div>
+            </figure>
+            <p class="fineprint" id="avgNote">The line fills in with each 5-minute check. Each ride's own trend shows beside its wait.</p>
+          </div>
+
+          <div class="x-block" id="log-block">
+            <h2>Ride log</h2>
+            <section class="stats">
+              <div class="stat"><span class="stat__fig" id="ridesDone">0</span><span class="stat__label">Rides done</span></div>
+              <div class="stat"><span class="stat__fig" id="lineMins">0 min</span><span class="stat__label">In lines today</span></div>
+            </section>
+            <div class="table-wrap" id="logWrap" hidden>
+              <table>
+                <thead><tr><th scope="col">Ride</th><th scope="col">Started</th><th scope="col">Waited</th><th scope="col">Posted</th></tr></thead>
+                <tbody id="logBody"></tbody>
+              </table>
+            </div>
+            <p class="fineprint" id="logEmpty">Tap Line timer when you get in line, and I'm on! when you board.</p>
+          </div>
+
+          <div class="x-block">
+            <h2>Typical day</h2>
+            <figure class="chart">
+              <figcaption class="chart__cap">Typical pattern, not live: crowds peak 11 AM to 3 PM<small>Relative crowd level by hour on a Universal park day, 1 to 10</small></figcaption>
+              <div class="chart__canvas"><canvas id="typChart" role="img" aria-label="Low at rope drop, climbing to a peak from 11 AM to 3 PM, easing after 5 PM, lowest in the last hour before close"></canvas></div>
+            </figure>
+            <p class="fineprint">Waits are lowest in the first 60–90 minutes, climb to a peak around 11 AM–3 PM, ease after 5 PM, and are lowest in the last hour before close. Thanksgiving week is one of the busiest weeks of the year.</p>
+            <h3 class="x-sub" id="fcTitle">Forecast for your starred rides</h3>
+            <div class="breakdown" id="forecast"><dl></dl></div>
+            <p class="fineprint" id="fcEmpty">Star rides above to see whether their waits are likely to rise or drop.</p>
+          </div>
+
+          <div class="x-block">
+            <h2>Showtimes today</h2>
+            <ul class="x-list" id="shows"></ul>
+            <p class="fineprint" id="showsEmpty">Loading showtimes…</p>
+          </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section class="x-panel" id="p-timeline" role="tabpanel" aria-labelledby="t-timeline" hidden>
+          <div class="x-block">
+            <aside class="callout" aria-label="Before you close">
+              <p class="callout__head">Before you close the page</p>
+              <p class="callout__lead"><strong>Photos and log stay only while this page is open.</strong> Tap Save my day before closing.</p>
+            </aside>
+            <div class="x-actions">
+              <label class="x-big">Add photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
+              <button type="button" class="x-big x-big--ghost" id="saveDay">Save my day</button>
+            </div>
+            <div id="saveOut"></div>
+          </div>
+          <div class="x-block">
+            <h2>Remember the day</h2>
+            <p class="fineprint">Rides from the line timer appear here on their own. Photos land at the time they were taken.</p>
+            <ol class="timeline" id="tl"></ol>
+            <p class="fineprint" id="tlEmpty">Nothing yet. Time a line or add a photo to start the day's story.</p>
+          </div>
+        </section>
+
+        <!-- WALK -->
+        <section class="x-panel" id="p-walk" role="tabpanel" aria-labelledby="t-walk" hidden>
+          <div class="x-block">
+            <h2>Miles today</h2>
+            <div class="x-walk">
+              <div class="x-ring" aria-hidden="true">
+                <svg viewBox="0 0 120 120">
+                  <circle class="x-ring__track" cx="60" cy="60" r="50" fill="none" stroke-width="12" />
+                  <circle class="x-ring__val" id="ringVal" cx="60" cy="60" r="50" fill="none" stroke-width="12" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" />
+                </svg>
+                <div class="x-ring__read"><b id="ringMiles">0</b><span>of 10 mi</span></div>
+              </div>
+              <div>
+                <div class="x-fields">
+                  <label>Miles today<input class="x-input" id="miles" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0.0" /></label>
+                  <label>Steps<input class="x-input" id="steps" type="number" inputmode="numeric" min="0" step="1" placeholder="0" /></label>
+                </div>
+                <p class="x-fun" id="walkFun" style="margin-top:14px">Enter your miles from the watch to see how far that is.</p>
+                <p class="fineprint" style="margin-top:6px">A full Universal day is typically about 8–12 miles. Epic Universe's worlds spread off a central hub, so expect lots of walking.</p>
+              </div>
+            </div>
+          </div>
+          <div class="x-block">
+            <h2>Track the walk on Apple Watch</h2>
+            <p class="fineprint">A web page can't start a watch workout, so start it on the watch itself.</p>
+            <div class="steps">
+              <article class="step">
+                <div class="step__intro"><p class="step__num">01</p><p class="step__eyebrow">On the watch</p></div>
+                <div><h3>Open Workout, then Outdoor Walk</h3><p>Find Outdoor Walk in the Workout app's list.</p></div>
+              </article>
+              <article class="step">
+                <div class="step__intro"><p class="step__num">02</p><p class="step__eyebrow">Set a goal</p></div>
+                <div><h3>Tap ⋯ and set a Distance goal</h3><p>10 mi is a good target for a full park day.</p></div>
+              </article>
+              <article class="step">
+                <div class="step__intro"><p class="step__num">03</p><p class="step__eyebrow">At the gate</p></div>
+                <div><h3>Start at the park gate, End when leaving</h3><p>Distance and steps then show in Fitness and Activity on iPhone.</p></div>
+              </article>
+            </div>
+            <div class="aside">
+              <h3>Make it a custom workout</h3>
+              <p class="fineprint">In the Workout app, scroll to Outdoor Walk, tap ⋯, then Create Workout → Custom. Add work intervals named per land if you want a split for each part of the park.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- KNOW -->
+        <section class="x-panel" id="p-know" role="tabpanel" aria-labelledby="t-know" hidden>
+          <div class="x-block">
+            <h2>Your tickets</h2>
+            <ul class="checklist">
+              <li><span class="checklist__item">Mon Nov 23 · Epic Universe <small>One day, one park, with Universal Express</small></span><span class="chip">Self-parking prepaid</span></li>
+              <li><span class="checklist__item">Wed Nov 25 · Studios + Islands <small>Park-to-park: Universal Studios Florida and Islands of Adventure</small></span><span class="chip">Self-parking prepaid</span></li>
+            </ul>
+            <p class="fineprint">Tickets live in the Universal Orlando Resort app.</p>
+          </div>
+          <div class="x-block">
+            <h2>Good to know</h2>
+            <div class="cards">
+              <div>
+                <h3>Getting in</h3>
+                <ul>
+                  <li>Epic Universe has its own parking and entrance on Universal Blvd/Destination Pkwy, separate from the CityWalk garages for Studios and Islands. Allow extra time on Nov 23.</li>
+                  <li>Rope drop: arrive 45–60 min before opening. The first 90 minutes have the shortest waits of the day.</li>
+                  <li>Thanksgiving week (Nov 23–27) is one of the busiest weeks of the year, so expect high crowds.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Beating the lines</h3>
+                <ul>
+                  <li>Express: check which Epic Universe rides take Express in the Universal app. Express lines are shown separately.</li>
+                  <li>Virtual lines: some rides use virtual lines or return times. Check the Universal app at park open.</li>
+                  <li>Single rider lines save big time if the group is OK splitting up.</li>
+                  <li>Child swap on thrill rides lets parents take turns without waiting twice.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>On the rides</h3>
+                <ul>
+                  <li>Many coasters require loose items in free ride lockers.</li>
+                  <li>Keep phones zipped away.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Food</h3>
+                <ul>
+                  <li>Order ahead with mobile food ordering in the Universal app to skip food lines.</li>
+                  <li>Eat lunch before 11:30 AM or after 2 PM.</li>
+                  <li>Free ice water at quick-service spots.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>Florida weather</h3>
+                <p class="quote">Outdoor coasters go down first.</p>
+                <ul>
+                  <li>Rides close for lightning within a few miles and reopen after it passes.</li>
+                  <li>Pack ponchos, sunscreen, a battery pack and refillable water bottles.</li>
+                </ul>
+              </div>
+              <div>
+                <h3>If someone gets separated</h3>
+                <ul>
+                  <li>Pick one meeting spot per park.</li>
+                  <li>Kids should know your phone number.</li>
+                  <li>Guest Services: <a class="link" href="tel:+14072247840">407-224-7840</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <p>Live waits, hours and showtimes from ThemeParks.wiki. Times are Eastern.</p>
+        <button type="button" class="x-themebtn" id="theme-btn">Light / dark</button>
+        <a class="badge" href="https://hark.com/" target="_blank" rel="noopener"><span class="hark-mark"></span><span>built by hark</span></a>
+      </footer>
+    </div>
+
+    <button type="button" class="x-fab" id="fab">Line timer</button>
+    <div class="x-toasts" id="toasts" aria-live="assertive"></div>
+
+    <dialog class="x-sheet" id="sheet" aria-labelledby="sheetTitle">
+      <button type="button" class="x-sheet__close" id="sheetClose" aria-label="Close">×</button>
+      <h2 id="sheetTitle">Line timer</h2>
+      <div class="x-sheet__body" id="sheetPick">
+        <label class="fineprint" for="timerRide">Which ride are you in line for?</label>
+        <select class="x-select" id="timerRide"></select>
+        <p class="fineprint" id="timerPosted"></p>
+        <button type="button" class="x-big" id="timerStart">Start timer</button>
+      </div>
+      <div class="x-sheet__body" id="sheetRun" hidden>
+        <p class="fineprint" id="runInfo"></p>
+        <p class="x-clock" id="clock">00:00</p>
+        <button type="button" class="x-big" id="timerStop">I'm on!</button>
+        <button type="button" class="x-big x-big--ghost" id="timerCancel">Cancel timer</button>
+      </div>
+      <div class="x-sheet__body" id="sheetDone" hidden>
+        <p class="x-result" id="result"></p>
+        <p class="fineprint">Added to your Ride log and Timeline.</p>
+        <button type="button" class="x-big" id="timerDone">Done</button>
+      </div>
+    </dialog>
+
+    <script src="hark.js"></script>
+    <script src="chart.js"></script>
+    <script src="datalabels.js"></script>
+    <script src="hark-charts.js"></script>
+    <script>
+(function () {
+  "use strict";
+  var TZ = "America/New_York";
+  var API = "https://api.themeparks.wiki/v1/entity/";
+  var POLL_MS = 5 * 60 * 1000;
+  var PARKS = {
+    epic: { id: "12dbb85b-265f-44e6-bccf-f1faa17211fc", name: "Epic Universe" },
+    usf: { id: "eb3f4560-2383-4a36-9152-6b3e5ed6bc57", name: "Universal Studios Florida" },
+    ioa: { id: "267615cc-8943-4c2a-ae2c-5da728ca591f", name: "Islands of Adventure" }
+  };
+  var FALLBACK_HOURS = {
+    "2026-11-23": { epic: { open: "9:00 AM", close: "9:00 PM", early: "8:00–9:00 AM" } },
+    "2026-11-25": { usf: { open: "9:00 AM", close: "8:00 PM" }, ioa: { open: "9:00 AM", close: "8:00 PM", early: "8:00–9:00 AM" } }
+  };
+  var EPA = "Early Park Admission, for Universal hotel guests only; not valid for off-site/condo guests";
+
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  var fmtT = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit" });
+  var fmtD = new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "short", month: "short", day: "numeric" });
+  var fmtParts = new Intl.DateTimeFormat("en-US", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" });
+  function tm(d) { return fmtT.format(d); }
+  function parts(d) { var p = {}; fmtParts.formatToParts(d).forEach(function (x) { p[x.type] = x.value; }); if (p.hour === "24") p.hour = "00"; return p; }
+  function etDate(d) { var p = parts(d); return p.year + "-" + p.month + "-" + p.day; }
+  function etHour(d) { var p = parts(d); return +p.hour + (+p.minute) / 60; }
+  function etOffset(d) { var p = parts(d); var u = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second); return Math.round((u - Math.floor(d.getTime() / 1000) * 1000) / 60000); }
+  function wallET(y, mo, da, h, mi, s) { var g = Date.UTC(y, mo - 1, da, h, mi, s); return new Date(g - etOffset(new Date(g)) * 60000); }
+  function num(v) { return typeof v === "number" && isFinite(v) ? v : null; }
+  function level(w) { return w == null ? "none" : w <= 20 ? "low" : w <= 45 ? "mid" : "high"; }
+  var STATUS = { OPERATING: "Open", DOWN: "Down", CLOSED: "Closed", REFURBISHMENT: "Refurb" };
+
+  var today = etDate(new Date());
+  var S = {
+    park: today === "2026-11-25" ? "usf" : "epic",
+    tab: "live", az: false, q: "",
+    stars: {}, data: {}, sched: {}, alerts: [],
+    timer: null, log: [], tl: [], walk: { miles: null, steps: null }
+  };
+  window.ParkDays = S;
+  function pd(k) { return S.data[k] || (S.data[k] = { rides: [], shows: [], prev: {}, hist: [], updated: null, error: null, loading: false }); }
+
+  /* ---------- fetching ---------- */
+  function getJSON(url) {
+    var ctl = window.AbortController ? new AbortController() : null;
+    var to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
+    return fetch(url, { signal: ctl ? ctl.signal : undefined, cache: "no-store" }).then(function (r) {
+      clearTimeout(to);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }, function (e) { clearTimeout(to); throw e; });
+  }
+  function parseLive(json) {
+    var list = json && Array.isArray(json.liveData) ? json.liveData : [];
+    var rides = [], shows = [];
+    list.forEach(function (e) {
+      if (!e || !e.id) return;
+      var q = e.queue || {};
+      if (e.entityType === "ATTRACTION") {
+        var rt = q.RETURN_TIME || null;
+        rides.push({
+          id: e.id, name: e.name || "Unnamed ride", status: e.status || "CLOSED",
+          standby: num(q.STANDBY && q.STANDBY.waitTime),
+          single: num(q.SINGLE_RIDER && q.SINGLE_RIDER.waitTime),
+          rt: rt ? { state: rt.state || null, start: rt.returnStart || null, end: rt.returnEnd || null } : null
+        });
+      } else if (e.entityType === "SHOW") {
+        shows.push({ id: e.id, name: e.name || "Show", times: Array.isArray(e.showtimes) ? e.showtimes : [] });
+      }
+    });
+    return { rides: rides, shows: shows };
+  }
+  function load(k) {
+    var P = pd(k);
+    if (P.loading) return Promise.resolve();
+    P.loading = true;
+    if (k === S.park) renderMeta();
+    return getJSON(API + PARKS[k].id + "/live").then(function (json) {
+      var r = parseLive(json);
+      if (!r.rides.length && !r.shows.length) throw new Error("No live data");
+      var now = new Date();
+      diff(k, r.rides, now);
+      P.rides = r.rides; P.shows = r.shows; P.updated = now; P.error = null;
+      var op = r.rides.filter(function (x) { return x.status === "OPERATING" && x.standby != null; });
+      var avg = op.length ? op.reduce(function (s, x) { return s + x.standby; }, 0) / op.length : null;
+      var waits = {}; r.rides.forEach(function (x) { waits[x.id] = x.status === "OPERATING" ? x.standby : null; });
+      P.hist.push({ t: now, avg: avg, waits: waits });
+      if (P.hist.length > 200) P.hist.shift();
+    }).catch(function () {
+      P.error = "Couldn't reach live wait times. Park Wi-Fi or cell signal may be spotty.";
+    }).then(function () {
+      P.loading = false;
+      if (k === S.park) renderLive();
+    });
+  }
+  function loadSched(k) {
+    S.sched[k] = { state: "loading" };
+    if (k === S.park) renderHours();
+    return getJSON(API + PARKS[k].id + "/schedule").then(function (json) {
+      var list = json && Array.isArray(json.schedule) ? json.schedule : [];
+      S.sched[k] = { state: "ok", list: list };
+    }).catch(function () { S.sched[k] = { state: "error" }; }).then(function () { if (k === S.park) renderHours(); });
+  }
+  function pollAll() {
+    var keys = {}; keys[S.park] = 1;
+    Object.keys(S.stars).forEach(function (id) { keys[S.stars[id].park] = 1; });
+    Object.keys(keys).forEach(load);
+  }
+
+  /* ---------- alerts ---------- */
+  function diff(k, rides, now) {
+    var P = pd(k), first = !Object.keys(P.prev).length;
+    rides.forEach(function (r) {
+      var was = P.prev[r.id];
+      P.prev[r.id] = r.status;
+      if (first || !was) return;
+      var star = !!S.stars[r.id], msg = null;
+      if (was === "OPERATING" && r.status === "DOWN") msg = "⚠️ " + r.name + " just went down (" + tm(now) + ")";
+      else if (was === "DOWN" && r.status === "OPERATING") msg = "✅ " + r.name + " reopened (" + tm(now) + "), wait now " + (r.standby != null ? r.standby + " min" : "not posted");
+      if (!msg) return;
+      S.alerts.unshift({ t: now, msg: msg, star: star, park: k });
+      toast(msg, star);
+      if (star && navigator.vibrate) { try { navigator.vibrate([200, 100, 200]); } catch (e) {} }
+    });
+  }
+  function toast(msg, strong) {
+    var box = $("toasts"), el = document.createElement("div");
+    el.className = "x-toast" + (strong ? " is-strong" : "");
+    el.innerHTML = "<span>" + esc(msg) + "</span><button type=\"button\" aria-label=\"Dismiss\">OK</button>";
+    el.querySelector("button").addEventListener("click", function () { el.remove(); });
+    box.prepend(el);
+    if (!strong) setTimeout(function () { el.remove(); }, 8000);
+    while (box.children.length > 3) box.lastChild.remove();
+  }
+
+  /* ---------- busy ---------- */
+  function busy(avg) {
+    if (avg == null) return null;
+    var s, l;
+    if (avg <= 15) { s = avg <= 8 ? 1 : 2; l = "Light"; }
+    else if (avg <= 30) { s = avg <= 23 ? 3 : 4; l = "Moderate"; }
+    else if (avg <= 45) { s = avg <= 38 ? 5 : 6; l = "Busy"; }
+    else if (avg <= 60) { s = avg <= 53 ? 7 : 8; l = "Very busy"; }
+    else { s = avg <= 75 ? 9 : 10; l = "Packed"; }
+    return { score: s, label: l, level: s <= 4 ? "low" : s <= 8 ? "mid" : "high" };
+  }
+
+  /* ---------- rendering: live ---------- */
+  function renderMeta() {
+    var P = pd(S.park), last = P.hist[P.hist.length - 1];
+    var b = busy(last ? last.avg : null), mini = $("busyMini");
+    mini.textContent = b ? "Busy " + b.score + "/10" : "Busy –";
+    mini.setAttribute("data-level", b ? b.level : "none");
+    $("updated").textContent = P.loading && !P.updated ? "Loading…" : P.error && !P.updated ? "Offline" : P.updated ? "Updated " + tm(P.updated) : "Loading…";
+  }
+  var rows = {}, sparks = {};
+  function rideMeta(r) {
+    var h = '<span class="x-status" data-s="' + esc(r.status) + '">' + (STATUS[r.status] || esc(r.status)) + "</span>";
+    if (r.single != null && r.status === "OPERATING") h += ' <span class="pill">Single rider ' + r.single + " min</span>";
+    if (r.rt && r.rt.state) {
+      var st = { AVAILABLE: "open", TEMP_FULL: "full for now", FINISHED: "done for today" }[r.rt.state] || String(r.rt.state).toLowerCase();
+      var win = r.rt.start ? " · return " + tm(new Date(r.rt.start)) + (r.rt.end ? "–" + tm(new Date(r.rt.end)) : "") : "";
+      h += ' <span class="pill">Virtual line ' + esc(st) + esc(win) + "</span>";
+    }
+    return h;
+  }
+  function renderWaits() {
+    var P = pd(S.park), box = $("waits"), msg = $("waitMsg");
+    $("waits-title").textContent = "Wait times · " + PARKS[S.park].name;
+    if (P.error) {
+      msg.innerHTML = '<div class="x-msg"><p>' + esc(P.error) + (P.updated ? " Showing waits from " + tm(P.updated) + "." : "") + '</p><button type="button" class="btn" data-retry>Try again</button></div>';
+    } else if (P.loading && !P.updated) {
+      msg.innerHTML = '<p class="fineprint">Loading live waits…</p>';
+    } else msg.innerHTML = "";
+    var q = S.q.trim().toLowerCase();
+    var list = P.rides.filter(function (r) { return !q || r.name.toLowerCase().indexOf(q) >= 0; });
+    var rank = function (r) { return r.status === "OPERATING" ? (r.standby != null ? 0 : 1) : 2; };
+    list.sort(function (a, b) {
+      var sa = S.stars[a.id] ? 0 : 1, sb = S.stars[b.id] ? 0 : 1;
+      if (sa !== sb) return sa - sb;
+      if (!S.az) {
+        var ra = rank(a), rb = rank(b);
+        if (ra !== rb) return ra - rb;
+        if (ra === 0 && a.standby !== b.standby) return a.standby - b.standby;
+      }
+      return a.name.localeCompare(b.name);
+    });
+    box.innerHTML = "";
+    if (!list.length && P.updated) box.innerHTML = '<p class="fineprint">' + (q ? "No rides match “" + esc(S.q) + "”." : "No attractions listed right now.") + "</p>";
+    list.forEach(function (r) {
+      var row = rows[r.id];
+      if (!row) {
+        row = document.createElement("button");
+        row.type = "button"; row.className = "x-ride"; row.setAttribute("data-id", r.id);
+        row.innerHTML = '<span class="x-ride__star" aria-hidden="true"></span><span class="x-ride__main"></span><span class="x-ride__spark"><canvas aria-hidden="true"></canvas></span><span class="x-ride__wait"></span>';
+        rows[r.id] = row;
+      }
+      var star = !!S.stars[r.id], op = r.status === "OPERATING";
+      row.classList.toggle("is-star", star);
+      row.setAttribute("aria-pressed", star ? "true" : "false");
+      row.setAttribute("aria-label", r.name + ", " + (op && r.standby != null ? r.standby + " minute wait" : STATUS[r.status] || r.status) + (star ? ", starred" : ", tap to star"));
+      row.querySelector(".x-ride__star").textContent = star ? "★" : "☆";
+      row.querySelector(".x-ride__main").innerHTML = '<span class="x-ride__name">' + esc(r.name) + '</span><span class="x-ride__meta">' + rideMeta(r) + "</span>";
+      var w = op ? r.standby : null, wb = row.querySelector(".x-ride__wait");
+      wb.setAttribute("data-level", level(w));
+      wb.innerHTML = w != null ? "<b>" + w + "</b><small>min</small>" : "<b>–</b><small>" + (op ? "no wait posted" : (STATUS[r.status] || r.status).toLowerCase()) + "</small>";
+      box.appendChild(row);
+      drawSpark(r.id, row.querySelector("canvas"));
+    });
+  }
+  function drawSpark(id, canvas) {
+    var P = pd(S.park);
+    var vals = P.hist.map(function (h) { return h.waits[id] == null ? null : h.waits[id]; });
+    var n = vals.filter(function (v) { return v != null; }).length;
+    if (n < 2 || !window.Chart) { canvas.parentNode.style.visibility = "hidden"; return; }
+    canvas.parentNode.style.visibility = "";
+    var labels = P.hist.map(function (h) { return tm(h.t); });
+    var c = sparks[id];
+    if (c && c.canvas === canvas) { c.data.labels = labels; c.data.datasets[0].data = vals; c.update("none"); return; }
+    if (c) c.destroy();
+    sparks[id] = new Chart(canvas, {
+      type: "line",
+      data: { labels: labels, datasets: [{ label: "Wait", data: vals, spanGaps: true }] },
+      options: { animation: false, events: [], maintainAspectRatio: false, layout: { padding: 3 }, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false } } }
+    });
+  }
+  var avgChart = null, typChart = null;
+  function renderAvg() {
+    var P = pd(S.park), pts = P.hist.filter(function (h) { return h.avg != null; });
+    var labels = pts.map(function (h) { return tm(h.t); }), data = pts.map(function (h) { return Math.round(h.avg); });
+    $("avgNote").textContent = pts.length < 2 ? "The line fills in with each 5-minute check. Each ride's own trend shows beside its wait." : "Average now " + data[data.length - 1] + " min, from " + data[0] + " min at " + labels[0] + ". Each ride's own trend shows beside its wait.";
+    if (!window.Chart) return;
+    if (avgChart) { avgChart.data.labels = labels; avgChart.data.datasets[0].data = data; avgChart.data.datasets[0].pointRadius = data.length < 6 ? 3 : 0; avgChart.update(); return; }
+    avgChart = new Chart($("avgChart"), {
+      type: "line",
+      data: { labels: labels, datasets: [{ label: "Average wait", data: data, fill: true, pointRadius: 3 }] },
+      options: { scales: { y: { ticks: { callback: function (v) { return v + " min"; } } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (ctx) { return ctx.raw + " min average"; } } } } }
+    });
+  }
+  function renderBusy() {
+    var P = pd(S.park), last = P.hist[P.hist.length - 1], b = busy(last ? last.avg : null);
+    var g = $("gauge");
+    g.setAttribute("data-level", b ? b.level : "none");
+    $("gaugeVal").setAttribute("stroke-dashoffset", b ? 100 - b.score * 10 : 100);
+    $("busyScore").textContent = b ? b.score : "–";
+    $("busyLabel").textContent = b ? b.label : P.error ? "No live data" : "Waiting for data";
+    $("avgWait").textContent = last && last.avg != null ? Math.round(last.avg) + " min" : "–";
+    var op = P.rides.filter(function (r) { return r.status === "OPERATING"; }).length;
+    var down = P.rides.filter(function (r) { return r.status === "DOWN"; }).length;
+    var closed = P.rides.length - op - down;
+    $("opCount").textContent = P.updated ? op : "–";
+    $("downCount").textContent = P.updated ? down + (closed ? " + " + closed : "") : "–";
+  }
+  function renderAlerts() {
+    var ul = $("alerts");
+    ul.innerHTML = S.alerts.map(function (a) {
+      return '<li class="' + (a.star ? "is-star" : "") + '"><span class="x-list__when">' + tm(a.t) + '</span><span class="x-list__what">' + esc(a.msg) + (a.park !== S.park ? ' <span class="pill">' + esc(PARKS[a.park].name) + "</span>" : "") + "</span></li>";
+    }).join("");
+    $("alertsEmpty").hidden = S.alerts.length > 0;
+  }
+  function renderShows() {
+    var P = pd(S.park), now = Date.now(), ul = $("shows");
+    var items = P.shows.map(function (s) {
+      var up = s.times.filter(function (x) { return x && x.startTime && new Date(x.startTime).getTime() > now && etDate(new Date(x.startTime)) === etDate(new Date()); })
+        .sort(function (a, b) { return new Date(a.startTime) - new Date(b.startTime); });
+      return { name: s.name, up: up };
+    }).filter(function (s) { return s.up.length; }).sort(function (a, b) { return new Date(a.up[0].startTime) - new Date(b.up[0].startTime); });
+    ul.innerHTML = items.map(function (s) {
+      return '<li><span class="x-list__when">' + tm(new Date(s.up[0].startTime)) + '</span><span class="x-list__what"><b>' + esc(s.name) + "</b><br>" + s.up.map(function (x) { return '<span class="pill">' + tm(new Date(x.startTime)) + "</span>"; }).join("") + "</span></li>";
+    }).join("");
+    var e = $("showsEmpty");
+    e.hidden = items.length > 0;
+    e.textContent = P.error && !P.updated ? "Showtimes need live data. Try again when you have signal." : P.updated ? "No more showtimes today." : "Loading showtimes…";
+  }
+  function renderHours() {
+    var k = S.park, box = $("hours"), sc = S.sched[k], day = etDate(new Date());
+    var fb = FALLBACK_HOURS[day] && FALLBACK_HOURS[day][k];
+    var name = PARKS[k].name, h = "";
+    var fbHtml = function (note) {
+      return '<p class="x-hours__main">' + esc(name) + " · " + fb.open + "–" + fb.close + " <span>today</span></p>" +
+        (fb.early ? '<p class="fineprint">Early entry ' + fb.early + ": " + EPA + ".</p>" : "") +
+        '<p class="fineprint">' + note + "</p>";
+    };
+    if (!sc || sc.state === "loading") h = '<p class="x-hours__main">' + esc(name) + " · <span>loading hours…</span></p>";
+    else if (sc.state === "ok") {
+      var todays = sc.list.filter(function (e) { return e && e.date === day && e.openingTime && e.closingTime; });
+      var op = todays.filter(function (e) { return e.type === "OPERATING"; });
+      var ex = todays.filter(function (e) { return e.type === "EXTRA_HOURS"; });
+      if (op.length) {
+        h = '<p class="x-hours__main">' + esc(name) + " · " + op.map(function (e) { return tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)); }).join(", ") + " <span>today</span></p>";
+        ex.forEach(function (e) { h += '<p class="fineprint">' + tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)) + ": " + EPA + ".</p>"; });
+      } else if (fb) h = fbHtml("Hours as of Nov 13; the live schedule hasn't posted today yet.");
+      else h = '<p class="x-hours__main">' + esc(name) + " · <span>no hours posted for today</span></p>";
+    } else {
+      if (fb) h = fbHtml("Hours as of Nov 13. Couldn't load the live schedule.");
+      else h = '<p class="x-hours__main">' + esc(name) + " · <span>couldn't load today's hours</span></p>";
+      h += '<p><button type="button" class="btn" data-retry-sched>Try again</button></p>';
+    }
+    box.innerHTML = h;
+  }
+  function phase(hr) { return hr < 11 ? "Likely to rise" : hr < 16 ? "Near today's peak" : hr < 17 ? "Starting to ease" : "Likely to drop"; }
+  function renderForecast() {
+    var P = pd(S.park), hr = etHour(new Date());
+    var starred = P.rides.filter(function (r) { return S.stars[r.id]; });
+    $("forecast").querySelector("dl").innerHTML = starred.map(function (r) {
+      var w = r.status === "OPERATING" && r.standby != null ? "Now " + r.standby + " min" : STATUS[r.status] || r.status;
+      return '<div class="row"><dt>' + esc(r.name) + "<small>" + esc(w) + "</small></dt><dd>" + phase(hr) + "</dd></div>";
+    }).join("");
+    $("forecast").hidden = !starred.length;
+    $("fcEmpty").hidden = starred.length > 0;
+  }
+  var TYP_HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  var TYP_VALS = [3, 5, 8, 9, 10, 10, 9, 8, 6, 5, 4, 2];
+  function hourLabel(h) { return (h % 12 || 12) + (h < 12 ? " AM" : " PM"); }
+  function renderTyp() {
+    if (!window.Chart) return;
+    var cur = Math.floor(etHour(new Date()));
+    var colors = TYP_HOURS.map(function (h) { return h === cur ? "var(--chart-ink)" : "var(--chart-muted)"; });
+    if (typChart) { typChart.data.datasets[0].backgroundColor = colors; typChart.update("none"); return; }
+    typChart = new Chart($("typChart"), {
+      type: "bar",
+      data: { labels: TYP_HOURS.map(hourLabel), datasets: [{ label: "Typical crowd", data: TYP_VALS, backgroundColor: colors }] },
+      options: { scales: { y: { min: 0, max: 10, ticks: { stepSize: 2 } } }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (ctx) { return "Crowd level " + ctx.raw + " of 10 (typical)"; } } } } }
+    });
+  }
+  function renderLive() {
+    renderMeta(); renderWaits(); renderBusy(); renderAlerts(); renderAvg(); renderShows(); renderForecast(); renderTyp();
+    fillRideSelect();
+  }
+
+  /* ---------- live events ---------- */
+  $("waits").addEventListener("click", function (e) {
+    var row = e.target.closest(".x-ride"); if (!row) return;
+    var id = row.getAttribute("data-id"), r = pd(S.park).rides.filter(function (x) { return x.id === id; })[0];
+    if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: r ? r.name : "" };
+    renderWaits(); renderForecast();
+  });
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("[data-retry]")) load(S.park);
+    if (e.target.closest("[data-retry-sched]")) loadSched(S.park);
+  });
+  $("refresh").addEventListener("click", function () { load(S.park); if (!S.sched[S.park] || S.sched[S.park].state === "error") loadSched(S.park); });
+  $("q").addEventListener("input", function () { S.q = this.value; renderWaits(); });
+  [].forEach.call(document.querySelectorAll("[data-sort]"), function (b) {
+    b.addEventListener("click", function () {
+      S.az = b.getAttribute("data-sort") === "az";
+      [].forEach.call(document.querySelectorAll("[data-sort]"), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      renderWaits();
+    });
+  });
+  $("meta").addEventListener("click", function () { setTab("live"); var b = $("busy-block"); setTimeout(function () { b.scrollIntoView({ block: "start" }); }, 0); });
+
+  /* ---------- tabs and park picker ---------- */
+  function setTab(name) {
+    S.tab = name;
+    [].forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === name ? "true" : "false"); });
+    ["live", "timeline", "walk", "know"].forEach(function (n) { $("p-" + n).hidden = n !== name; });
+    syncFab();
+    window.scrollTo(0, 0);
+  }
+  [].forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.addEventListener("click", function () { setTab(b.getAttribute("data-tab")); }); });
+  function setPark(k) {
+    S.park = k;
+    [].forEach.call(document.querySelectorAll("[data-park]"), function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-park") === k ? "true" : "false"); });
+    var P = pd(k);
+    renderLive(); renderHours();
+    if (!P.updated || Date.now() - P.updated.getTime() > POLL_MS - 5000) load(k);
+    if (!S.sched[k] || S.sched[k].state === "error") loadSched(k);
+  }
+  [].forEach.call(document.querySelectorAll("[data-park]"), function (b) { b.addEventListener("click", function () { setPark(b.getAttribute("data-park")); }); });
+
+  /* ---------- line timer ---------- */
+  var sheet = $("sheet"), tick = null;
+  var nameInput = document.createElement("input");
+  nameInput.className = "x-input"; nameInput.id = "timerName"; nameInput.placeholder = "Type the ride name"; nameInput.hidden = true;
+  $("timerRide").insertAdjacentElement("afterend", nameInput);
+  function mmss(ms) { var s = Math.max(0, Math.floor(ms / 1000)); var m = Math.floor(s / 60); s = s % 60; return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+  function fillRideSelect() {
+    var sel = $("timerRide"), keep = sel.value, rides = pd(S.park).rides.slice();
+    rides.sort(function (a, b) {
+      var oa = a.status === "OPERATING" ? 0 : 1, ob = b.status === "OPERATING" ? 0 : 1;
+      if (S.stars[a.id] && !S.stars[b.id]) return -1; if (S.stars[b.id] && !S.stars[a.id]) return 1;
+      return oa - ob || a.name.localeCompare(b.name);
+    });
+    sel.innerHTML = rides.map(function (r) {
+      var w = r.status === "OPERATING" ? (r.standby != null ? r.standby + " min" : "no wait posted") : STATUS[r.status] || r.status;
+      return '<option value="' + esc(r.id) + '">' + (S.stars[r.id] ? "★ " : "") + esc(r.name) + " · " + esc(w) + "</option>";
+    }).join("");
+    if (keep && rides.some(function (r) { return r.id === keep; })) sel.value = keep;
+    sel.hidden = !rides.length; nameInput.hidden = !!rides.length;
+    showPosted();
+  }
+  function selectedRide() { var id = $("timerRide").value; return pd(S.park).rides.filter(function (r) { return r.id === id; })[0] || null; }
+  function showPosted() {
+    var r = selectedRide(), p = $("timerPosted");
+    if (!pd(S.park).rides.length) p.textContent = "Live ride list isn't loaded, so no posted wait will be recorded.";
+    else if (r && r.status === "OPERATING" && r.standby != null) p.textContent = "Posted standby now: " + r.standby + " min. The timer records this.";
+    else p.textContent = "No posted standby wait for this ride right now.";
+  }
+  $("timerRide").addEventListener("change", showPosted);
+  function view(which) { ["Pick", "Run", "Done"].forEach(function (n) { $("sheet" + n).hidden = n !== which; }); }
+  function openSheet() {
+    if (S.timer) { view("Run"); updateClock(); } else { fillRideSelect(); view("Pick"); }
+    if (sheet.showModal) { if (!sheet.open) sheet.showModal(); } else sheet.setAttribute("open", "");
+  }
+  function closeSheet() { if (sheet.close) sheet.close(); else sheet.removeAttribute("open"); }
+  function updateClock() {
+    if (!S.timer) return;
+    var t = mmss(Date.now() - S.timer.start.getTime());
+    $("clock").textContent = t;
+    $("fab").textContent = "In line " + t;
+  }
+  function syncFab() {
+    var f = $("fab");
+    f.hidden = !(S.tab === "live" || S.timer);
+    f.classList.toggle("is-running", !!S.timer);
+    if (!S.timer) f.textContent = "Line timer";
+  }
+  $("fab").addEventListener("click", openSheet);
+  $("sheetClose").addEventListener("click", closeSheet);
+  $("timerStart").addEventListener("click", function () {
+    var r = selectedRide(), name = r ? r.name : nameInput.value.trim();
+    if (!name) { nameInput.focus(); return; }
+    S.timer = { name: name, park: S.park, posted: r && r.status === "OPERATING" ? r.standby : null, start: new Date() };
+    $("runInfo").textContent = name + " · started " + tm(S.timer.start) + (S.timer.posted != null ? " · posted " + S.timer.posted + " min" : "");
+    view("Run"); updateClock(); syncFab();
+    tick = setInterval(updateClock, 1000);
+  });
+  $("timerCancel").addEventListener("click", function () { S.timer = null; clearInterval(tick); syncFab(); closeSheet(); });
+  $("timerStop").addEventListener("click", function () {
+    var T = S.timer; if (!T) return;
+    clearInterval(tick);
+    var end = new Date(), mins = Math.round((end - T.start) / 60000), txt = "You waited " + mins + " min";
+    if (T.posted != null) {
+      var d = T.posted - mins;
+      txt += " (posted " + T.posted + ", " + (d > 0 ? d + " min faster" : d < 0 ? -d + " min longer" : "right on time") + ")";
+    } else txt += " (no posted wait)";
+    var entry = { id: "r" + Date.now(), kind: "ride", time: end, start: T.start, name: T.name, park: T.park, waited: mins, posted: T.posted, caption: "" };
+    S.log.push(entry); S.tl.push(entry);
+    S.timer = null; syncFab();
+    $("result").textContent = txt;
+    view("Done");
+    renderLog(); renderTimeline();
+  });
+  $("timerDone").addEventListener("click", closeSheet);
+  function renderLog() {
+    var total = S.log.reduce(function (s, e) { return s + e.waited; }, 0);
+    $("ridesDone").textContent = S.log.length;
+    $("lineMins").textContent = total + " min";
+    $("logWrap").hidden = !S.log.length; $("logEmpty").hidden = !!S.log.length;
+    $("logBody").innerHTML = S.log.slice().reverse().map(function (e) {
+      return '<tr><th scope="row">' + esc(e.name) + "<small>" + esc(PARKS[e.park].name) + '</small></th><td data-label="Started">' + tm(e.start) + '</td><td class="num" data-label="Waited">' + e.waited + ' min</td><td class="muted" data-label="Posted">' + (e.posted != null ? e.posted + " min" : "–") + "</td></tr>";
+    }).join("");
+  }
+
+  /* ---------- timeline and photos ---------- */
+  function readExif(buf) {
+    var v = new DataView(buf);
+    if (v.byteLength < 4 || v.getUint16(0) !== 0xffd8) return null;
+    var o = 2;
+    while (o + 4 <= v.byteLength) {
+      if (v.getUint8(o) !== 0xff) return null;
+      var m = v.getUint8(o + 1);
+      if (m === 0xd9 || m === 0xda) return null;
+      var len = v.getUint16(o + 2);
+      if (m === 0xe1 && o + 10 <= v.byteLength && v.getUint32(o + 4) === 0x45786966 && v.getUint16(o + 8) === 0) {
+        return tiff(v, o + 10, Math.min(v.byteLength, o + 2 + len));
+      }
+      o += 2 + len;
+    }
+    return null;
+  }
+  function tiff(v, start, end) {
+    if (start + 8 > end) return null;
+    var bo = v.getUint16(start), le = bo === 0x4949;
+    if (!le && bo !== 0x4d4d) return null;
+    var u16 = function (p) { return v.getUint16(p, le); }, u32 = function (p) { return v.getUint32(p, le); };
+    var ascii = function (e) {
+      var count = u32(e + 4), p = count > 4 ? start + u32(e + 8) : e + 8, s = "";
+      for (var i = 0; i < count && p + i < end; i++) { var c = v.getUint8(p + i); if (!c) break; s += String.fromCharCode(c); }
+      return s;
+    };
+    var ifd = function (off) {
+      var p = start + off, out = {};
+      if (p + 2 > end) return out;
+      var n = u16(p);
+      for (var i = 0; i < n; i++) { var e = p + 2 + i * 12; if (e + 12 > end) break; out[u16(e)] = e; }
+      return out;
+    };
+    var res = {}, i0 = ifd(u32(start + 4));
+    if (i0[0x0132]) res.dt = ascii(i0[0x0132]);
+    if (i0[0x8769]) {
+      var ex = ifd(u32(i0[0x8769] + 8));
+      if (ex[0x9003]) res.dto = ascii(ex[0x9003]);
+      if (ex[0x9011]) res.off = ascii(ex[0x9011]);
+    }
+    return res;
+  }
+  function exifDate(res) {
+    var s = res && (res.dto || res.dt);
+    var m = s && /^(\d{4}):(\d{2}):(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(s);
+    if (!m || +m[1] < 1990) return null;
+    var a = m.slice(1).map(Number);
+    var om = res.off && /^([+-])(\d{2}):(\d{2})$/.exec(res.off);
+    if (om) {
+      var off = (om[1] === "-" ? -1 : 1) * (+om[2] * 60 + +om[3]);
+      return new Date(Date.UTC(a[0], a[1] - 1, a[2], a[3], a[4], a[5]) - off * 60000);
+    }
+    return wallET(a[0], a[1], a[2], a[3], a[4], a[5]);
+  }
+  function readHead(file) {
+    var blob = file.slice(0, 256 * 1024);
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return new Promise(function (res, rej) { var fr = new FileReader(); fr.onload = function () { res(fr.result); }; fr.onerror = rej; fr.readAsArrayBuffer(blob); });
+  }
+  $("photoInput").addEventListener("change", function () {
+    var files = [].slice.call(this.files || []), input = this;
+    Promise.all(files.map(function (f, i) {
+      return readHead(f).then(function (buf) { try { return exifDate(readExif(buf)); } catch (e) { return null; } }, function () { return null; }).then(function (d) {
+        S.tl.push({ id: "p" + Date.now() + "-" + i, kind: "photo", time: d || new Date(f.lastModified || Date.now()), exif: !!d, url: URL.createObjectURL(f), caption: "", attach: null });
+      });
+    })).then(function () {
+      input.value = "";
+      renderTimeline();
+      if (files.length) toast(files.length === 1 ? "Photo added to your timeline." : files.length + " photos added to your timeline.", false);
+    });
+  });
+  function when(d) { var t = tm(d); return etDate(d) === etDate(new Date()) ? t : fmtD.format(d) + " · " + t; }
+  function topItems() { return S.tl.filter(function (e) { return e.kind === "ride" || !e.attach; }).sort(function (a, b) { return a.time - b.time; }); }
+  function photoHtml(p, rides) {
+    var h = '<img class="x-thumb" src="' + p.url + '" alt="' + esc(p.caption || "Park photo") + '" />';
+    h += '<div class="x-entry-tools"><input class="x-input" data-cap="' + p.id + '" placeholder="Add a caption" value="' + esc(p.caption) + '" aria-label="Photo caption" />';
+    if (p.attach) h += '<button type="button" class="btn" data-detach="' + p.id + '">Detach from ride</button>';
+    else {
+      if (rides.length) h += '<select class="x-select" data-attach="' + p.id + '" aria-label="Attach to a ride"><option value="">Attach to a ride…</option>' + rides.map(function (r) { return '<option value="' + r.id + '">' + esc(r.name) + " · " + tm(r.time) + "</option>"; }).join("") + "</select>";
+      h += '<button type="button" class="btn" data-remove="' + p.id + '">Remove photo</button>';
+    }
+    return h + "</div>";
+  }
+  function renderTimeline() {
+    var items = topItems(), rides = S.tl.filter(function (e) { return e.kind === "ride"; });
+    $("tlEmpty").hidden = items.length > 0;
+    $("tl").innerHTML = items.map(function (e) {
+      var body;
+      if (e.kind === "ride") {
+        body = "<p><b>Rode " + esc(e.name) + "</b>, waited " + e.waited + " min" + (e.posted != null ? " (posted " + e.posted + ")" : "") + '</p><div class="x-entry-tools"><input class="x-input" data-cap="' + e.id + '" placeholder="Add a caption" value="' + esc(e.caption) + '" aria-label="Ride caption" /></div>';
+        S.tl.filter(function (p) { return p.attach === e.id; }).forEach(function (p) { body += photoHtml(p, rides); });
+      } else body = photoHtml(e, rides) + (e.exif ? "" : '<p class="fineprint">No camera time found, so this uses the file\'s date.</p>');
+      return '<li><p class="timeline__when">' + when(e.time) + '</p><div class="timeline__what">' + body + "</div></li>";
+    }).join("");
+  }
+  var tlBox = $("tl");
+  tlBox.addEventListener("input", function (e) { var id = e.target.getAttribute("data-cap"); if (!id) return; S.tl.forEach(function (x) { if (x.id === id) x.caption = e.target.value; }); });
+  tlBox.addEventListener("change", function (e) { var id = e.target.getAttribute("data-attach"); if (!id || !e.target.value) return; S.tl.forEach(function (x) { if (x.id === id) x.attach = e.target.value; }); renderTimeline(); });
+  tlBox.addEventListener("click", function (e) {
+    var d = e.target.closest("[data-detach]"), r = e.target.closest("[data-remove]");
+    if (d) { S.tl.forEach(function (x) { if (x.id === d.getAttribute("data-detach")) x.attach = null; }); renderTimeline(); }
+    if (r) { var id = r.getAttribute("data-remove"); S.tl = S.tl.filter(function (x) { if (x.id === id) { try { URL.revokeObjectURL(x.url); } catch (er) {} return false; } return true; }); renderTimeline(); }
+  });
+
+  /* ---------- save my day ---------- */
+  function loadImg(p) {
+    if (p.img) return Promise.resolve();
+    return new Promise(function (res) { var im = new Image(); im.onload = function () { p.img = im; res(); }; im.onerror = function () { res(); }; im.src = p.url; });
+  }
+  function wrap(ctx, text, maxW) {
+    var words = String(text).split(/\s+/), out = [], line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; });
+    if (line) out.push(line);
+    return out;
+  }
+  function layout(ctx, draw) {
+    var W = 1080, P = 64, LX = P + 190, CX = LX + 40, CW = W - CX - P, y = P;
+    var C = { bg: "#f5f5f7", ink: "#1d1d1f", grey: "#636366", line: "#d1d1d6", dot: "#00a665" };
+    var F = function (w, s) { return w + " " + s + "px Geist, -apple-system, Helvetica, sans-serif"; };
+    var text = function (t, font, color, x, maxW, lh) {
+      ctx.font = font; var ls = wrap(ctx, t, maxW);
+      ls.forEach(function (l) { y += lh; if (draw) { ctx.fillStyle = color; ctx.fillText(l, x, y - lh * 0.25); } });
+    };
+    if (draw) { ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, 99999); }
+    text("Universal Park Days", F(600, 64), C.ink, P, W - 2 * P, 76);
+    var parksUsed = {}; S.log.forEach(function (e) { parksUsed[PARKS[e.park].name] = 1; });
+    var items = topItems(), first = items[0] ? fmtD.format(items[0].time) : fmtD.format(new Date());
+    text(first + (Object.keys(parksUsed).length ? " · " + Object.keys(parksUsed).join(" + ") : " · Universal Orlando"), F(400, 32), C.grey, P, W - 2 * P, 44);
+    var total = S.log.reduce(function (s, e) { return s + e.waited; }, 0), mi = walkMiles();
+    text(S.log.length + " rides · " + total + " min in lines" + (mi ? " · " + mi.toFixed(1) + " mi walked" : ""), F(500, 32), C.ink, P, W - 2 * P, 44);
+    y += 40;
+    var lineTop = y + 20, dots = [];
+    items.forEach(function (e) {
+      var top = y;
+      ctx.font = F(500, 30);
+      if (draw) { ctx.fillStyle = C.grey; ctx.fillText(tm(e.time), P, y + 36); }
+      dots.push(y + 26);
+      var photos = e.kind === "ride" ? S.tl.filter(function (p) { return p.attach === e.id; }) : [e];
+      if (e.kind === "ride") {
+        text("Rode " + e.name, F(600, 40), C.ink, CX, CW, 50);
+        text("Waited " + e.waited + " min" + (e.posted != null ? " (posted " + e.posted + ")" : ""), F(400, 30), C.grey, CX, CW, 42);
+        if (e.caption) text(e.caption, F(400, 30), C.ink, CX, CW, 42);
+      }
+      photos.forEach(function (p) {
+        y += 16;
+        if (p.img) {
+          var s = Math.min(CW / p.img.naturalWidth, 640 / p.img.naturalHeight), w = p.img.naturalWidth * s, h = p.img.naturalHeight * s;
+          if (draw) {
+            ctx.save(); ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(CX, y, w, h, 24); else ctx.rect(CX, y, w, h);
+            ctx.clip(); ctx.drawImage(p.img, CX, y, w, h); ctx.restore();
+          }
+          y += h;
+        }
+        if (p.caption) { y += 6; text(p.caption, F(400, 30), e.kind === "ride" ? C.grey : C.ink, CX, CW, 42); }
+      });
+      y = Math.max(y, top + 50) + 48;
+    });
+    if (draw && dots.length) {
+      ctx.strokeStyle = C.line; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(LX, lineTop); ctx.lineTo(LX, dots[dots.length - 1]); ctx.stroke();
+      dots.forEach(function (d) { ctx.fillStyle = C.dot; ctx.beginPath(); ctx.arc(LX, d, 10, 0, Math.PI * 2); ctx.fill(); });
+    }
+    text("Made with Universal Park Days", F(400, 26), C.grey, P, W - 2 * P, 40);
+    return y + P;
+  }
+  $("saveDay").addEventListener("click", function () {
+    var btn = this;
+    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
+    btn.disabled = true; btn.textContent = "Making your image…";
+    Promise.all(S.tl.filter(function (e) { return e.kind === "photo"; }).map(loadImg)).then(function () {
+      var cv = document.createElement("canvas"), ctx = cv.getContext("2d");
+      cv.width = 1080; cv.height = 10;
+      var H = layout(ctx, false), sc = Math.min(1, 14000 / H);
+      cv.width = Math.round(1080 * sc); cv.height = Math.round(H * sc);
+      ctx = cv.getContext("2d"); ctx.scale(sc, sc);
+      layout(ctx, true);
+      return new Promise(function (res, rej) { if (cv.toBlob) cv.toBlob(function (b) { b ? res(b) : rej(); }, "image/png"); else rej(); });
+    }).then(function (blob) {
+      var url = URL.createObjectURL(blob), name = "universal-park-day.png";
+      var file = null; try { file = new File([blob], name, { type: "image/png" }); } catch (e) {}
+      var canShare = file && navigator.canShare && navigator.share && (function () { try { return navigator.canShare({ files: [file] }); } catch (e) { return false; } })();
+      var out = $("saveOut");
+      out.innerHTML = '<p class="fineprint">Your day is ready. If saving doesn\'t start, press and hold the image to save it to Photos.</p><img class="x-save-img" alt="Your park day as one image" /><div class="links"><a class="btn" id="dl" download="' + name + '">Download PNG</a>' + (canShare ? '<button type="button" class="btn" id="shareBtn">Share</button>' : "") + "</div>";
+      out.querySelector("img").src = url;
+      $("dl").href = url;
+      if (canShare) $("shareBtn").addEventListener("click", function () {
+        navigator.share({ files: [file], title: "Universal Park Days" }).catch(function (e) { if (!e || e.name !== "AbortError") toast("Sharing isn't available here. Use Download or press and hold the image.", false); });
+      });
+    }).catch(function () {
+      $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again, or with fewer photos.</p></div>';
+    }).then(function () { btn.disabled = false; btn.textContent = "Save my day"; });
+  });
+
+  /* ---------- walk ---------- */
+  function walkMiles() { var w = S.walk; return w.miles != null ? w.miles : w.steps != null ? w.steps / 2100 : 0; }
+  function renderWalk() {
+    var w = S.walk, mi = walkMiles(), est = w.miles == null && w.steps != null;
+    $("ringVal").setAttribute("stroke-dashoffset", 100 - Math.min(100, mi * 10));
+    $("ringMiles").textContent = mi ? mi.toFixed(1) : "0";
+    var fun = $("walkFun");
+    if (!mi) { fun.textContent = "Enter your miles from the watch to see how far that is."; return; }
+    var laps = Math.round(mi * 1609.34 / 346);
+    fun.textContent = "That's about " + laps + " lap" + (laps === 1 ? "" : "s") + " of a soccer field" + (est ? " (estimated from steps)" : "") + ". " + (mi >= 10 ? "10-mile goal reached!" : (10 - mi).toFixed(1) + " mi to the 10-mile goal.");
+  }
+  ["miles", "steps"].forEach(function (k) {
+    $(k).addEventListener("input", function () { var v = parseFloat(this.value); S.walk[k] = isFinite(v) && v >= 0 ? v : null; renderWalk(); });
+  });
+
+  /* ---------- start ---------- */
+  setPark(S.park);
+  renderLog(); renderTimeline(); renderWalk(); syncFab();
+  setInterval(pollAll, POLL_MS);
+  setInterval(function () { renderShows(); renderForecast(); renderTyp(); if (etDate(new Date()) !== today) { today = etDate(new Date()); renderHours(); } }, 60000);
+  document.addEventListener("visibilitychange", function () {
+    var P = pd(S.park);
+    if (document.visibilityState === "visible" && (!P.updated || Date.now() - P.updated.getTime() > POLL_MS)) pollAll();
+  });
+})();
+    </script>
+  </body>
+</html>
