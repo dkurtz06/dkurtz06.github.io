@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T18:45:02.945Z",
+ "updated": "2026-11-13T18:51:49.680Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 1,
    "start": true,
-   "updated": "2026-11-13T18:45:02.945Z",
+   "updated": "2026-11-13T18:51:49.679Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00"
