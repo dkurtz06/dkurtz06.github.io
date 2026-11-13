@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T18:07:52.279Z",
+ "updated": "2026-11-13T18:12:28.836Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -9,15 +9,15 @@
    "status": "live",
    "us": 0,
    "them": 1,
-   "min": 9,
+   "min": 13,
    "g": 0,
    "a": 0,
-   "sh": 1,
+   "sh": 2,
    "sog": 1,
    "ch": 0,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-13T18:07:52.279Z",
+   "updated": "2026-11-13T18:12:28.836Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00"
@@ -52,6 +52,16 @@
      "clock": "6:51",
      "clock_sec": 411,
      "min": 7
+    },
+    {
+     "k": "sh",
+     "stat": "Shot off target",
+     "t": 1794593542260,
+     "wall": "2026-11-13T13:12:22-05:00",
+     "half": 1,
+     "clock": "12:31",
+     "clock_sec": 751,
+     "min": 13
     }
    ]
   }
