@@ -151,6 +151,8 @@
       .x-big:focus-within { outline: 2px solid var(--fill-primary); outline-offset: 3px; }
       .x-actions { display: flex; flex-wrap: wrap; gap: 10px; }
       .x-actions > * { flex: 1 1 200px; position: relative; }
+      .x-photopick { display: flex; flex-direction: column; gap: 6px; }
+      .x-photopick .fineprint { margin: 0; }
 
       /* Timeline photos */
       .x-thumb { width: 100%; max-width: 360px; border-radius: var(--r-m); margin-top: 8px; }
@@ -421,7 +423,7 @@
               <ol class="x-howto__steps">
                 <li><span><b>Pick your park</b>, and star the rides you want. Waits refresh every 5 minutes.</span></li>
                 <li><span><b>In line?</b> Tap Line timer, then “I'm on!” when you board.</span></li>
-                <li><span><b>Add photos</b> on the Timeline tab.</span></li>
+                <li><span>Take pictures with your Camera app, then tap <b>Add from Photos</b> on the Timeline tab and choose Photo Library.</span></li>
                 <li><span><b>Your rides and photos live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
               </ol>
               <p class="x-howto__note">Leaving the page open in Safari is fine. Locking your phone or switching apps won't lose anything, but closing the tab will.</p>
@@ -526,7 +528,10 @@
               <p class="callout__lead"><strong>Rides and photos stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
             </aside>
             <div class="x-actions">
-              <label class="x-big x-big--blue">Add photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
+              <div class="x-photopick">
+                <label class="x-big x-big--blue">Add from Photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
+                <p class="fineprint">Take pictures with your iPhone Camera so they save to your camera roll, then pick Photo Library here. Don't use Take Photo in this menu, it won't save a copy.</p>
+              </div>
               <button type="button" class="x-big" id="saveDay">Save my day</button>
             </div>
             <div id="saveOut"></div>
