@@ -1,4 +1,28 @@
 {
- "updated": "2026-10-17T00:25:34.810Z",
- "games": []
+ "updated": "2026-11-13T17:57:56.061Z",
+ "games": [
+  {
+   "id": "gmwfa564f",
+   "team": "club",
+   "date": "2026-11-13",
+   "opp": "@ Nationals Anchor Bay (MI)",
+   "status": "live",
+   "us": 0,
+   "them": 0,
+   "min": 0,
+   "g": 0,
+   "a": 0,
+   "sh": 0,
+   "sog": 0,
+   "ch": 0,
+   "tk": 0,
+   "start": true,
+   "updated": "2026-11-13T17:57:56.060Z",
+   "tz": "America/Indiana/Indianapolis",
+   "kick": {},
+   "vid": null,
+   "clock_log": [],
+   "log": []
+  }
+ ]
 }
