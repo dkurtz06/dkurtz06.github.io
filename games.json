@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T18:34:24.784Z",
+ "updated": "2026-11-13T18:43:11.622Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -8,7 +8,7 @@
    "opp": "@ Nationals Anchor Bay (MI)",
    "status": "live",
    "us": 0,
-   "them": 1,
+   "them": 2,
    "min": 35,
    "g": 0,
    "a": 0,
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 1,
    "start": true,
-   "updated": "2026-11-13T18:34:24.783Z",
+   "updated": "2026-11-13T18:43:11.622Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00"
@@ -92,6 +92,16 @@
      "clock": "30:06",
      "clock_sec": 1806,
      "min": 31
+    },
+    {
+     "k": "opp_goal",
+     "stat": "Opponent goal",
+     "t": 1794595384812,
+     "wall": "2026-11-13T13:43:04-05:00",
+     "half": 1,
+     "clock": "43:14",
+     "clock_sec": 2594,
+     "min": 44
     }
    ]
   }
