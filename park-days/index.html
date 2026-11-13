@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
 <meta name="robots" content="noindex">
     <meta charset="utf-8" />
@@ -175,6 +175,208 @@
       .x-themebtn { min-height: var(--tap); padding: 0 16px; border-radius: var(--r-pill); border: 1px solid var(--stroke-primary); background: none; color: var(--text-primary); font: var(--type-label); cursor: pointer; }
       .foot { padding-bottom: 72px; }
     </style>
+    <style>
+      /* ===== Night at the park: one dark theme in every mode ===== */
+      :root, :root[data-theme="light"], :root[data-theme="dark"] {
+        color-scheme: dark;
+        --x-night: #0a0f2e;
+        --x-night-2: #151b4d;
+        --x-gold: #ffc940;
+        --x-gold-2: #ffdf80;
+        --x-gold-deep: #f0a91c;
+        --x-blue: #3fa9ff;
+        --x-blue-2: #8ccfff;
+        --x-glow: rgba(124, 198, 255, 0.3);
+        --x-glass: linear-gradient(180deg, rgba(48, 62, 150, 0.42), rgba(24, 30, 86, 0.48));
+        --x-display: "Avenir Next Condensed", "AvenirNextCondensed-Bold", "Arial Narrow", "Roboto Condensed", "Helvetica Neue", system-ui, sans-serif;
+        --text-primary: #f5f7ff;
+        --text-secondary: #bcc5ea;
+        --text-tertiary: rgba(245, 247, 255, 0.38);
+        --text-primary-on: #0a0f2e;
+        --text-secondary-on: #3a3f63;
+        --fill-primary: var(--x-gold);
+        --fill-primary-on: #0a0f2e;
+        --fill-secondary: rgba(245, 247, 255, 0.5);
+        --fill-tertiary: rgba(124, 160, 255, 0.11);
+        --fill-segment: rgba(255, 255, 255, 0.06);
+        --fill-system-green: #3ee58f;
+        --fill-system-orange: #ffb020;
+        --fill-system-red: #ff5d6c;
+        --transparent-primary: rgba(5, 8, 28, 0.72);
+        --stroke-primary: rgba(150, 180, 255, 0.3);
+        --stroke-secondary: rgba(150, 180, 255, 0.15);
+        --stroke-primary-on: rgba(10, 15, 46, 0.15);
+        --stroke-composer: rgba(124, 198, 255, 0.4);
+        --stroke-system-orange: rgba(255, 176, 32, 0.28);
+        --hover-wash: rgba(124, 198, 255, 0.09);
+        --hover-wash-primary-on: rgba(10, 15, 46, 0.1);
+        --mat-regular: rgba(20, 26, 74, 0.62);
+        --mat-thin: rgba(20, 26, 74, 0.42);
+        --mat-agent: rgba(16, 22, 64, 0.9);
+        --hark-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+        --hero-scrim-strong: rgba(6, 9, 32, 0.92);
+        --hero-scrim-soft: rgba(12, 14, 60, 0.45);
+        --chart-ink: #ffc940;
+        --chart-ink-2: rgba(245, 247, 255, 0.62);
+        --chart-ink-3: rgba(188, 197, 234, 0.35);
+        --chart-reference: rgba(188, 197, 234, 0.32);
+        --chart-grid: rgba(188, 197, 234, 0.12);
+        --chart-muted: rgba(124, 160, 255, 0.38);
+      }
+      html, body { background-color: var(--x-night); }
+      body { color: var(--text-primary); }
+      /* Aurora and starfield, fixed behind everything */
+      body::before, body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+      body::before {
+        background:
+          radial-gradient(900px 520px at 10% -8%, rgba(110, 80, 230, 0.5), transparent 62%),
+          radial-gradient(760px 480px at 100% 4%, rgba(40, 150, 255, 0.34), transparent 60%),
+          radial-gradient(900px 640px at 50% 112%, rgba(130, 60, 210, 0.38), transparent 62%),
+          linear-gradient(180deg, #070a24 0%, #0c1240 48%, #1a1350 100%);
+      }
+      body::after {
+        opacity: 0.75;
+        background-image:
+          radial-gradient(1.2px 1.2px at 22px 34px, #fff, transparent),
+          radial-gradient(1px 1px at 120px 80px, #dfe8ff, transparent),
+          radial-gradient(1.4px 1.4px at 180px 160px, #fff6d6, transparent),
+          radial-gradient(1px 1px at 60px 190px, #fff, transparent),
+          radial-gradient(1px 1px at 240px 40px, #cfe2ff, transparent),
+          radial-gradient(1.6px 1.6px at 270px 230px, #fff, transparent),
+          radial-gradient(1px 1px at 90px 260px, #e9e4ff, transparent);
+        background-size: 300px 300px;
+        animation: x-twinkle 6s ease-in-out infinite alternate;
+      }
+      @keyframes x-twinkle { from { opacity: 0.45; } to { opacity: 0.85; } }
+      @media (prefers-reduced-motion: reduce) { body::after { animation: none; } }
+
+      /* Banner: photo under a dark gradient, gold title */
+      .x-banner { height: clamp(150px, 32vw, 230px); border: 1px solid var(--x-glow); box-shadow: 0 0 0 1px rgba(255, 201, 64, 0.08), 0 18px 50px rgba(20, 30, 120, 0.55); }
+      .x-banner::after { background: linear-gradient(to top, rgba(6, 9, 32, 0.95) 0%, rgba(14, 16, 66, 0.6) 48%, rgba(30, 20, 90, 0.2) 100%); }
+      .x-banner__copy { padding: 16px 20px 18px; }
+      .x-banner h1 { font: 800 clamp(34px, 8vw, 54px)/0.95 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.5px; color: var(--x-gold); text-shadow: 0 0 22px rgba(255, 201, 64, 0.45), 0 2px 0 rgba(0, 0, 0, 0.4); }
+      .x-banner p { font: 600 13px/1.3 var(--sans); color: #e6ebff; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
+      .x-banner p:first-child { font: 700 13px/1.2 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 1.6px; color: var(--x-blue-2); }
+
+      /* Sticky app bar */
+      .x-bar { background: rgba(9, 13, 44, 0.84); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); border: 1px solid var(--x-glow); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.5), 0 0 24px rgba(63, 169, 255, 0.15); color: var(--text-primary); padding: 6px; }
+      .x-bar :focus-visible { outline: 2px solid var(--x-gold); outline-offset: 2px; }
+      .x-tabs { background: rgba(255, 255, 255, 0.06); padding: 3px; gap: 2px; }
+      .x-tabs button { flex: 1 1 auto; color: #cdd5f7; font: 700 16px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; padding: 0 10px; min-height: 42px; }
+      .x-tabs button[aria-selected="true"] { background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold) 60%, var(--x-gold-deep)); color: #1a1300; box-shadow: 0 0 16px rgba(255, 201, 64, 0.4); }
+      .x-parks { background: none; gap: 4px; }
+      .x-parks button { --pk: #8ccfff; --pk-a: #1f6fe0; --pk-b: #0d3f9e; --pk-edge: #8ccfff; color: #e6ebff; background: rgba(255, 255, 255, 0.05); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--pk) 55%, transparent); font: 700 15px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.3px; padding: 0 6px; }
+      .x-parks button[data-park="epic"] { --pk: #c4a8ff; --pk-a: #6b3fd6; --pk-b: #34197f; --pk-edge: var(--x-gold); }
+      .x-parks button[data-park="usf"] { --pk: #8ccfff; --pk-a: #1d64d0; --pk-b: #0b3790; --pk-edge: #8ccfff; }
+      .x-parks button[data-park="ioa"] { --pk: #3fd6c2; --pk-a: #0b7a70; --pk-b: #064f4b; --pk-edge: #ff9a3c; }
+      .x-parks button[aria-pressed="true"] { color: #fff; background: linear-gradient(135deg, var(--pk-a), var(--pk-b)); box-shadow: inset 0 0 0 2px var(--pk-edge), 0 0 16px color-mix(in srgb, var(--pk) 45%, transparent); }
+      .x-meta { padding: 0 4px; }
+      .x-meta__busy { color: var(--text-primary); }
+      .x-meta__time { color: var(--text-secondary); }
+      @media (max-width: 640px) { .x-meta__busy, .x-meta__time { font-size: 12px; } }
+
+      /* Save pill with its unsaved badge */
+      .x-savepill { flex: none; position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: var(--tap); padding: 0 12px 0 14px; border: 0; border-radius: var(--r-pill); background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold) 55%, var(--x-gold-deep)); color: #1a1300; font: 800 16px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; box-shadow: 0 0 0 1px rgba(255, 223, 128, 0.6), 0 4px 16px rgba(255, 201, 64, 0.3); }
+      .x-savepill__n { min-width: 22px; height: 22px; padding: 0 6px; border-radius: var(--r-pill); background: var(--x-night); color: var(--x-gold-2); font: 600 13px/22px var(--sans); text-align: center; letter-spacing: 0; }
+      .x-savepill__n[hidden] { display: none; }
+      .x-savepill.has-unsaved { animation: x-pulse 2.4s ease-in-out infinite; }
+      @keyframes x-pulse { 0%, 100% { box-shadow: 0 0 0 1px rgba(255, 223, 128, 0.6), 0 0 10px rgba(255, 201, 64, 0.3); } 50% { box-shadow: 0 0 0 1px rgba(255, 223, 128, 0.9), 0 0 24px rgba(255, 201, 64, 0.7); } }
+      @media (prefers-reduced-motion: reduce) { .x-savepill.has-unsaved { animation: none; } }
+
+      /* Glassy cards */
+      .x-panel { gap: 14px; padding-top: 14px; }
+      .x-block, .x-panel > .x-block:first-child, .x-panel > :first-child + .x-block { padding: 20px clamp(14px, 3vw, 24px); border: 1px solid var(--stroke-primary); border-radius: var(--r-l); background: var(--x-glass); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.25); }
+      .x-block__head h2, .x-block > h2, .x-howto h2 { font: 800 26px/1.05 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-primary); }
+      .x-block > h2::after, .x-block__head h2::after { content: ""; display: block; width: 36px; height: 3px; margin-top: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--x-gold), var(--x-blue)); }
+      .x-sub { color: var(--x-blue-2); }
+      .x-card { border: 1px solid var(--stroke-primary); background: var(--x-glass); border-radius: var(--r-l); }
+      .x-hours { margin-top: 0; }
+      .x-hours__main { font: 700 19px/1.2 var(--x-display); font-stretch: condensed; letter-spacing: 0.3px; }
+      .x-input, .x-select { background: rgba(255, 255, 255, 0.07); border-color: var(--stroke-primary); color: var(--text-primary); }
+      .x-select option { background: var(--x-night-2); color: var(--text-primary); }
+      .x-toggle { background: rgba(255, 255, 255, 0.07); }
+      .x-toggle button[aria-pressed="true"] { background: var(--x-blue-2); color: var(--x-night); }
+
+      /* Wait list: big glowing numbers */
+      .x-ride { border-bottom-color: var(--stroke-secondary); border-radius: var(--r-s); }
+      .x-ride.is-star { background: linear-gradient(90deg, rgba(255, 201, 64, 0.16), rgba(255, 201, 64, 0.04)); box-shadow: inset 0 0 0 1px rgba(255, 201, 64, 0.38); }
+      .x-ride__star { font-size: 22px; color: rgba(188, 197, 234, 0.6); }
+      .x-ride.is-star .x-ride__star { color: var(--x-gold); text-shadow: 0 0 10px rgba(255, 201, 64, 0.6); }
+      .x-ride__name { font-weight: 600; }
+      .x-ride__wait b { font: 800 44px/0.95 var(--x-display); font-stretch: condensed; letter-spacing: 0; }
+      .x-ride__wait small { color: var(--text-secondary); }
+      [data-level="low"] > b { color: #46f09a; text-shadow: 0 0 16px rgba(62, 229, 143, 0.55); }
+      [data-level="mid"] > b { color: #ffbf3a; text-shadow: 0 0 16px rgba(255, 176, 32, 0.55); }
+      [data-level="high"] > b { color: #ff6b78; text-shadow: 0 0 16px rgba(255, 93, 108, 0.6); }
+      [data-level="none"] > b { color: var(--text-secondary); font-size: 28px; text-shadow: none; }
+      .x-meta__busy::before, .x-status::before { box-shadow: 0 0 8px currentColor; }
+
+      /* Figures in the display face */
+      .x-panel .stat__fig { font: 800 36px/1.05 var(--x-display); font-stretch: condensed; color: var(--x-gold-2); }
+      .x-gauge__read b, .x-ring__read b { font: 800 52px/1 var(--x-display); font-stretch: condensed; color: var(--x-gold-2); text-shadow: 0 0 18px rgba(255, 201, 64, 0.35); }
+      .x-gauge[data-level="low"] .x-gauge__val { filter: drop-shadow(0 0 6px rgba(62, 229, 143, 0.6)); }
+      .x-gauge[data-level="mid"] .x-gauge__val { filter: drop-shadow(0 0 6px rgba(255, 176, 32, 0.6)); }
+      .x-gauge[data-level="high"] .x-gauge__val { filter: drop-shadow(0 0 6px rgba(255, 93, 108, 0.6)); }
+      .x-ring__val { stroke: var(--x-blue); filter: drop-shadow(0 0 6px rgba(63, 169, 255, 0.6)); }
+      .x-panel .step__num { font-family: var(--x-display); font-weight: 800; font-stretch: condensed; color: var(--x-gold); }
+      .x-panel .cards > div { border: 1px solid var(--stroke-secondary); }
+      .x-panel .chart { background: rgba(6, 9, 32, 0.35); }
+
+      /* Buttons */
+      .x-big { background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold) 55%, var(--x-gold-deep)); color: #1a1300; font: 800 18px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; box-shadow: 0 0 18px rgba(255, 201, 64, 0.3); }
+      .x-big--blue { background: linear-gradient(180deg, #b3e0ff, var(--x-blue-2) 55%, var(--x-blue)); color: var(--x-night); box-shadow: 0 0 18px rgba(63, 169, 255, 0.35); }
+      .x-big--ghost { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); box-shadow: inset 0 0 0 1px var(--stroke-primary); }
+      .x-big:focus-within { outline-color: var(--x-gold); }
+      .x-fab { background: linear-gradient(180deg, #b3e0ff, var(--x-blue-2) 55%, var(--x-blue)); color: var(--x-night); font: 800 18px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5), 0 0 22px rgba(63, 169, 255, 0.5); }
+      .x-sheet { background: linear-gradient(180deg, #19205a, #0c1138); border-color: var(--x-glow); color: var(--text-primary); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(63, 169, 255, 0.2); }
+      .x-sheet h2 { font: 800 26px/1.1 var(--x-display); font-stretch: condensed; text-transform: uppercase; color: var(--x-gold); }
+      .x-clock { font: 800 clamp(72px, 22vw, 104px)/1 var(--x-display); font-stretch: condensed; color: var(--x-gold-2); text-shadow: 0 0 24px rgba(255, 201, 64, 0.4); }
+      .x-result { font: 700 22px/1.25 var(--x-display); font-stretch: condensed; }
+      .x-msg { border-color: var(--stroke-primary); background: rgba(255, 93, 108, 0.06); }
+
+      /* Toasts */
+      .x-toast { background: rgba(16, 22, 64, 0.94); border-color: var(--x-glow); color: var(--text-primary); }
+      .x-toast.is-strong { background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold)); color: #1a1300; border-color: rgba(255, 223, 128, 0.8); box-shadow: 0 10px 34px rgba(0, 0, 0, 0.5), 0 0 26px rgba(255, 201, 64, 0.45); }
+      .x-toast__btns { display: flex; flex: none; gap: 6px; }
+      .x-toast button { padding: 0 12px; }
+      .x-toast.is-strong button { background: rgba(10, 15, 46, 0.12); }
+      .x-toast.is-strong button.x-toast__go { background: var(--x-night); color: var(--x-gold-2); font-weight: 600; }
+
+      /* How this works */
+      .x-howto { display: grid; justify-items: start; }
+      .x-howto__card { display: grid; gap: 14px; width: 100%; padding: 20px clamp(16px, 3vw, 24px); border-radius: var(--r-l); border: 1px solid rgba(255, 201, 64, 0.55); background: linear-gradient(160deg, rgba(255, 201, 64, 0.16), rgba(63, 169, 255, 0.12) 60%, rgba(24, 30, 86, 0.5)); box-shadow: 0 0 28px rgba(255, 201, 64, 0.15); }
+      .x-howto__card[hidden] { display: none; }
+      .x-howto h2 { color: var(--x-gold); }
+      .x-howto__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: how; }
+      .x-howto__steps li { counter-increment: how; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; font: var(--type-body); }
+      .x-howto__steps li::before { content: counter(how); display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--x-gold); color: #1a1300; font: 800 19px/1 var(--x-display); }
+      .x-howto__steps b { color: var(--x-gold-2); }
+      .x-howto__note { font: var(--type-small); color: var(--text-secondary); padding: 10px 12px; border-radius: var(--r-s); background: rgba(6, 9, 32, 0.4); }
+      .x-howto__link { min-height: var(--tap); padding: 0 16px; border: 1px solid var(--stroke-primary); border-radius: var(--r-pill); background: rgba(255, 255, 255, 0.06); color: var(--x-blue-2); font: var(--type-label); cursor: pointer; }
+      .x-howto__link[hidden] { display: none; }
+
+      .callout { background: rgba(16, 22, 64, 0.88); border-color: rgba(255, 201, 64, 0.5); max-width: none; }
+      .callout__head { color: var(--x-gold); }
+      .x-save-img { border-color: var(--x-glow); }
+
+      /* Solid base colors under every gradient, so text contrast holds everywhere */
+      .x-tabs { background-color: #121846; }
+      .x-tabs button { min-height: var(--tap); background-color: #121846; color: #e6ebff; }
+      .x-tabs button[aria-selected="true"], .x-savepill, .x-big, .x-howto__steps li::before { background-color: var(--x-gold); color: #1a1300; }
+      .x-big--blue, .x-fab { background-color: var(--x-blue-2); color: var(--x-night); }
+      .x-big--ghost { background-color: #1c2360; color: var(--text-primary); }
+      .x-parks button { background-color: #141a48; color: #f5f7ff; }
+      .x-parks button[aria-pressed="true"] { background-color: var(--pk-b); color: #fff; }
+      .x-toggle { background-color: #1a2156; }
+      .x-toggle button { background-color: #1a2156; color: #e6ebff; }
+      .x-toggle button[aria-pressed="true"] { background-color: var(--x-blue-2); color: var(--x-night); }
+      .x-panel .pill { background-color: #222a6b; color: #eef1ff; }
+      .x-toast { background-color: #10163f; }
+      .x-toast button { background-color: #26306e; color: #f5f7ff; }
+      .x-toast.is-strong { background-color: var(--x-gold); }
+      .x-toast.is-strong button { background-color: #e0a92a; color: #1a1300; }
+      .x-toast.is-strong button.x-toast__go { background-color: var(--x-night); color: var(--x-gold-2); }
+    </style>
   </head>
   <body>
     <div class="page" id="top">
@@ -206,12 +408,28 @@
             <span class="x-meta__busy" id="busyMini">Busy –</span>
             <span class="x-meta__time" id="updated">Loading…</span>
           </button>
+          <button type="button" class="x-savepill" id="savePill" aria-label="Save my day">Save<span class="x-savepill__n" id="saveCount" aria-hidden="true" hidden>0</span></button>
         </div>
       </div>
 
       <main class="main">
         <!-- LIVE -->
         <section class="x-panel" id="p-live" role="tabpanel" aria-labelledby="t-live">
+          <div class="x-howto" id="howto">
+            <div class="x-howto__card" id="howtoCard">
+              <h2>How this works</h2>
+              <ol class="x-howto__steps">
+                <li><span><b>Pick your park</b>, and star the rides you want. Waits refresh every 5 minutes.</span></li>
+                <li><span><b>In line?</b> Tap Line timer, then “I'm on!” when you board.</span></li>
+                <li><span><b>Add photos</b> on the Timeline tab.</span></li>
+                <li><span><b>Your rides and photos live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
+              </ol>
+              <p class="x-howto__note">Leaving the page open in Safari is fine. Locking your phone or switching apps won't lose anything, but closing the tab will.</p>
+              <button type="button" class="x-big" id="howtoOk">Got it</button>
+            </div>
+            <button type="button" class="x-howto__link" id="howtoOpen" aria-controls="howtoCard" aria-expanded="false" hidden>How this works</button>
+          </div>
+
           <div class="x-card x-hours" id="hours"><p class="x-hours__main">Park hours loading…</p></div>
 
           <div class="x-block" id="waits-block">
@@ -305,11 +523,11 @@
           <div class="x-block">
             <aside class="callout" aria-label="Before you close">
               <p class="callout__head">Before you close the page</p>
-              <p class="callout__lead"><strong>Photos and log stay only while this page is open.</strong> Tap Save my day before closing.</p>
+              <p class="callout__lead"><strong>Rides and photos stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
             </aside>
             <div class="x-actions">
-              <label class="x-big">Add photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
-              <button type="button" class="x-big x-big--ghost" id="saveDay">Save my day</button>
+              <label class="x-big x-big--blue">Add photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
+              <button type="button" class="x-big" id="saveDay">Save my day</button>
             </div>
             <div id="saveOut"></div>
           </div>
@@ -435,7 +653,6 @@
 
       <footer class="foot">
         <p>Live waits, hours and showtimes from ThemeParks.wiki. Times are Eastern.</p>
-        <button type="button" class="x-themebtn" id="theme-btn">Light / dark</button>
         <a class="badge" href="https://hark.com/" target="_blank" rel="noopener"><span class="hark-mark"></span><span>built by hark</span></a>
       </footer>
     </div>
@@ -472,6 +689,7 @@
     <script>
 (function () {
   "use strict";
+  document.documentElement.setAttribute("data-theme", "dark");
   var TZ = "America/New_York";
   var API = "https://api.themeparks.wiki/v1/entity/";
   var POLL_MS = 5 * 60 * 1000;
@@ -594,11 +812,17 @@
       if (star && navigator.vibrate) { try { navigator.vibrate([200, 100, 200]); } catch (e) {} }
     });
   }
-  function toast(msg, strong) {
+  function toast(msg, strong, action) {
     var box = $("toasts"), el = document.createElement("div");
+    if (action && action.key) {
+      var old = box.querySelector('[data-key="' + action.key + '"]');
+      if (old) old.remove();
+      el.setAttribute("data-key", action.key);
+    }
     el.className = "x-toast" + (strong ? " is-strong" : "");
-    el.innerHTML = "<span>" + esc(msg) + "</span><button type=\"button\" aria-label=\"Dismiss\">OK</button>";
-    el.querySelector("button").addEventListener("click", function () { el.remove(); });
+    el.innerHTML = "<span>" + esc(msg) + "</span><span class=\"x-toast__btns\">" + (action ? "<button type=\"button\" class=\"x-toast__go\">" + esc(action.label) + "</button>" : "") + "<button type=\"button\" class=\"x-toast__x\" aria-label=\"Dismiss\">" + (action ? "Later" : "OK") + "</button></span>";
+    el.querySelector(".x-toast__x").addEventListener("click", function () { el.remove(); });
+    if (action) el.querySelector(".x-toast__go").addEventListener("click", function () { el.remove(); action.fn(); });
     box.prepend(el);
     if (!strong) setTimeout(function () { el.remove(); }, 8000);
     while (box.children.length > 3) box.lastChild.remove();
@@ -622,7 +846,7 @@
     var b = busy(last ? last.avg : null), mini = $("busyMini");
     mini.textContent = b ? "Busy " + b.score + "/10" : "Busy –";
     mini.setAttribute("data-level", b ? b.level : "none");
-    $("updated").textContent = P.loading && !P.updated ? "Loading…" : P.error && !P.updated ? "Offline" : P.updated ? "Updated " + tm(P.updated) : "Loading…";
+    $("updated").innerHTML = P.loading && !P.updated ? "Loading…" : P.error && !P.updated ? "Offline" : P.updated ? '<span class="x-long">Updated </span>' + tm(P.updated) : "Loading…";
   }
   var rows = {}, sparks = {};
   function rideMeta(r) {
@@ -1019,7 +1243,51 @@
       } else body = photoHtml(e, rides) + (e.exif ? "" : '<p class="fineprint">No camera time found, so this uses the file\'s date.</p>');
       return '<li><p class="timeline__when">' + when(e.time) + '</p><div class="timeline__what">' + body + "</div></li>";
     }).join("");
+    syncUnsaved();
   }
+
+  /* ---------- unsaved items and reminders ---------- */
+  var SV = { firstAt: null, lastNag: 0, lastCount: 0 };
+  var NAG_MS = 2 * 60 * 60 * 1000;
+  function unsaved() { return S.tl.filter(function (e) { return !e.saved; }).length; }
+  function syncUnsaved() {
+    var n = unsaved(), pill = $("savePill"), c = $("saveCount");
+    c.textContent = n; c.hidden = !n;
+    pill.classList.toggle("has-unsaved", n > 0);
+    pill.setAttribute("aria-label", n ? "Save my day, " + n + " unsaved" : "Save my day");
+    if (n && !SV.firstAt) SV.firstAt = Date.now();
+    if (!n) SV.firstAt = null;
+    if (n >= 5 && Math.floor(n / 5) > Math.floor(SV.lastCount / 5)) nag();
+    SV.lastCount = n;
+  }
+  function nag() {
+    SV.lastNag = Date.now();
+    toast("Save your day so you don't lose today's rides and photos", true, { label: "Save now", fn: saveFromAnywhere, key: "nag" });
+  }
+  function checkNag() {
+    if (!unsaved() || !SV.firstAt) return;
+    if (Date.now() - Math.max(SV.firstAt, SV.lastNag) >= NAG_MS) nag();
+  }
+  function saveFromAnywhere() {
+    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
+    setTab("timeline");
+    saveDay();
+  }
+  $("savePill").addEventListener("click", saveFromAnywhere);
+  window.addEventListener("beforeunload", function (e) {
+    if (unsaved() > 0) { e.preventDefault(); e.returnValue = ""; return ""; }
+  });
+  setInterval(checkNag, 60000);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") checkNag(); });
+
+  /* ---------- how this works ---------- */
+  $("howtoOk").addEventListener("click", function () {
+    $("howtoCard").hidden = true;
+    var l = $("howtoOpen"); l.hidden = false; l.setAttribute("aria-expanded", "false"); l.focus();
+  });
+  $("howtoOpen").addEventListener("click", function () {
+    $("howtoCard").hidden = false; this.hidden = true; this.setAttribute("aria-expanded", "true"); $("howtoOk").focus();
+  });
   var tlBox = $("tl");
   tlBox.addEventListener("input", function (e) { var id = e.target.getAttribute("data-cap"); if (!id) return; S.tl.forEach(function (x) { if (x.id === id) x.caption = e.target.value; }); });
   tlBox.addEventListener("change", function (e) { var id = e.target.getAttribute("data-attach"); if (!id || !e.target.value) return; S.tl.forEach(function (x) { if (x.id === id) x.attach = e.target.value; }); renderTimeline(); });
@@ -1090,9 +1358,12 @@
     text("Made with Universal Park Days", F(400, 26), C.grey, P, W - 2 * P, 40);
     return y + P;
   }
-  $("saveDay").addEventListener("click", function () {
-    var btn = this;
+  $("saveDay").addEventListener("click", saveDay);
+  function saveDay() {
+    var btn = $("saveDay");
+    if (btn.disabled) return;
     if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
+    var batch = S.tl.slice();
     btn.disabled = true; btn.textContent = "Making your image…";
     Promise.all(S.tl.filter(function (e) { return e.kind === "photo"; }).map(loadImg)).then(function () {
       var cv = document.createElement("canvas"), ctx = cv.getContext("2d");
@@ -1113,10 +1384,17 @@
       if (canShare) $("shareBtn").addEventListener("click", function () {
         navigator.share({ files: [file], title: "Universal Park Days" }).catch(function (e) { if (!e || e.name !== "AbortError") toast("Sharing isn't available here. Use Download or press and hold the image.", false); });
       });
+      batch.forEach(function (e) { e.saved = true; });
+      SV.lastNag = 0; SV.lastCount = 0;
+      var oldNag = $("toasts").querySelector('[data-key="nag"]');
+      if (oldNag) oldNag.remove();
+      syncUnsaved();
+      toast("Saved. Keep going!", false);
+      setTimeout(function () { out.scrollIntoView({ block: "start", behavior: "smooth" }); }, 50);
     }).catch(function () {
       $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again, or with fewer photos.</p></div>';
     }).then(function () { btn.disabled = false; btn.textContent = "Save my day"; });
-  });
+  }
 
   /* ---------- walk ---------- */
   function walkMiles() { var w = S.walk; return w.miles != null ? w.miles : w.steps != null ? w.steps / 2100 : 0; }
