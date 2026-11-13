@@ -378,6 +378,37 @@
       .x-toast.is-strong { background-color: var(--x-gold); }
       .x-toast.is-strong button { background-color: #e0a92a; color: #1a1300; }
       .x-toast.is-strong button.x-toast__go { background-color: var(--x-night); color: var(--x-gold-2); }
+
+      /* Ride and show thumbnails */
+      .x-rt { flex: none; display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--r-s); overflow: hidden; background: linear-gradient(160deg, #26306e, var(--x-night-2)); box-shadow: inset 0 0 0 1px var(--stroke-primary); color: var(--x-gold-2); font: 800 22px/1 var(--x-display); font-stretch: condensed; text-transform: uppercase; }
+      .x-rt img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .x-ride .x-rt { cursor: zoom-in; }
+      .x-ride { grid-template-columns: 24px 48px minmax(0, 1fr) 64px 64px; }
+      .x-ride__name { overflow-wrap: break-word; hyphens: auto; }
+      .x-list > li.x-has-rt { align-items: center; }
+      .x-list > li.x-has-rt .x-list__when { align-self: center; }
+      .x-pickrow { display: flex; gap: 10px; align-items: center; }
+      .x-pickrow .x-select { flex: 1; min-width: 0; }
+      .x-pickrow[hidden] { display: none; }
+      .x-tlride { display: flex; gap: 12px; align-items: center; }
+      .x-tlride p { min-width: 0; }
+      @media (max-width: 440px) {
+        .x-ride { grid-template-columns: 18px 48px minmax(0, 1fr) 58px; grid-template-areas: "star thumb main wait" "star thumb spark wait"; column-gap: 10px; row-gap: 2px; padding: 10px 6px; }
+        .x-ride__star { grid-area: star; font-size: 18px; }
+        .x-ride .x-rt { grid-area: thumb; }
+        .x-ride__main { grid-area: main; min-width: 0; }
+        .x-ride__spark { grid-area: spark; height: 22px; }
+        .x-ride__wait { grid-area: wait; }
+        .x-ride__wait b { font-size: 38px; }
+        .x-ride__wait small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      }
+      @media (max-width: 380px) { .x-ride { grid-template-areas: "star thumb main wait"; } .x-ride__spark { display: none; } }
+
+      .x-zoom { position: fixed; inset: 0; z-index: 80; display: grid; place-content: center; justify-items: center; gap: 12px; padding: var(--gutter); background: var(--transparent-primary); -webkit-backdrop-filter: var(--hark-blur); backdrop-filter: var(--hark-blur); cursor: zoom-out; }
+      .x-zoom[hidden] { display: none; }
+      .x-zoom img, .x-zoom .x-rt { width: min(320px, calc(100vw - 2 * var(--gutter))); height: auto; aspect-ratio: 1; border-radius: var(--r-l); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--x-glow); }
+      .x-zoom .x-rt { font-size: 96px; }
+      .x-zoom p { max-width: 320px; text-align: center; font: 700 22px/1.2 var(--x-display); font-stretch: condensed; color: var(--text-primary); }
     </style>
   </head>
   <body>
@@ -670,7 +701,7 @@
       <h2 id="sheetTitle">Line timer</h2>
       <div class="x-sheet__body" id="sheetPick">
         <label class="fineprint" for="timerRide">Which ride are you in line for?</label>
-        <select class="x-select" id="timerRide"></select>
+        <div class="x-pickrow" id="timerPickRow"><span class="x-rt" id="timerThumb" aria-hidden="true"></span><select class="x-select" id="timerRide"></select></div>
         <p class="fineprint" id="timerPosted"></p>
         <button type="button" class="x-big" id="timerStart">Start timer</button>
       </div>
@@ -686,11 +717,13 @@
         <button type="button" class="x-big" id="timerDone">Done</button>
       </div>
     </dialog>
+    <div class="x-zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Ride photo" hidden></div>
 
     <script src="hark.js"></script>
     <script src="chart.js"></script>
     <script src="datalabels.js"></script>
     <script src="hark-charts.js"></script>
+    <script src="ride-thumbs.js"></script>
     <script>
 (function () {
   "use strict";
@@ -711,6 +744,39 @@
 
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* ---------- ride thumbnails (optional asset) ---------- */
+  var THUMBS = window.RIDE_THUMBS && typeof window.RIDE_THUMBS === "object" ? window.RIDE_THUMBS : {};
+  var THUMB_IDS = window.RIDE_THUMB_IDS_BY_NAME && typeof window.RIDE_THUMB_IDS_BY_NAME === "object" ? window.RIDE_THUMB_IDS_BY_NAME : {};
+  function normName(s) {
+    var t = String(s || "").toLowerCase().replace(/[\u2122\u00ae\u00a9]/g, "");
+    try { t = t.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); } catch (e) {}
+    return t.replace(/[^a-z0-9]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+  function thumbSrc(id, name) {
+    try {
+      if (id && typeof THUMBS[id] === "string") return THUMBS[id];
+      var k = THUMB_IDS[normName(name)];
+      if (k && typeof THUMBS[k] === "string") return THUMBS[k];
+    } catch (e) {}
+    return null;
+  }
+  function initial(name) { var m = normName(name).replace(/^the /, "").match(/[a-z0-9]/); return m ? m[0].toUpperCase() : "?"; }
+  function thumbInner(id, name, lazy) {
+    var src = thumbSrc(id, name);
+    return src ? '<img src="' + src + '" alt="' + esc(name) + '"' + (lazy === false ? "" : ' loading="lazy"') + ' width="48" height="48" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
+  }
+  function thumbHtml(id, name) { return '<span class="x-rt">' + thumbInner(id, name) + "</span>"; }
+  function openZoom(id, name) {
+    var z = $("zoom"); if (!z) return;
+    var src = thumbSrc(id, name);
+    z.innerHTML = (src ? '<img src="' + src + '" alt="' + esc(name) + '" />' : '<span class="x-rt" aria-hidden="true">' + esc(initial(name)) + "</span>") + "<p>" + esc(name) + "</p>";
+    z.setAttribute("aria-label", name);
+    z.hidden = false;
+  }
+  function closeZoom() { var z = $("zoom"); if (z && !z.hidden) { z.hidden = true; z.innerHTML = ""; } }
+  if ($("zoom")) $("zoom").addEventListener("click", closeZoom);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeZoom(); });
   var fmtT = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit" });
   var fmtD = new Intl.DateTimeFormat("en-US", { timeZone: TZ, weekday: "short", month: "short", day: "numeric" });
   var fmtParts = new Intl.DateTimeFormat("en-US", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" });
@@ -892,7 +958,7 @@
       if (!row) {
         row = document.createElement("button");
         row.type = "button"; row.className = "x-ride"; row.setAttribute("data-id", r.id);
-        row.innerHTML = '<span class="x-ride__star" aria-hidden="true"></span><span class="x-ride__main"></span><span class="x-ride__spark"><canvas aria-hidden="true"></canvas></span><span class="x-ride__wait"></span>';
+        row.innerHTML = '<span class="x-ride__star" aria-hidden="true"></span>' + thumbHtml(r.id, r.name) + '<span class="x-ride__main"></span><span class="x-ride__spark"><canvas aria-hidden="true"></canvas></span><span class="x-ride__wait"></span>';
         rows[r.id] = row;
       }
       var star = !!S.stars[r.id], op = r.status === "OPERATING";
@@ -963,10 +1029,10 @@
     var items = P.shows.map(function (s) {
       var up = s.times.filter(function (x) { return x && x.startTime && new Date(x.startTime).getTime() > now && etDate(new Date(x.startTime)) === etDate(new Date()); })
         .sort(function (a, b) { return new Date(a.startTime) - new Date(b.startTime); });
-      return { name: s.name, up: up };
+      return { id: s.id, name: s.name, up: up };
     }).filter(function (s) { return s.up.length; }).sort(function (a, b) { return new Date(a.up[0].startTime) - new Date(b.up[0].startTime); });
     ul.innerHTML = items.map(function (s) {
-      return '<li><span class="x-list__when">' + tm(new Date(s.up[0].startTime)) + '</span><span class="x-list__what"><b>' + esc(s.name) + "</b><br>" + s.up.map(function (x) { return '<span class="pill">' + tm(new Date(x.startTime)) + "</span>"; }).join("") + "</span></li>";
+      return '<li class="x-has-rt">' + thumbHtml(s.id, s.name) + '<span class="x-list__when">' + tm(new Date(s.up[0].startTime)) + '</span><span class="x-list__what"><b>' + esc(s.name) + "</b><br>" + s.up.map(function (x) { return '<span class="pill">' + tm(new Date(x.startTime)) + "</span>"; }).join("") + "</span></li>";
     }).join("");
     var e = $("showsEmpty");
     e.hidden = items.length > 0;
@@ -1032,6 +1098,7 @@
   $("waits").addEventListener("click", function (e) {
     var row = e.target.closest(".x-ride"); if (!row) return;
     var id = row.getAttribute("data-id"), r = pd(S.park).rides.filter(function (x) { return x.id === id; })[0];
+    if (e.target.closest(".x-rt")) { e.preventDefault(); e.stopPropagation(); openZoom(id, r ? r.name : ""); return; }
     if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: r ? r.name : "" };
     renderWaits(); renderForecast();
   });
@@ -1073,7 +1140,7 @@
   var sheet = $("sheet"), tick = null;
   var nameInput = document.createElement("input");
   nameInput.className = "x-input"; nameInput.id = "timerName"; nameInput.placeholder = "Type the ride name"; nameInput.hidden = true;
-  $("timerRide").insertAdjacentElement("afterend", nameInput);
+  $("timerPickRow").insertAdjacentElement("afterend", nameInput);
   function mmss(ms) { var s = Math.max(0, Math.floor(ms / 1000)); var m = Math.floor(s / 60); s = s % 60; return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
   function fillRideSelect() {
     var sel = $("timerRide"), keep = sel.value, rides = pd(S.park).rides.slice();
@@ -1087,12 +1154,13 @@
       return '<option value="' + esc(r.id) + '">' + (S.stars[r.id] ? "★ " : "") + esc(r.name) + " · " + esc(w) + "</option>";
     }).join("");
     if (keep && rides.some(function (r) { return r.id === keep; })) sel.value = keep;
-    sel.hidden = !rides.length; nameInput.hidden = !!rides.length;
+    $("timerPickRow").hidden = !rides.length; nameInput.hidden = !!rides.length;
     showPosted();
   }
   function selectedRide() { var id = $("timerRide").value; return pd(S.park).rides.filter(function (r) { return r.id === id; })[0] || null; }
   function showPosted() {
     var r = selectedRide(), p = $("timerPosted");
+    $("timerThumb").innerHTML = r ? thumbInner(r.id, r.name, false) : "";
     if (!pd(S.park).rides.length) p.textContent = "Live ride list isn't loaded, so no posted wait will be recorded.";
     else if (r && r.status === "OPERATING" && r.standby != null) p.textContent = "Posted standby now: " + r.standby + " min. The timer records this.";
     else p.textContent = "No posted standby wait for this ride right now.";
@@ -1121,7 +1189,7 @@
   $("timerStart").addEventListener("click", function () {
     var r = selectedRide(), name = r ? r.name : nameInput.value.trim();
     if (!name) { nameInput.focus(); return; }
-    S.timer = { name: name, park: S.park, posted: r && r.status === "OPERATING" ? r.standby : null, start: new Date() };
+    S.timer = { rideId: r ? r.id : null, name: name, park: S.park, posted: r && r.status === "OPERATING" ? r.standby : null, start: new Date() };
     $("runInfo").textContent = name + " · started " + tm(S.timer.start) + (S.timer.posted != null ? " · posted " + S.timer.posted + " min" : "");
     view("Run"); updateClock(); syncFab();
     tick = setInterval(updateClock, 1000);
@@ -1135,7 +1203,7 @@
       var d = T.posted - mins;
       txt += " (posted " + T.posted + ", " + (d > 0 ? d + " min faster" : d < 0 ? -d + " min longer" : "right on time") + ")";
     } else txt += " (no posted wait)";
-    var entry = { id: "r" + Date.now(), kind: "ride", time: end, start: T.start, name: T.name, park: T.park, waited: mins, posted: T.posted, caption: "" };
+    var entry = { id: "r" + Date.now(), kind: "ride", time: end, start: T.start, rideId: T.rideId, name: T.name, park: T.park, waited: mins, posted: T.posted, caption: "" };
     S.log.push(entry); S.tl.push(entry);
     S.timer = null; syncFab();
     $("result").textContent = txt;
@@ -1243,7 +1311,7 @@
     $("tl").innerHTML = items.map(function (e) {
       var body;
       if (e.kind === "ride") {
-        body = "<p><b>Rode " + esc(e.name) + "</b>, waited " + e.waited + " min" + (e.posted != null ? " (posted " + e.posted + ")" : "") + '</p><div class="x-entry-tools"><input class="x-input" data-cap="' + e.id + '" placeholder="Add a caption" value="' + esc(e.caption) + '" aria-label="Ride caption" /></div>';
+        body = '<div class="x-tlride">' + thumbHtml(e.rideId, e.name) + "<p><b>Rode " + esc(e.name) + "</b>, waited " + e.waited + " min" + (e.posted != null ? " (posted " + e.posted + ")" : "") + '</p></div><div class="x-entry-tools"><input class="x-input" data-cap="' + e.id + '" placeholder="Add a caption" value="' + esc(e.caption) + '" aria-label="Ride caption" /></div>';
         S.tl.filter(function (p) { return p.attach === e.id; }).forEach(function (p) { body += photoHtml(p, rides); });
       } else body = photoHtml(e, rides) + (e.exif ? "" : '<p class="fineprint">No camera time found, so this uses the file\'s date.</p>');
       return '<li><p class="timeline__when">' + when(e.time) + '</p><div class="timeline__what">' + body + "</div></li>";
