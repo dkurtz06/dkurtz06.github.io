@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T18:56:46.217Z",
+ "updated": "2026-11-13T19:01:07.425Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -7,17 +7,17 @@
    "date": "2026-11-13",
    "opp": "@ Nationals Anchor Bay (MI)",
    "status": "live",
-   "us": 0,
+   "us": 1,
    "them": 2,
-   "min": 40,
-   "g": 0,
+   "min": 44,
+   "g": 1,
    "a": 0,
-   "sh": 4,
-   "sog": 1,
+   "sh": 5,
+   "sog": 2,
    "ch": 1,
    "tk": 1,
    "start": true,
-   "updated": "2026-11-13T18:56:46.217Z",
+   "updated": "2026-11-13T19:01:07.424Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -134,6 +134,16 @@
      "clock": "45:38",
      "clock_sec": 2738,
      "min": 46
+    },
+    {
+     "k": "g",
+     "stat": "Gavin goal",
+     "t": 1794596460773,
+     "wall": "2026-11-13T14:01:00-05:00",
+     "half": 2,
+     "clock": "53:10",
+     "clock_sec": 3190,
+     "min": 54
     }
    ]
   }
