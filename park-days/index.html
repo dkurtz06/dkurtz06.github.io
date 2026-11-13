@@ -955,6 +955,12 @@
     if (RS.me && RS.map) { RS.map.removeLayer(RS.me); RS.me = null; }
     var src = thumbSrc(id, name);
     $("rsPhoto").innerHTML = src ? '<img src="' + src + '" alt="' + esc(RS.name) + '" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
+    var bid = (id && THUMBS[id]) ? id : THUMB_IDS[normName(name)];
+    if (src && bid && /^[0-9a-f-]+$/i.test(bid)) {
+      var big = new Image();
+      big.onload = function () { if (RS.open && RS.id === id) { var im = $("rsPhoto").querySelector("img"); if (im) im.src = big.src; } };
+      big.src = "ride-" + bid + ".jpg";
+    }
     $("rsName").textContent = RS.name;
     $("rsStatus").innerHTML = rsStatusHtml(id, name);
     rsLoc(""); $("rsNoMap").hidden = true;
