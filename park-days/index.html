@@ -445,6 +445,43 @@
       @keyframes x-pulse { from { transform: scale(0.35); opacity: 1; } to { transform: scale(1); opacity: 0; } }
       .x-rs .leaflet-control-attribution { font: 12px/1.4 var(--sans); }
       .x-rs .leaflet-control-attribution a { color: #0645ad; }
+      /* Weather tab */
+      .x-tabs button { padding: 0 6px; letter-spacing: 0.3px; font-size: 15px; }
+      .wx-now { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .wx-now__ico { font-size: 56px; line-height: 1; }
+      .wx-now__temp { font: 800 58px/0.9 var(--x-display); font-stretch: condensed; color: var(--x-gold); }
+      .wx-now__txt { min-width: 0; }
+      .wx-now__txt b { display: block; font: 700 20px/1.15 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: #fff; }
+      .wx-now__txt span { display: block; font: 500 14px/1.4 var(--sans); color: #cdd5f7; }
+      .wx-alert { padding: 12px 14px; border-radius: 14px; background: rgba(255, 80, 80, 0.14); box-shadow: inset 0 0 0 1.5px rgba(255, 110, 110, 0.6); color: #ffe3e3; font: 500 14px/1.4 var(--sans); }
+      .wx-alert b { display: block; color: #fff; font-weight: 700; }
+      .wx-ok { padding: 10px 14px; border-radius: 14px; background: rgba(63, 214, 194, 0.1); box-shadow: inset 0 0 0 1.5px rgba(63, 214, 194, 0.45); color: #d9fff9; font: 500 14px/1.4 var(--sans); }
+      .wx-trip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+      .wx-day { padding: 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.35); color: #e6ebff; font: 500 14px/1.45 var(--sans); }
+      .wx-day.is-park { box-shadow: inset 0 0 0 2px var(--x-gold), 0 0 16px rgba(255, 201, 64, 0.25); }
+      .wx-day h3 { font: 700 17px/1.15 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: #fff; }
+      .wx-day .wx-day__tag { font: 700 12px/1 var(--x-display); font-stretch: condensed; letter-spacing: 1px; text-transform: uppercase; color: var(--x-gold); }
+      .wx-day .wx-big { font: 800 28px/1.1 var(--x-display); font-stretch: condensed; color: #fff; }
+      .wx-hours { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
+      .wx-hour { flex: none; width: 64px; padding: 10px 4px; text-align: center; border-radius: 14px; background: rgba(255, 255, 255, 0.05); color: #e6ebff; font: 600 13px/1.5 var(--sans); }
+      .wx-hour .i { font-size: 22px; display: block; line-height: 1.3; }
+      .wx-hour .t { font: 800 18px/1.2 var(--x-display); color: #fff; display: block; }
+      .wx-hour .r { color: #8ccfff; }
+      .wx-list { list-style: none; margin: 0; padding: 0; }
+      .wx-list li { display: grid; grid-template-columns: 92px 30px 1fr auto; align-items: center; gap: 10px; padding: 10px 2px; border-top: 1px solid rgba(255, 255, 255, 0.08); color: #e6ebff; font: 500 15px/1.3 var(--sans); }
+      .wx-list li:first-child { border-top: 0; }
+      .wx-list li.is-park b { color: var(--x-gold); }
+      .wx-list .r { color: #8ccfff; font-size: 13px; }
+      .wx-list .hl { font-weight: 700; color: #fff; white-space: nowrap; }
+      .wx-radar { position: relative; height: min(70vh, 460px); border-radius: 16px; overflow: hidden; background: #0b1030; box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.35); }
+      .wx-radar__map { position: absolute; inset: 0; }
+      .wx-radar__bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .wx-radar__bar button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold) 55%, var(--x-gold-deep)); color: #1a1300; font: 800 15px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; }
+      .wx-radar__bar button.ghost { background: rgba(255, 255, 255, 0.08); color: #e6ebff; box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.45); }
+      .wx-radar__time { font: 700 16px/1.2 var(--x-display); font-stretch: condensed; letter-spacing: 0.4px; color: #fff; }
+      .wx-legend { height: 10px; border-radius: 6px; background: linear-gradient(90deg, #04e9e7, #019ff4, #0300f4, #02fd02, #01c501, #008e00, #fdf802, #e5bc00, #fd9500, #fd0000, #d40000, #bc0000, #f800fd, #9854c6); }
+      .wx-legend-l { display: flex; justify-content: space-between; color: #cdd5f7; font: 500 12px/1.3 var(--sans); }
+      .wx-radar .leaflet-control-attribution { font: 11px/1.4 var(--sans); }
     </style>
   </head>
   <body>
@@ -465,6 +502,7 @@
             <button type="button" role="tab" id="t-timeline" data-tab="timeline" aria-controls="p-timeline" aria-selected="false">Timeline</button>
             <button type="button" role="tab" id="t-walk" data-tab="walk" aria-controls="p-walk" aria-selected="false">Walk</button>
             <button type="button" role="tab" id="t-know" data-tab="know" aria-controls="p-know" aria-selected="false">Know</button>
+            <button type="button" role="tab" id="t-weather" data-tab="weather" aria-controls="p-weather" aria-selected="false">Weather</button>
           </div>
         </div>
         <div class="x-bar__row">
@@ -731,6 +769,41 @@
                 </ul>
               </div>
             </div>
+          </div>
+        </section>
+
+        <!-- WEATHER -->
+        <section class="x-panel" id="p-weather" role="tabpanel" aria-labelledby="t-weather" hidden>
+          <div class="x-block">
+            <h2>Right now at Universal</h2>
+            <div class="wx-now" id="wxNow"><p class="fineprint">Loading the weather…</p></div>
+            <div id="wxAlerts"></div>
+          </div>
+          <div class="x-block">
+            <h2>Your park days</h2>
+            <div class="wx-trip" id="wxTrip"></div>
+            <p class="fineprint">Tickets work any day Nov 23–26. Gold days are the plan. Forecasts sharpen about a week out.</p>
+          </div>
+          <div class="x-block">
+            <h2>Radar</h2>
+            <div class="wx-radar__bar">
+              <button type="button" id="wxPlay">Pause</button>
+              <button type="button" class="ghost" id="wxCenter">Universal</button>
+              <button type="button" class="ghost" id="wxMe">Me</button>
+              <span class="wx-radar__time" id="wxTime"></span>
+            </div>
+            <div class="wx-radar"><div class="wx-radar__map" id="wxMap"></div></div>
+            <div><div class="wx-legend" aria-hidden="true"></div><div class="wx-legend-l"><span>Light rain</span><span>Heavy</span><span>Hail</span></div></div>
+            <p class="fineprint">Live NWS radar, the last 50 minutes on a loop. Gold star is the Universal resort. Outdoor coasters close when lightning is within a few miles, so a storm heading your way is the time to go to an indoor ride or show.</p>
+          </div>
+          <div class="x-block">
+            <h2>Next 24 hours</h2>
+            <div class="wx-hours" id="wxHours"></div>
+          </div>
+          <div class="x-block">
+            <h2>Next 16 days</h2>
+            <ul class="wx-list" id="wxDays"></ul>
+            <p class="fineprint" id="wxUpd">Forecast from Open-Meteo, alerts from the National Weather Service.</p>
           </div>
         </section>
       </main>
@@ -1345,11 +1418,134 @@
   });
   $("meta").addEventListener("click", function () { setTab("live"); var b = $("busy-block"); setTimeout(function () { b.scrollIntoView({ block: "start" }); }, 0); });
 
+  /* ---------- weather ---------- */
+  window.WX = (function () {
+    var UNI = [28.4743, -81.4678];
+    var PARK_DAYS = { "2026-11-23": "Epic Universe", "2026-11-25": "Studios + Islands" };
+    var TRIP = ["2026-11-23", "2026-11-24", "2026-11-25", "2026-11-26"];
+    var W = { loaded: 0, map: null, layers: [], idx: 0, timer: null, playing: true, me: null };
+    var OFFS = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0];
+    function wmo(c, day) {
+      var M = { 0: ["Clear", day === false ? "🌙" : "☀️"], 1: ["Mostly clear", day === false ? "🌙" : "🌤️"], 2: ["Partly cloudy", "⛅"], 3: ["Cloudy", "☁️"], 45: ["Fog", "🌫️"], 48: ["Fog", "🌫️"],
+        51: ["Light drizzle", "🌦️"], 53: ["Drizzle", "🌦️"], 55: ["Heavy drizzle", "🌧️"], 56: ["Freezing drizzle", "🌧️"], 57: ["Freezing drizzle", "🌧️"],
+        61: ["Light rain", "🌦️"], 63: ["Rain", "🌧️"], 65: ["Heavy rain", "🌧️"], 66: ["Freezing rain", "🌧️"], 67: ["Freezing rain", "🌧️"],
+        71: ["Light snow", "🌨️"], 73: ["Snow", "🌨️"], 75: ["Heavy snow", "❄️"], 77: ["Snow grains", "🌨️"],
+        80: ["Showers", "🌦️"], 81: ["Showers", "🌧️"], 82: ["Downpours", "🌧️"], 85: ["Snow showers", "🌨️"], 86: ["Snow showers", "🌨️"],
+        95: ["Thunderstorms", "⛈️"], 96: ["Storms with hail", "⛈️"], 99: ["Storms with hail", "⛈️"] };
+      return M[c] || ["—", "🌡️"];
+    }
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+    function dayName(iso, long) {
+      var p = iso.split("-"), d = new Date(+p[0], p[1] - 1, +p[2]);
+      return d.toLocaleDateString("en-US", long ? { weekday: "long", month: "short", day: "numeric" } : { weekday: "short", month: "short", day: "numeric" });
+    }
+    function hr(iso) { var h = +iso.slice(11, 13); return (h % 12 || 12) + (h < 12 ? " AM" : " PM"); }
+    function hm(iso) { var h = +iso.slice(11, 13), m = iso.slice(14, 16); return (h % 12 || 12) + ":" + m + (h < 12 ? " AM" : " PM"); }
+    function load() {
+      var u = "https://api.open-meteo.com/v1/forecast?latitude=" + UNI[0] + "&longitude=" + UNI[1] +
+        "&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_gusts_10m,is_day" +
+        "&hourly=temperature_2m,precipitation_probability,weather_code,is_day" +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,uv_index_max,sunrise,sunset,wind_speed_10m_max" +
+        "&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&forecast_days=16";
+      fetch(u).then(function (r) { return r.json(); }).then(render).catch(function () {
+        $("wxNow").innerHTML = '<p class="fineprint">Couldn\'t reach the forecast. Check your signal; it retries when you reopen this tab.</p>';
+        W.loaded = 0;
+      });
+      fetch("https://api.weather.gov/alerts/active?point=" + UNI[0] + "," + UNI[1], { headers: { Accept: "application/geo+json" } })
+        .then(function (r) { return r.json(); }).then(function (j) {
+          var f = (j.features || []).map(function (x) { return x.properties; });
+          $("wxAlerts").innerHTML = f.length ? f.map(function (a) {
+            return '<div class="wx-alert"><b>⚠️ ' + esc(a.event) + '</b>' + esc(a.headline || "") + '</div>';
+          }).join("") : '<div class="wx-ok">No weather alerts for the Universal area right now.</div>';
+        }).catch(function () { $("wxAlerts").innerHTML = ""; });
+    }
+    function render(j) {
+      var c = j.current, d = j.daily, h = j.hourly, w = wmo(c.weather_code, c.is_day === 1);
+      $("wxNow").innerHTML = '<span class="wx-now__ico" aria-hidden="true">' + w[1] + '</span><span class="wx-now__temp">' + Math.round(c.temperature_2m) + '°</span>' +
+        '<div class="wx-now__txt"><b>' + w[0] + '</b><span>Feels like ' + Math.round(c.apparent_temperature) + '° · Humidity ' + c.relative_humidity_2m + '%</span>' +
+        '<span>Wind ' + Math.round(c.wind_speed_10m) + ' mph, gusts ' + Math.round(c.wind_gusts_10m) + '</span>' +
+        '<span>Today ' + Math.round(d.temperature_2m_max[0]) + '° / ' + Math.round(d.temperature_2m_min[0]) + '° · Sunset ' + hm(d.sunset[0]) + '</span></div>';
+      // trip days
+      var trip = TRIP.map(function (iso) {
+        var i = d.time.indexOf(iso), park = PARK_DAYS[iso];
+        var head = '<div class="wx-day' + (park ? " is-park" : "") + '">' + (park ? '<span class="wx-day__tag">' + park + '</span>' : '<span class="wx-day__tag" style="color:#8ccfff">Backup day</span>') + '<h3>' + dayName(iso, true) + '</h3>';
+        if (i < 0) return head + '<p>Forecast shows up about two weeks out.</p></div>';
+        var x = wmo(d.weather_code[i]);
+        return head + '<div class="wx-big">' + x[1] + ' ' + Math.round(d.temperature_2m_max[i]) + '° / ' + Math.round(d.temperature_2m_min[i]) + '°</div>' +
+          '<div>' + x[0] + '</div><div>Rain chance ' + d.precipitation_probability_max[i] + '%</div><div>UV ' + Math.round(d.uv_index_max[i]) + ' · Sunset ' + hm(d.sunset[i]) + '</div></div>';
+      }).join("");
+      $("wxTrip").innerHTML = trip;
+      // hours
+      var nowIso = c.time.slice(0, 13), start = 0;
+      for (var k = 0; k < h.time.length; k++) { if (h.time[k].slice(0, 13) >= nowIso) { start = k; break; } }
+      var hs = "";
+      for (var n = start; n < Math.min(start + 24, h.time.length); n++) {
+        var y = wmo(h.weather_code[n], h.is_day[n] === 1);
+        hs += '<div class="wx-hour"><div>' + (n === start ? "Now" : hr(h.time[n])) + '</div><span class="i" aria-hidden="true">' + y[1] + '</span><span class="t">' + Math.round(h.temperature_2m[n]) + '°</span><span class="r">💧' + (h.precipitation_probability[n] || 0) + '%</span></div>';
+      }
+      $("wxHours").innerHTML = hs;
+      // days
+      $("wxDays").innerHTML = d.time.map(function (iso, i) {
+        var z = wmo(d.weather_code[i]), park = PARK_DAYS[iso];
+        return '<li' + (park ? ' class="is-park"' : "") + '><b>' + (i === 0 ? "Today" : dayName(iso)) + '</b><span aria-hidden="true">' + z[1] + '</span><span>' + z[0] + (park ? ' · <b>' + park + '</b>' : "") + '<br><span class="r">💧 ' + d.precipitation_probability_max[i] + '%</span></span><span class="hl">' + Math.round(d.temperature_2m_max[i]) + '° / ' + Math.round(d.temperature_2m_min[i]) + '°</span></li>';
+      }).join("");
+      $("wxUpd").textContent = "Updated " + new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) + ". Forecast from Open-Meteo, alerts from the National Weather Service.";
+    }
+    function tileUrl(off) { return "https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913" + (off ? "-m" + (off < 10 ? "0" : "") + off + "m" : "") + "/{z}/{x}/{y}.png?_=" + Math.floor(Date.now() / 300000); }
+    function frameLabel(off) {
+      var t = new Date(Date.now() - off * 60000);
+      return (off ? off + " min ago · " : "Now · ") + t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    }
+    function show(i) {
+      W.layers.forEach(function (l, j) { l.setOpacity(j === i ? 0.75 : 0); });
+      W.idx = i; $("wxTime").textContent = frameLabel(OFFS[i]);
+    }
+    function play() {
+      clearInterval(W.timer);
+      if (!W.playing) return;
+      W.timer = setInterval(function () { show((W.idx + 1) % W.layers.length); }, W.idx === W.layers.length - 1 ? 700 : 700);
+    }
+    function buildLayers() {
+      W.layers.forEach(function (l) { W.map.removeLayer(l); });
+      W.layers = OFFS.map(function (o) { return L.tileLayer(tileUrl(o), { opacity: 0, maxZoom: 12, zIndex: 5 }).addTo(W.map); });
+      W.built = Date.now(); show(W.layers.length - 1); play();
+    }
+    function radar() {
+      loadLeaflet(function (ok) {
+        if (!ok) { $("wxMap").innerHTML = '<p class="fineprint" style="padding:16px;color:#e6ebff">The radar map couldn\'t load. Check your signal and reopen this tab.</p>'; return; }
+        if (!W.map) {
+          W.map = L.map("wxMap", { zoomControl: true, attributionControl: true }).setView(UNI, 8);
+          L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19, subdomains: "abcd", attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> · Radar: NWS via Iowa Mesonet' }).addTo(W.map);
+          L.marker(UNI, { icon: L.divIcon({ className: "", html: '<div style="font-size:26px;line-height:26px;text-shadow:0 0 8px #000">⭐</div>', iconSize: [26, 26], iconAnchor: [13, 13] }), title: "Universal Orlando" }).addTo(W.map);
+          buildLayers();
+        } else { W.map.invalidateSize(); if (Date.now() - W.built > 5 * 60000) buildLayers(); play(); }
+        setTimeout(function () { W.map.invalidateSize(); }, 60);
+      });
+    }
+    $("wxPlay").addEventListener("click", function () { W.playing = !W.playing; this.textContent = W.playing ? "Pause" : "Play"; if (W.playing) play(); else { clearInterval(W.timer); show(W.layers.length - 1); } });
+    $("wxCenter").addEventListener("click", function () { if (W.map) W.map.setView(UNI, 10); });
+    $("wxMe").addEventListener("click", function () {
+      if (!navigator.geolocation || !W.map) return;
+      navigator.geolocation.getCurrentPosition(function (p) {
+        var ll = [p.coords.latitude, p.coords.longitude];
+        if (W.me) W.me.setLatLng(ll); else W.me = L.circleMarker(ll, { radius: 8, color: "#fff", weight: 3, fillColor: "#1e90ff", fillOpacity: 1 }).addTo(W.map);
+        W.map.setView(ll, 9);
+      }, function () {}, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) clearInterval(W.timer); else if (S.tab === "weather") { play(); if (Date.now() - W.loaded > 15 * 60000) open(); } });
+    function open() {
+      if (!W.loaded || Date.now() - W.loaded > 15 * 60000) { W.loaded = Date.now(); load(); }
+      radar();
+    }
+    return { open: open };
+  })();
+
   /* ---------- tabs and park picker ---------- */
   function setTab(name) {
     S.tab = name;
     [].forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === name ? "true" : "false"); });
-    ["live", "timeline", "walk", "know"].forEach(function (n) { $("p-" + n).hidden = n !== name; });
+    ["live", "timeline", "walk", "know", "weather"].forEach(function (n) { $("p-" + n).hidden = n !== name; });
+    if (name === "weather" && window.WX) window.WX.open();
     syncFab();
     window.scrollTo(0, 0);
   }
