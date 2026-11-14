@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T03:00:51.995Z",
+ "updated": "2026-11-14T23:54:05.671Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-14T03:00:51.995Z",
+   "updated": "2026-11-14T23:54:05.670Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -201,6 +201,29 @@
      "video": "1:26:56"
     }
    ]
+  },
+  {
+   "id": "gmwh2b1qg",
+   "team": "club",
+   "date": "2026-11-14",
+   "opp": "@ Nationals SC Capital Area",
+   "status": "live",
+   "us": 0,
+   "them": 0,
+   "min": 0,
+   "g": 0,
+   "a": 0,
+   "sh": 0,
+   "sog": 0,
+   "ch": 0,
+   "tk": 0,
+   "start": true,
+   "updated": "2026-11-14T23:54:05.670Z",
+   "tz": "America/Indiana/Indianapolis",
+   "kick": {},
+   "vid": null,
+   "clock_log": [],
+   "log": []
   }
  ]
 }
