@@ -1515,7 +1515,8 @@
         if (!ok) { $("wxMap").innerHTML = '<p class="fineprint" style="padding:16px;color:#e6ebff">The radar map couldn\'t load. Check your signal and reopen this tab.</p>'; return; }
         if (!W.map) {
           W.map = L.map("wxMap", { zoomControl: true, attributionControl: true }).setView(UNI, 8);
-          L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19, subdomains: "abcd", attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/" target="_blank" rel="noopener">CARTO</a> · Radar: NWS via Iowa Mesonet' }).addTo(W.map);
+          L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, zIndex: 1, attribution: 'Basemap &copy; Esri · Radar: NWS via Iowa Mesonet' }).addTo(W.map);
+          L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, zIndex: 10 }).addTo(W.map);
           L.marker(UNI, { icon: L.divIcon({ className: "", html: '<div style="font-size:26px;line-height:26px;text-shadow:0 0 8px #000">⭐</div>', iconSize: [26, 26], iconAnchor: [13, 13] }), title: "Universal Orlando" }).addTo(W.map);
           buildLayers();
         } else { W.map.invalidateSize(); if (Date.now() - W.built > 5 * 60000) buildLayers(); play(); }
