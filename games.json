@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T15:21:37.772Z",
+ "updated": "2026-11-15T15:21:45.743Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T15:21:37.772Z",
+   "updated": "2026-11-15T15:21:45.743Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T15:21:37.772Z",
+   "updated": "2026-11-15T15:21:45.743Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -482,17 +482,17 @@
    "date": "2026-11-15",
    "opp": "vs Liverpool FC-IA Michigan Hartland",
    "status": "live",
-   "us": 1,
+   "us": 2,
    "them": 0,
    "min": 21,
-   "g": 0,
+   "g": 1,
    "a": 1,
-   "sh": 1,
-   "sog": 1,
+   "sh": 2,
+   "sog": 2,
    "ch": 1,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-15T15:21:37.772Z",
+   "updated": "2026-11-15T15:21:45.743Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-15T10:00:57-05:00"
@@ -537,6 +537,16 @@
      "clock": "13:01",
      "clock_sec": 781,
      "min": 14
+    },
+    {
+     "k": "g",
+     "stat": "Gavin goal",
+     "t": 1794756099351,
+     "wall": "2026-11-15T10:21:39-05:00",
+     "half": 1,
+     "clock": "20:41",
+     "clock_sec": 1241,
+     "min": 21
     }
    ]
   }
