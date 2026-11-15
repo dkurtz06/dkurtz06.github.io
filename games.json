@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T16:40:31.979Z",
+ "updated": "2026-11-15T16:40:40.307Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T16:40:31.978Z",
+   "updated": "2026-11-15T16:40:40.303Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T16:40:31.979Z",
+   "updated": "2026-11-15T16:40:40.306Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -482,7 +482,7 @@
    "date": "2026-11-15",
    "opp": "vs Liverpool FC-IA Michigan Hartland",
    "status": "live",
-   "us": 2,
+   "us": 4,
    "them": 0,
    "min": 90,
    "g": 1,
@@ -492,7 +492,7 @@
    "ch": 3,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-15T16:40:31.979Z",
+   "updated": "2026-11-15T16:40:40.306Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-15T10:00:57-05:00",
@@ -650,6 +650,26 @@
      "clock": "69:02",
      "clock_sec": 4142,
      "min": 70
+    },
+    {
+     "k": "team_goal",
+     "stat": "Teammate goal",
+     "t": 1794760833512,
+     "wall": "2026-11-15T11:40:33-05:00",
+     "half": 2,
+     "clock": "90:13",
+     "clock_sec": 5413,
+     "min": 91
+    },
+    {
+     "k": "team_goal",
+     "stat": "Teammate goal",
+     "t": 1794760834004,
+     "wall": "2026-11-15T11:40:34-05:00",
+     "half": 2,
+     "clock": "90:13",
+     "clock_sec": 5413,
+     "min": 91
     }
    ]
   }
