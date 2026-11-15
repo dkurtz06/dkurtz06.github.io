@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T01:22:03.023Z",
+ "updated": "2026-11-15T01:35:52.542Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:22:03.023Z",
+   "updated": "2026-11-15T01:35:52.542Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -209,7 +209,7 @@
    "opp": "@ Nationals SC Capital Area",
    "status": "live",
    "us": 1,
-   "them": 0,
+   "them": 1,
    "min": 12,
    "g": 0,
    "a": 0,
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:22:03.023Z",
+   "updated": "2026-11-15T01:35:52.542Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -425,6 +425,16 @@
      "clock": "59:08",
      "clock_sec": 3548,
      "min": 60
+    },
+    {
+     "k": "opp_goal",
+     "stat": "Opponent goal",
+     "t": 1794706545231,
+     "wall": "2026-11-14T20:35:45-05:00",
+     "half": 2,
+     "clock": "88:38",
+     "clock_sec": 5318,
+     "min": 89
     }
    ]
   }
