@@ -14,7 +14,7 @@
  var L=["Date","Opponent","Result","Min","G","A","Sh","SOG"];
  var LT=["","","","Min","G","A","Sh","SOG"];
  function row(c,tot){return '<tr'+(tot?' class="tot"':'')+'>'+c.map(function(v,i){var lb=(tot?LT:L)[i];return '<td'+(lb?' data-l="'+lb+'"':'')+(i>2?' class="n"':'')+'>'+v+'</td>';}).join("")+'</tr>';}
- function strip(t,lbl){return '<div class="statstrip" aria-label="'+esc(lbl)+'"><div><b>'+t.gp+'</b><span>Games</span></div><div><b>'+t.g+'</b><span>Goals</span></div><div><b>'+t.a+'</b><span>Assists</span></div><div><b>'+fmt(t.min)+'</b><span>Minutes</span></div></div>';}
+ function strip(t,lbl,pts){return '<div class="statstrip" aria-label="'+esc(lbl)+'"><div><b>'+t.gp+'</b><span>Games</span></div><div><b>'+t.g+'</b><span>Goals</span></div><div><b>'+t.a+'</b><span>Assists</span></div>'+(pts?'<div><b>'+t.pts+'</b><span>Points</span></div>':'<div><b>'+fmt(t.min)+'</b><span>Minutes</span></div>')+'</div>';}
  function go(data){
   var games=(data&&data.games||[]).filter(function(x){return x&&x.date&&x.team;}).sort(function(a,b){return a.date<b.date?1:-1;});
   var club=games.filter(function(x){return x.team==="club";});
@@ -36,7 +36,7 @@
   // ---- club, home page strip
   var cs=document.getElementById("club-strip");
   if(cs&&club.length){var k=season(club[0].date),t=sum(club.filter(function(x){return season(x.date)===k;}));
-   cs.innerHTML=strip(t,"FC Pride Elite "+k+" totals")+'<p class="fine">FC Pride Elite ECNL RL, '+k+' season. <a href="/stats.html">Game log →</a></p>';cs.hidden=false;}
+   cs.innerHTML='<h3 class="sth">Club · '+k+' Season <span>FC Pride Elite · ECNL RL · #00</span></h3>'+strip(t,"FC Pride Elite "+k+" totals",true)+'<p class="fine">Club stats are kept starting this season. '+fmt(t.min)+' minutes played. <a href="/stats.html">Game log →</a></p>';cs.hidden=false;}
   // ---- high school: add tracked seasons to the MaxPreps table and career totals
   var tb=document.getElementById("hs-body");
   if(hs.length){
