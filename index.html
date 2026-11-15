@@ -133,6 +133,8 @@ td.fin b{font-family:var(--disp);letter-spacing:.5px}
  .tbl--stack td{border:0;padding:2px 0}
  .tbl--stack td[data-l]:before{content:attr(data-l)": ";font:600 11px/1 var(--body);letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
  .tbl--stack td:first-child{font:700 18px/1.2 var(--disp);text-transform:uppercase}
+ .tbl--stack tr.tot td:empty{display:none}
+ .tbl--stack tr.tot td:first-child:before{content:none}
 }
 /* footer */
 footer{background:var(--ink);color:#c9c9ce;border-top:1px solid var(--line);padding:36px 0 28px}
@@ -148,14 +150,14 @@ footer .acts{display:flex;gap:8px;flex-wrap:wrap}
 </style><script>(function(c,l,a,r,i,t,y){try{var m=new URLSearchParams(location.search).get("me");if(m==="1")localStorage.setItem("gk_me","1");if(m==="0")localStorage.removeItem("gk_me");if(localStorage.getItem("gk_me")){c[a]=function(){};return;}}catch(e){}c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};function ld(){t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);}if(l.readyState==="complete")setTimeout(ld,1500);else c.addEventListener("load",function(){setTimeout(ld,1500);});})(window,document,"clarity","script","yva9ml7ni8");</script><script>(function(){try{var q=new URLSearchParams(location.search).get("s");if(q){q=q.toLowerCase().replace(/[^a-z0-9-]/g,"").slice(0,30);localStorage.setItem("gk_school",q);}var t=q||localStorage.getItem("gk_school");if(t){clarity("set","school",t);clarity("event","school_"+t);}document.addEventListener("DOMContentLoaded",function(){var v=document.getElementById("reel-video");if(!v)return;var h={};v.addEventListener("play",function(){if(!h.p){h.p=1;clarity("event","reel_play");}});v.addEventListener("timeupdate",function(){if(!v.duration)return;var f=v.currentTime/v.duration;[25,50,75,95].forEach(function(n){if(f>=n/100&&!h[n]){h[n]=1;clarity("event","reel_"+n);}});});var sl=0;v.addEventListener("waiting",function(){if(h.p&&sl<5){sl++;clarity("event","reel_stall");clarity("set","reel_stall_at",String(Math.round(v.currentTime)));}});v.addEventListener("stalled",function(){if(h.p&&!h.st){h.st=1;clarity("event","reel_network_stalled");}});v.addEventListener("error",function(){var c=v.error?v.error.code:0;clarity("event","reel_error");clarity("set","reel_error_code",String(c));});});}catch(e){}})();</script></head><body><a class="skip" href="#main">Skip to content</a><header class="topbar"><div class="wrap"><a class="mark" href="/"><b>GK</b><span>Gavin Kurtz<small>Class of 2028 · Center Mid / Forward</small></span></a><nav class="tabs" aria-label="Site"><a href="/" aria-current="page">Bio</a><a href="/film.html">Film</a><a href="/stats.html">Stats</a><a href="/schedule.html">Schedule</a><a href="/news.html">News</a><a href="/#contact">Contact</a></nav></div></header><main id="main">
 <section class="hero"><div class="wrap">
  <div class="hero__txt">
-  <p class="hero__num" aria-hidden="true">2028</p>
-  <p class="hero__eyebrow">Uncommitted · Center Mid / Forward</p>
+  <p class="hero__num" aria-hidden="true">#00</p>
+  <p class="hero__eyebrow">Uncommitted · Class of 2028 · Center Mid / Forward</p>
   <h1><span>Gavin</span> <span>Kurtz</span></h1>
   <p class="hero__sub">FC Pride Elite (ECNL RL) #00 · Greenwood Christian Academy #24 · Indianapolis, Ind.</p>
   <p class="hero__snap">Two-way center mid / forward · Right foot, comfortable with left · 4.01 GPA · Finance or Engineering</p>
   <div class="hero__cta"><a class="btn" href="#film">▶ Watch highlights</a><a class="btn btn--ghost" href="#contact">Contact Gavin</a><a class="btn btn--ghost" href="/profile.html">One-page profile</a></div>
  </div>
- <div class="hero__img"><img src="gavin-hero.jpg" alt="Gavin Kurtz in his white #24 Greenwood Christian Academy kit holding a ball" width="1000" height="1500" fetchpriority="high" decoding="async"></div>
+ <div class="hero__img"><img src="gavin-hero-00.svg" alt="Gavin Kurtz in his black #00 FC Pride Elite kit holding a ball" width="1000" height="1499" fetchpriority="high" decoding="async"></div>
 </div></section>
 <div class="biobar"><div class="wrap"><dl><div><dt>Position</dt><dd>Center Mid / Forward</dd></div><div><dt>Class</dt><dd>2028</dd></div><div><dt>Height</dt><dd>6-0</dd></div><div><dt>Weight</dt><dd>160</dd></div><div><dt>Foot</dt><dd>Right</dd></div><div><dt>GPA</dt><dd>4.01</dd></div></dl></div></div>
 
