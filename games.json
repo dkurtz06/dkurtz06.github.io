@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T01:35:52.542Z",
+ "updated": "2026-11-15T01:37:25.420Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:35:52.542Z",
+   "updated": "2026-11-15T01:37:25.419Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:35:52.542Z",
+   "updated": "2026-11-15T01:37:25.419Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
