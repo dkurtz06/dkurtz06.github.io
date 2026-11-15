@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T00:03:23.117Z",
+ "updated": "2026-11-15T00:11:23.891Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T00:03:23.116Z",
+   "updated": "2026-11-15T00:11:23.890Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -213,12 +213,12 @@
    "min": 0,
    "g": 0,
    "a": 0,
-   "sh": 1,
+   "sh": 2,
    "sog": 0,
    "ch": 0,
-   "tk": 0,
+   "tk": 1,
    "start": true,
-   "updated": "2026-11-15T00:03:23.117Z",
+   "updated": "2026-11-15T00:11:23.891Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00"
@@ -243,6 +243,26 @@
      "clock": "2:54",
      "clock_sec": 174,
      "min": 3
+    },
+    {
+     "k": "sh",
+     "stat": "Shot off target",
+     "t": 1794701186733,
+     "wall": "2026-11-14T19:06:26-05:00",
+     "half": 1,
+     "clock": "6:05",
+     "clock_sec": 365,
+     "min": 7
+    },
+    {
+     "k": "tk",
+     "stat": "Tackle won",
+     "t": 1794701189860,
+     "wall": "2026-11-14T19:06:29-05:00",
+     "half": 1,
+     "clock": "6:08",
+     "clock_sec": 368,
+     "min": 7
     }
    ]
   }
