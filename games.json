@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T01:45:07.899Z",
+ "updated": "2026-11-15T12:43:40.075Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:45:07.899Z",
+   "updated": "2026-11-15T12:43:40.074Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,13 +218,19 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T01:45:07.899Z",
+   "updated": "2026-11-15T12:43:40.075Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
     "2": "2026-11-14T19:52:06-05:00"
    },
-   "vid": null,
+   "vid": {
+    "k1": 89,
+    "a1": {
+     "t": 1794700821505,
+     "v": 89
+    }
+   },
    "clock_log": [
     {
      "a": "start",
@@ -278,7 +284,8 @@
      "half": 1,
      "clock": "2:54",
      "clock_sec": 174,
-     "min": 3
+     "min": 3,
+     "video": "4:24"
     },
     {
      "k": "sh",
@@ -288,7 +295,8 @@
      "half": 1,
      "clock": "6:05",
      "clock_sec": 365,
-     "min": 7
+     "min": 7,
+     "video": "7:34"
     },
     {
      "k": "tk",
@@ -298,7 +306,8 @@
      "half": 1,
      "clock": "6:08",
      "clock_sec": 368,
-     "min": 7
+     "min": 7,
+     "video": "7:37"
     },
     {
      "k": "sog",
@@ -308,7 +317,8 @@
      "half": 1,
      "clock": "12:18",
      "clock_sec": 738,
-     "min": 13
+     "min": 13,
+     "video": "13:48"
     },
     {
      "k": "sog",
@@ -318,7 +328,8 @@
      "half": 1,
      "clock": "25:49",
      "clock_sec": 1549,
-     "min": 26
+     "min": 26,
+     "video": "27:18"
     },
     {
      "k": "tk",
@@ -328,7 +339,8 @@
      "half": 1,
      "clock": "25:52",
      "clock_sec": 1552,
-     "min": 26
+     "min": 26,
+     "video": "27:21"
     },
     {
      "k": "tk_minus",
@@ -338,7 +350,8 @@
      "half": 1,
      "clock": "25:53",
      "clock_sec": 1553,
-     "min": 26
+     "min": 26,
+     "video": "27:22"
     },
     {
      "k": "tk_minus",
@@ -348,7 +361,8 @@
      "half": 1,
      "clock": "25:53",
      "clock_sec": 1553,
-     "min": 26
+     "min": 26,
+     "video": "27:23"
     },
     {
      "k": "sh",
@@ -358,7 +372,8 @@
      "half": 1,
      "clock": "35:02",
      "clock_sec": 2102,
-     "min": 36
+     "min": 36,
+     "video": "36:31"
     },
     {
      "k": "ch",
@@ -368,7 +383,8 @@
      "half": 1,
      "clock": "38:38",
      "clock_sec": 2318,
-     "min": 39
+     "min": 39,
+     "video": "40:07"
     },
     {
      "k": "team_goal",
@@ -378,7 +394,8 @@
      "half": 1,
      "clock": "42:41",
      "clock_sec": 2561,
-     "min": 43
+     "min": 43,
+     "video": "44:10"
     },
     {
      "k": "sh",
@@ -388,7 +405,8 @@
      "half": 2,
      "clock": "48:23",
      "clock_sec": 2903,
-     "min": 49
+     "min": 49,
+     "video": "56:38"
     },
     {
      "k": "sh_minus",
@@ -398,7 +416,8 @@
      "half": 2,
      "clock": "48:27",
      "clock_sec": 2907,
-     "min": 49
+     "min": 49,
+     "video": "56:42"
     },
     {
      "k": "sog",
@@ -408,7 +427,8 @@
      "half": 2,
      "clock": "48:27",
      "clock_sec": 2907,
-     "min": 49
+     "min": 49,
+     "video": "56:42"
     },
     {
      "k": "tk",
@@ -418,7 +438,8 @@
      "half": 2,
      "clock": "50:25",
      "clock_sec": 3025,
-     "min": 51
+     "min": 51,
+     "video": "58:40"
     },
     {
      "k": "sog",
@@ -428,7 +449,8 @@
      "half": 2,
      "clock": "55:43",
      "clock_sec": 3343,
-     "min": 56
+     "min": 56,
+     "video": "1:03:58"
     },
     {
      "k": "tk",
@@ -438,7 +460,8 @@
      "half": 2,
      "clock": "59:08",
      "clock_sec": 3548,
-     "min": 60
+     "min": 60,
+     "video": "1:07:22"
     },
     {
      "k": "opp_goal",
@@ -448,7 +471,8 @@
      "half": 2,
      "clock": "88:38",
      "clock_sec": 5318,
-     "min": 89
+     "min": 89,
+     "video": "1:36:53"
     }
    ]
   }
