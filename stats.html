@@ -133,6 +133,8 @@ td.fin b{font-family:var(--disp);letter-spacing:.5px}
  .tbl--stack td{border:0;padding:2px 0}
  .tbl--stack td[data-l]:before{content:attr(data-l)": ";font:600 11px/1 var(--body);letter-spacing:1px;text-transform:uppercase;color:var(--mute)}
  .tbl--stack td:first-child{font:700 18px/1.2 var(--disp);text-transform:uppercase}
+ .tbl--stack tr.tot td:empty{display:none}
+ .tbl--stack tr.tot td:first-child:before{content:none}
 }
 /* footer */
 footer{background:var(--ink);color:#c9c9ce;border-top:1px solid var(--line);padding:36px 0 28px}

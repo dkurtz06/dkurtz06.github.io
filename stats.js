@@ -12,7 +12,8 @@
  function res(x){if(x.status==="live")return '<span class="live">Live</span>'+(x.us!=null?" "+esc(x.us)+"-"+esc(x.them):"");
   if(x.us==null||x.us==="")return "—";var u=n(x.us),t=n(x.them);return (u>t?"W ":u<t?"L ":"T ")+u+"-"+t;}
  var L=["Date","Opponent","Result","Min","G","A","Sh","SOG"];
- function row(c,tot){return '<tr'+(tot?' class="tot"':'')+'>'+c.map(function(v,i){return '<td data-l="'+L[i]+'"'+(i>2?' class="n"':'')+'>'+v+'</td>';}).join("")+'</tr>';}
+ var LT=["","","","Min","G","A","Sh","SOG"];
+ function row(c,tot){return '<tr'+(tot?' class="tot"':'')+'>'+c.map(function(v,i){var lb=(tot?LT:L)[i];return '<td'+(lb?' data-l="'+lb+'"':'')+(i>2?' class="n"':'')+'>'+v+'</td>';}).join("")+'</tr>';}
  function strip(t,lbl){return '<div class="statstrip" aria-label="'+esc(lbl)+'"><div><b>'+t.gp+'</b><span>Games</span></div><div><b>'+t.g+'</b><span>Goals</span></div><div><b>'+t.a+'</b><span>Assists</span></div><div><b>'+fmt(t.min)+'</b><span>Minutes</span></div></div>';}
  function go(data){
   var games=(data&&data.games||[]).filter(function(x){return x&&x.date&&x.team;}).sort(function(a,b){return a.date<b.date?1:-1;});
@@ -27,7 +28,7 @@
     h+=(i?'<h3 class="sea">'+k+' season</h3>':'')+(i===0?strip(t,k+" club season totals")+'<div style="height:16px"></div>':'');
     h+='<div class="tbl tbl--stack"><table><caption class="sr">FC Pride Elite '+k+' game log</caption><thead><tr>'+L.map(function(x,j){return '<th scope="col"'+(j>2?' class="n"':'')+'>'+x+'</th>';}).join("")+'</tr></thead><tbody>'+
      gs.map(function(x){return row([dlabel(x.date),esc(x.opp),res(x),x.min||0,x.g||0,x.a||0,x.sh||0,x.sog||0]);}).join("")+
-     row([k+" season","",t.gp+" GP",fmt(t.min),t.g,t.a,t.sh,t.sog],true)+'</tbody></table></div>';});
+     row([k+" season total","",t.gp+" GP",fmt(t.min),t.g,t.a,t.sh,t.sog],true)+'</tbody></table></div>';});
    if(keys.length>1){var c=sum(club);h+='<div class="tbl"><table><tbody>'+row(["Club career","",c.gp+" GP",fmt(c.min),c.g,c.a,c.sh,c.sog],true)+'</tbody></table></div>';}
    h+='<p class="fine">Logged by the family during each game and posted automatically.</p>';
    box.innerHTML=h;
