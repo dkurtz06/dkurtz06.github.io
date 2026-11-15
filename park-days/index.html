@@ -528,8 +528,7 @@
               <ol class="x-howto__steps">
                 <li><span><b>Pick your park</b>, and star the rides you want. Waits refresh every 5 minutes.</span></li>
                 <li><span><b>In line?</b> Tap Line timer, then “I'm on!” when you board.</span></li>
-                <li><span>Take pictures with your Camera app, then tap <b>Add from Photos</b> on the Timeline tab and choose Photo Library.</span></li>
-                <li><span><b>Your rides and photos live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
+                <li><span><b>Your rides live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
               </ol>
               <p class="x-howto__note">Leaving the page open in Safari is fine. Locking your phone or switching apps won't lose anything, but closing the tab will.</p>
               <button type="button" class="x-big" id="howtoOk">Got it</button>
@@ -630,22 +629,18 @@
           <div class="x-block">
             <aside class="callout" aria-label="Before you close">
               <p class="callout__head">Before you close the page</p>
-              <p class="callout__lead"><strong>Rides and photos stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
+              <p class="callout__lead"><strong>Rides stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
             </aside>
             <div class="x-actions">
-              <div class="x-photopick">
-                <label class="x-big x-big--blue">Add from Photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
-                <p class="fineprint">Take pictures with your iPhone Camera so they save to your camera roll, then pick Photo Library here. Don't use Take Photo in this menu, it won't save a copy.</p>
-              </div>
               <button type="button" class="x-big" id="saveDay">Save my day</button>
             </div>
             <div id="saveOut"></div>
           </div>
           <div class="x-block">
             <h2>Remember the day</h2>
-            <p class="fineprint">Rides from the line timer appear here on their own. Photos land at the time they were taken.</p>
+            <p class="fineprint">Rides from the line timer appear here on their own.</p>
             <ol class="timeline" id="tl"></ol>
-            <p class="fineprint" id="tlEmpty">Nothing yet. Time a line or add a photo to start the day's story.</p>
+            <p class="fineprint" id="tlEmpty">Nothing yet. Time a line to start the day's story.</p>
           </div>
         </section>
 
@@ -1706,7 +1701,7 @@
     if (blob.arrayBuffer) return blob.arrayBuffer();
     return new Promise(function (res, rej) { var fr = new FileReader(); fr.onload = function () { res(fr.result); }; fr.onerror = rej; fr.readAsArrayBuffer(blob); });
   }
-  $("photoInput").addEventListener("change", function () {
+  $("photoInput") && $("photoInput").addEventListener("change", function () {
     var files = [].slice.call(this.files || []), input = this;
     Promise.all(files.map(function (f, i) {
       return readHead(f).then(function (buf) { try { return exifDate(readExif(buf)); } catch (e) { return null; } }, function () { return null; }).then(function (d) {
@@ -1760,14 +1755,14 @@
   }
   function nag() {
     SV.lastNag = Date.now();
-    toast("Save your day so you don't lose today's rides and photos", true, { label: "Save now", fn: saveFromAnywhere, key: "nag" });
+    toast("Save your day so you don't lose today's rides", true, { label: "Save now", fn: saveFromAnywhere, key: "nag" });
   }
   function checkNag() {
     if (!unsaved() || !SV.firstAt) return;
     if (Date.now() - Math.max(SV.firstAt, SV.lastNag) >= NAG_MS) nag();
   }
   function saveFromAnywhere() {
-    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
+    if (!topItems().length) { toast("Time a ride first, then save your day.", false); return; }
     setTab("timeline");
     saveDay();
   }
@@ -1860,7 +1855,7 @@
   function saveDay() {
     var btn = $("saveDay");
     if (btn.disabled) return;
-    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
+    if (!topItems().length) { toast("Time a ride first, then save your day.", false); return; }
     var batch = S.tl.slice();
     btn.disabled = true; btn.textContent = "Making your image…";
     Promise.all(S.tl.filter(function (e) { return e.kind === "photo"; }).map(loadImg)).then(function () {
@@ -1890,7 +1885,7 @@
       toast("Saved. Keep going!", false);
       setTimeout(function () { out.scrollIntoView({ block: "start", behavior: "smooth" }); }, 50);
     }).catch(function () {
-      $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again, or with fewer photos.</p></div>';
+      $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again.</p></div>';
     }).then(function () { btn.disabled = false; btn.textContent = "Save my day"; });
   }
 
