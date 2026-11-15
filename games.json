@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T15:45:44.387Z",
+ "updated": "2026-11-15T15:46:35.031Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T15:45:44.387Z",
+   "updated": "2026-11-15T15:46:35.031Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T15:45:44.387Z",
+   "updated": "2026-11-15T15:46:35.031Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -484,15 +484,15 @@
    "status": "live",
    "us": 2,
    "them": 0,
-   "min": 42,
+   "min": 43,
    "g": 1,
    "a": 1,
    "sh": 4,
    "sog": 3,
-   "ch": 1,
+   "ch": 2,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-15T15:45:44.387Z",
+   "updated": "2026-11-15T15:46:35.031Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-15T10:00:57-05:00"
@@ -581,6 +581,16 @@
      "clock": "40:09",
      "clock_sec": 2409,
      "min": 41
+    },
+    {
+     "k": "ch",
+     "stat": "Chance created",
+     "t": 1794757588377,
+     "wall": "2026-11-15T10:46:28-05:00",
+     "half": 1,
+     "clock": "42:28",
+     "clock_sec": 2548,
+     "min": 43
     }
    ]
   }
