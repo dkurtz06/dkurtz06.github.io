@@ -129,8 +129,8 @@ body:has(#testbar:not([hidden])) .gv:not([hidden]){height:calc(100dvh - env(safe
  <div class="ov" id="vtov" hidden role="dialog" aria-modal="true" aria-label="Video timestamps"><div class="card vtc">
  <h2 style="margin:0 0 6px">Video timestamps</h2>
  <p class="m" style="margin:0 0 10px">Every stat is saved with its half, game clock and time of day. Line it up with the video one of these ways:</p>
- <label for="vt1">1st-half kickoff is at video time</label><input id="vt1" inputmode="numeric" placeholder="e.g. 4:05 or 1:02:30">
- <label for="vt2">2nd-half kickoff is at video time (leave blank if it's one video that keeps running)</label><input id="vt2" inputmode="numeric" placeholder="e.g. 0:15 for a separate 2nd-half video">
+ <label for="vt1">1st-half kickoff is at video time</label><input id="vt1" class="hms" inputmode="numeric" autocomplete="off" placeholder="type 405 for 4:05, 10230 for 1:02:30">
+ <label for="vt2">2nd-half kickoff is at video time (leave blank if it's one video that keeps running)</label><input id="vt2" class="hms" inputmode="numeric" autocomplete="off" placeholder="type 15 for 0:15">
  <label for="vt0">Or: the video started recording at (time of day)</label><input id="vt0" type="time" step="1">
  <div class="brow"><button class="sm2" id="vt-save">Save</button><button class="sm2" id="vt-copy">Copy list</button><button class="sm2" id="vt-x">Close</button></div>
  <p class="m" style="margin:8px 0">Or tap any stat below and type the video time where you see it. The rest line up from it.</p>
@@ -166,7 +166,7 @@ var games=LS.get("gk_games"+SX,[]),cur=null,team="club",timer=null,pushT=null,bu
 $("testbar").hidden=!TEST;$("testmode").textContent=TEST?"Exit test mode (back to real stats)":"Switch to test mode";
 $("testmode").addEventListener("click",function(){if(TEST){if(!confirm("Leave test mode? Test games stay separate and never reach the site."))return;localStorage.removeItem("gk_test");}else{localStorage.setItem("gk_test","1");}location.reload();});
 $("testmode2").hidden=TEST;$("testmode2").addEventListener("click",function(){localStorage.setItem("gk_test","1");location.reload();});
-var BUILD="1793561225";
+var BUILD="1794746711";
 (function(){try{if(sessionStorage.getItem("gk_upd")===BUILD)return;fetch(location.pathname,{cache:"reload"}).then(function(r){return r.text();}).then(function(h){var m=h.match(/var BUILD="(\d+)"/);if(m&&m[1]!==BUILD){sessionStorage.setItem("gk_upd",BUILD);location.reload();}}).catch(function(){});}catch(e){}})();
 function tok(){return localStorage.getItem("gk_token")||"";}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
@@ -192,7 +192,7 @@ function p2(n){return String(n).padStart(2,"0");}
 function isoLocal(ms){var d=new Date(ms),o=-d.getTimezoneOffset(),a=Math.abs(o);return d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate())+"T"+p2(d.getHours())+":"+p2(d.getMinutes())+":"+p2(d.getSeconds())+(o>=0?"+":"-")+p2(Math.floor(a/60))+":"+p2(a%60);}
 function tzName(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||"";}catch(e){return "";}}
 function clog(g,a){g.clog=g.clog||[];var c=gcs(g);g.clog.push({a:a,h:c.half,gc:gcFmt(gcMs(g)),t:Date.now(),wall:isoLocal(Date.now())});}
-function hmsIn(v){v=String(v||"").trim();if(!v)return null;var p=v.split(":");if(p.length>3)return null;var n=0;for(var i=0;i<p.length;i++){if(!/^\d+$/.test(p[i]))return null;n=n*60+(+p[i]);}return n;}
+function hmsIn(v){v=String(v||"").trim().replace(/[.,;\s]+/g,":");if(!v)return null;if(/^\d{3,6}$/.test(v)){var d=v;v=(d.length>4?d.slice(0,d.length-4)+":":"")+d.slice(-4,-2).replace(/^$/,"0")+":"+d.slice(-2);}var p=v.split(":");if(p.length>3)return null;var n=0;for(var i=0;i<p.length;i++){if(!/^\d+$/.test(p[i]))return null;n=n*60+(+p[i]);}return n;}
 function hmsOut(sec){if(sec==null||isNaN(sec))return "";var neg=sec<0;sec=Math.abs(Math.round(sec));var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),x=sec%60;return (neg?"-":"")+(h?h+":"+p2(m):m)+":"+p2(x);}
 function anchorFor(g,e){var v=g.vid||{};return (e.h===2&&v.a2)?v.a2:(v.a1||null);}
 function vidSec(g,e){var a=anchorFor(g,e);if(!a)return null;return a.v+(e.t-a.t)/1000;}
@@ -279,10 +279,12 @@ function vtLine(g,e){var vs=vidSec(g,e);return (e.gc?(e.h===2?"2H ":"1H ")+e.gc:
 function vtPaint(){var g=cur;if(!g)return;var v=g.vid||{};
  $("vt1").value=v.k1!=null?hmsOut(v.k1):"";$("vt2").value=v.k2!=null?hmsOut(v.k2):"";$("vt0").value=v.s0||"";
  var r=vtRows(g);$("vt-list").innerHTML=r.length?r.map(function(x){var e=x.e,vs=vidSec(g,e);return '<button data-vti="'+x.i+'"><span class="vv">'+(vs!=null?esc(hmsOut(vs)):"set")+'</span><b>'+esc(NAMES[e.k]||e.k)+'</b><br><span class="m">'+(e.gc?(e.h===2?"2H ":"1H ")+esc(e.gc):(e.gm?e.gm+"'":"clock off"))+" · "+esc(wallTime(e.t))+'</span></button>';}).join(""):'<p class="m">No stats logged yet.</p>';}
+function hmsFmt(el){var d=el.value.replace(/\D/g,"").replace(/^0+(?=\d{3})/,"").slice(0,6);el.value=d.length<3?d:(d.length>4?d.slice(0,d.length-4)+":"+d.slice(-4,-2):d.slice(0,-2))+":"+d.slice(-2);}
+["vt1","vt2"].forEach(function(id){$(id).addEventListener("input",function(){hmsFmt(this);});});
 $("vt").addEventListener("click",function(){if(!cur)return;vtPaint();$("vtov").hidden=false;});
 $("vt-x").addEventListener("click",function(){$("vtov").hidden=true;});
 $("vtov").addEventListener("click",function(e){if(e.target===this){this.hidden=true;return;}var b=e.target.closest("[data-vti]");if(!b||!cur)return;var ev=cur.ev[+b.getAttribute("data-vti")];
- var cv=vidSec(cur,ev),v=prompt("Video time for this "+(NAMES[ev.k]||ev.k).toLowerCase()+" (minutes:seconds or h:mm:ss)",cv!=null?hmsOut(cv):"");if(v==null)return;var sec=hmsIn(v);if(sec==null){toast("Use minutes:seconds, like 23:10");return;}
+ var cv=vidSec(cur,ev),v=prompt("Video time for this "+(NAMES[ev.k]||ev.k).toLowerCase()+" (numbers only is fine: 2310 = 23:10)",cv!=null?hmsOut(cv):"");if(v==null)return;var sec=hmsIn(v);if(sec==null){toast("Use minutes:seconds, like 23:10");return;}
  cur.vid=cur.vid||{};var a={t:ev.t,v:sec};if(ev.h===2&&cur.vid.a2){cur.vid.a2=a;}else if(ev.h===2&&cur.vid.k2!=null){cur.vid.a2=a;}else{cur.vid.a1=a;if(ev.h!==2)delete cur.vid.k1;}cur.vid.src="event";changed();vtPaint();toast("Lined up");});
 $("vt-save").addEventListener("click",function(){if(!cur)return;var k=cur.kick||{},v={},s1=hmsIn($("vt1").value),s2=hmsIn($("vt2").value),s0=$("vt0").value;
  if($("vt1").value.trim()&&s1==null||$("vt2").value.trim()&&s2==null){toast("Use minutes:seconds, like 4:05");return;}
