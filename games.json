@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T16:12:19.751Z",
+ "updated": "2026-11-15T16:19:20.783Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T16:12:19.751Z",
+   "updated": "2026-11-15T16:19:20.783Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T16:12:19.751Z",
+   "updated": "2026-11-15T16:19:20.783Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -484,15 +484,15 @@
    "status": "live",
    "us": 2,
    "them": 0,
-   "min": 62,
+   "min": 69,
    "g": 1,
    "a": 2,
-   "sh": 5,
-   "sog": 4,
+   "sh": 6,
+   "sog": 5,
    "ch": 3,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-15T16:12:19.751Z",
+   "updated": "2026-11-15T16:19:20.783Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-15T10:00:57-05:00",
@@ -633,6 +633,16 @@
      "clock": "62:01",
      "clock_sec": 3721,
      "min": 63
+    },
+    {
+     "k": "sog",
+     "stat": "Shot on target",
+     "t": 1794759554127,
+     "wall": "2026-11-15T11:19:14-05:00",
+     "half": 2,
+     "clock": "69:02",
+     "clock_sec": 4142,
+     "min": 70
     }
    ]
   }
