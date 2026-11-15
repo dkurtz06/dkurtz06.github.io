@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T00:52:13.086Z",
+ "updated": "2026-11-15T00:55:41.109Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T00:52:13.082Z",
+   "updated": "2026-11-15T00:55:41.108Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -213,12 +213,12 @@
    "min": 0,
    "g": 0,
    "a": 0,
-   "sh": 5,
-   "sog": 2,
+   "sh": 6,
+   "sog": 3,
    "ch": 1,
    "tk": 0,
    "start": true,
-   "updated": "2026-11-15T00:52:13.085Z",
+   "updated": "2026-11-15T00:55:41.109Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -365,6 +365,36 @@
      "clock": "42:41",
      "clock_sec": 2561,
      "min": 43
+    },
+    {
+     "k": "sh",
+     "stat": "Shot off target",
+     "t": 1794704130124,
+     "wall": "2026-11-14T19:55:30-05:00",
+     "half": 2,
+     "clock": "48:23",
+     "clock_sec": 2903,
+     "min": 49
+    },
+    {
+     "k": "sh_minus",
+     "stat": "Shot off target removed",
+     "t": 1794704134053,
+     "wall": "2026-11-14T19:55:34-05:00",
+     "half": 2,
+     "clock": "48:27",
+     "clock_sec": 2907,
+     "min": 49
+    },
+    {
+     "k": "sog",
+     "stat": "Shot on target",
+     "t": 1794704134619,
+     "wall": "2026-11-14T19:55:34-05:00",
+     "half": 2,
+     "clock": "48:27",
+     "clock_sec": 2907,
+     "min": 49
     }
    ]
   }
