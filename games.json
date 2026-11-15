@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T12:43:47.198Z",
+ "updated": "2026-11-15T14:59:02.140Z",
  "games": [
   {
    "id": "gmwfa564f",
@@ -17,7 +17,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T12:43:47.198Z",
+   "updated": "2026-11-15T14:59:02.139Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-13T12:59:50-05:00",
@@ -218,7 +218,7 @@
    "ch": 1,
    "tk": 2,
    "start": true,
-   "updated": "2026-11-15T12:43:47.198Z",
+   "updated": "2026-11-15T14:59:02.139Z",
    "tz": "America/Indiana/Indianapolis",
    "kick": {
     "1": "2026-11-14T19:00:21-05:00",
@@ -475,6 +475,29 @@
      "video": "1:36:53"
     }
    ]
+  },
+  {
+   "id": "gmwhymt6z",
+   "team": "club",
+   "date": "2026-11-15",
+   "opp": "vs Liverpool FC-IA Michigan Hartland",
+   "status": "live",
+   "us": 0,
+   "them": 0,
+   "min": 0,
+   "g": 0,
+   "a": 0,
+   "sh": 0,
+   "sog": 0,
+   "ch": 0,
+   "tk": 0,
+   "start": true,
+   "updated": "2026-11-15T14:59:02.139Z",
+   "tz": "America/Indiana/Indianapolis",
+   "kick": {},
+   "vid": null,
+   "clock_log": [],
+   "log": []
   }
  ]
 }
