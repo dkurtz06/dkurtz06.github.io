@@ -302,7 +302,8 @@
       /* Wait list: big glowing numbers */
       .x-ride { border-bottom-color: var(--stroke-secondary); border-radius: var(--r-s); }
       .x-ride.is-star { background: linear-gradient(90deg, rgba(255, 201, 64, 0.16), rgba(255, 201, 64, 0.04)); box-shadow: inset 0 0 0 1px rgba(255, 201, 64, 0.38); }
-      .x-ride__star { font-size: 22px; color: rgba(188, 197, 234, 0.6); }
+      .x-ride__star { font-size: 22px; color: rgba(188, 197, 234, 0.6); position: relative; }
+      .x-ride__star::after { content: ""; position: absolute; inset: -14px -10px; }
       .x-ride.is-star .x-ride__star { color: var(--x-gold); text-shadow: 0 0 10px rgba(255, 201, 64, 0.6); }
       .x-ride__name { font-weight: 600; }
       .x-ride__wait b { font: 800 44px/0.95 var(--x-display); font-stretch: condensed; letter-spacing: 0; }
@@ -415,6 +416,7 @@
       .x-rs__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
       .x-rs h2 { font: 800 28px/1.05 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: var(--x-gold); }
       .x-rs__status { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: -6px; font: var(--type-body); }
+      .x-rs__desc { font: var(--type-body); color: var(--text-secondary); margin: 2px 0 0; line-height: 1.45; }
       .x-rs__status b { font: 800 22px/1 var(--x-display); font-stretch: condensed; }
       .x-rs__sub { font: 700 17px/1.1 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 1px; color: var(--x-blue-2); }
       .x-rs__map { height: 260px; border-radius: var(--r-m); overflow: hidden; box-shadow: 0 0 0 1px var(--x-glow); background: var(--x-night-2); isolation: isolate; }
@@ -526,7 +528,7 @@
             <div class="x-howto__card" id="howtoCard">
               <h2>How this works</h2>
               <ol class="x-howto__steps">
-                <li><span><b>Pick your park</b>, and star the rides you want. Waits refresh every 5 minutes.</span></li>
+                <li><span><b>Pick your park</b>, and tap ☆ to star the rides you want. Tap a ride for details, a video, and walking directions. Waits refresh every 5 minutes.</span></li>
                 <li><span><b>In line?</b> Tap Line timer, then “I'm on!” when you board.</span></li>
                 <li><span><b>Your rides live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
               </ol>
@@ -550,7 +552,7 @@
                 <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
               </div>
             </div>
-            <p class="fineprint">Tap a ride to star it as a must-do. Starred rides stay on top and get stronger alerts.</p>
+            <p class="fineprint">Tap ☆ to star a must-do. Tap anywhere else on a ride for details, a video, and walking directions. Starred rides stay on top and get stronger alerts.</p>
             <div id="waitMsg"></div>
             <div class="x-waits" id="waits" aria-live="polite"></div>
           </div>
@@ -841,6 +843,11 @@
         <div class="x-rs__photo" id="rsPhoto"></div>
         <h2 id="rsName">Ride</h2>
         <p class="x-rs__status" id="rsStatus"></p>
+        <p class="x-rs__desc" id="rsDesc" hidden></p>
+        <div class="x-actions">
+          <a class="x-big x-big--ghost" id="rsVid" target="_blank" rel="noopener">▶ Watch a video</a>
+          <button type="button" class="x-big x-big--ghost" id="rsStar" hidden>☆ Star it</button>
+        </div>
         <h3 class="x-rs__sub">Map</h3>
         <div class="x-rs__map" id="rsMap" role="img" aria-label="Map of the ride's location"></div>
         <p class="fineprint" id="rsNoMap" hidden></p>
@@ -859,6 +866,7 @@
     <script src="hark-charts.js"></script>
     <script src="ride-thumbs.js"></script>
     <script src="ride-coords.js"></script>
+    <script src="ride-info.js"></script>
     <script>
 (function () {
   "use strict";
@@ -1031,6 +1039,11 @@
     }
     $("rsName").textContent = RS.name;
     $("rsStatus").innerHTML = rsStatusHtml(id, name);
+    var info = (window.RIDE_INFO && RIDE_INFO[id]) || "";
+    $("rsDesc").textContent = info; $("rsDesc").hidden = !info;
+    var clean = String(RS.name).replace(/[\u2122\u00ae]/g, "").trim();
+    $("rsVid").href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(clean + " Universal Orlando ride POV");
+    rsStarSync();
     rsLoc(""); $("rsNoMap").hidden = true;
     var dir = $("rsDir"), show = $("rsShow");
     if (RS.ll) {
@@ -1053,6 +1066,11 @@
       }
     }
   }
+  function rsStarSync() {
+    var b = $("rsStar"), id = RS.id, ok = id && pd(S.park).rides.some(function (x) { return x.id === id; });
+    b.hidden = !ok; if (!ok) return;
+    b.textContent = S.stars[id] ? "★ Starred" : "☆ Star it";
+  }
   function closeZoom() {
     var z = $("zoom"); if (!z || z.hidden) return;
     RS.open = false; stopWatch();
@@ -1061,6 +1079,11 @@
   if ($("zoom")) {
     $("zoom").addEventListener("click", function (e) { if (e.target.closest("[data-rs-close]")) closeZoom(); });
     $("rsShow").addEventListener("click", function () { stopWatch(); startWatch(); });
+    $("rsStar").addEventListener("click", function () {
+      var id = RS.id; if (!id) return;
+      if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: RS.name };
+      rsStarSync(); renderWaits(); renderForecast();
+    });
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeZoom(); });
   function mapPill(name) { return '<span class="x-mappill" role="button" tabindex="0" data-map aria-label="Map for ' + esc(name) + '">📍 Map</span>'; }
@@ -1251,7 +1274,7 @@
       var star = !!S.stars[r.id], op = r.status === "OPERATING";
       row.classList.toggle("is-star", star);
       row.setAttribute("aria-pressed", star ? "true" : "false");
-      row.setAttribute("aria-label", r.name + ", " + (op && r.standby != null ? r.standby + " minute wait" : STATUS[r.status] || r.status) + (star ? ", starred" : ", tap to star"));
+      row.setAttribute("aria-label", r.name + ", " + (op && r.standby != null ? r.standby + " minute wait" : STATUS[r.status] || r.status) + (star ? ", starred" : "") + ". Tap for details");
       row.querySelector(".x-ride__star").textContent = star ? "★" : "☆";
       row.querySelector(".x-ride__main").innerHTML = '<span class="x-ride__name">' + esc(r.name) + '</span><span class="x-ride__meta">' + rideMeta(r) + mapPill(r.name) + "</span>";
       var w = op ? r.standby : null, wb = row.querySelector(".x-ride__wait");
@@ -1385,7 +1408,7 @@
   $("waits").addEventListener("click", function (e) {
     var row = e.target.closest(".x-ride"); if (!row) return;
     var id = row.getAttribute("data-id"), r = pd(S.park).rides.filter(function (x) { return x.id === id; })[0];
-    if (e.target.closest(".x-rt, [data-map]")) { e.preventDefault(); e.stopPropagation(); openZoom(id, r ? r.name : ""); return; }
+    if (!e.target.closest(".x-ride__star")) { e.preventDefault(); e.stopPropagation(); openZoom(id, r ? r.name : ""); return; }
     if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: r ? r.name : "" };
     renderWaits(); renderForecast();
   });
