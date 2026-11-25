@@ -5,6 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Universal Park Days</title>
+    <meta name="description" content="Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
+    <meta property="og:title" content="Universal Park Days" />
+    <meta property="og:description" content="Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
+    <meta property="og:image" content="https://gavinkurtzsoccer.com/park-days/usf_globe.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="icon-512.png" />
     <meta name="apple-mobile-web-app-title" content="Park Days" />
@@ -489,11 +494,11 @@
   <body>
     <div class="page" id="top">
       <header class="x-banner">
-        <img src="hero_epic_wide.jpg" alt="Celestial Park at Universal Epic Universe" />
+        <img src="usf_globe.jpg" alt="The Universal Studios Florida globe and entrance arch" />
         <div class="x-banner__copy">
           <p>Kurtz family · Universal Orlando</p>
           <h1>Universal Park Days</h1>
-          <p>Mon Nov 23 Epic Universe · Wed Nov 25 Studios + Islands</p>
+          <p>Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands</p>
         </div>
       </header>
 
@@ -710,9 +715,9 @@
             <h2>Your tickets</h2>
             <ul class="checklist">
               <li><span class="checklist__item">Mon Nov 23 · Epic Universe <small>One day, one park, with Universal Express</small></span><span class="chip">Self-parking prepaid</span></li>
-              <li><span class="checklist__item">Wed Nov 25 · Studios + Islands <small>Park-to-park: Universal Studios Florida and Islands of Adventure</small></span><span class="chip">Self-parking prepaid</span></li>
+              <li><span class="checklist__item">Thu Nov 26 (Thanksgiving) · Studios + Islands <small>Park-to-park: Universal Studios Florida and Islands of Adventure. Prepaid parking was dated Nov 25, so pay $35 at the toll plaza, CityWalk garages, 6000 Universal Blvd.</small></span><span class="chip">Pay $35 parking</span></li>
             </ul>
-            <p class="fineprint">Tickets live in the Universal Orlando Resort app.</p>
+            <p class="fineprint">Tickets live in the Universal Orlando Resort app and work any day Nov 23–26. Moved back a day because of rain.</p>
           </div>
           <div class="x-block">
             <h2>Good to know</h2>
@@ -723,6 +728,7 @@
                   <li>Epic Universe has its own parking and entrance on Universal Blvd/Destination Pkwy, separate from the CityWalk garages for Studios and Islands. Allow extra time on Nov 23.</li>
                   <li>Rope drop: arrive 45–60 min before opening. The first 90 minutes have the shortest waits of the day.</li>
                   <li>Thanksgiving week (Nov 23–27) is one of the busiest weeks of the year, so expect high crowds.</li>
+                  <li>Thanksgiving Day tip: crowds often thin in the afternoon as families leave for dinner; Black Friday (Nov 27) is the week's busiest day.</li>
                 </ul>
               </div>
               <div>
@@ -881,7 +887,7 @@
   };
   var FALLBACK_HOURS = {
     "2026-11-23": { epic: { open: "9:00 AM", close: "9:00 PM", early: "8:00–9:00 AM" } },
-    "2026-11-25": { usf: { open: "9:00 AM", close: "8:00 PM" }, ioa: { open: "9:00 AM", close: "8:00 PM", early: "8:00–9:00 AM" } }
+    "2026-11-26": { usf: { open: "9:00 AM", close: "8:00 PM" }, ioa: { open: "9:00 AM", close: "8:00 PM", early: "8:00–9:00 AM" } }
   };
   var EPA = "Early Park Admission, for Universal hotel guests only; not valid for off-site/condo guests";
 
@@ -1102,7 +1108,7 @@
 
   var today = etDate(new Date());
   var S = {
-    park: today === "2026-11-25" ? "usf" : "epic",
+    park: today === "2026-11-23" ? "epic" : "usf",
     tab: "live", az: false, q: "",
     stars: {}, data: {}, sched: {}, alerts: [],
     timer: null, log: [], tl: [], walk: { miles: null, steps: null }
@@ -1365,10 +1371,10 @@
       if (op.length) {
         h = '<p class="x-hours__main">' + esc(name) + " · " + op.map(function (e) { return tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)); }).join(", ") + " <span>today</span></p>";
         ex.forEach(function (e) { h += '<p class="fineprint">' + tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)) + ": " + EPA + ".</p>"; });
-      } else if (fb) h = fbHtml("Hours as of Nov 13; the live schedule hasn't posted today yet.");
+      } else if (fb) h = fbHtml("Hours as of Nov 25; the live schedule hasn't posted today yet.");
       else h = '<p class="x-hours__main">' + esc(name) + " · <span>no hours posted for today</span></p>";
     } else {
-      if (fb) h = fbHtml("Hours as of Nov 13. Couldn't load the live schedule.");
+      if (fb) h = fbHtml("Hours as of Nov 25. Couldn't load the live schedule.");
       else h = '<p class="x-hours__main">' + esc(name) + " · <span>couldn't load today's hours</span></p>";
       h += '<p><button type="button" class="btn" data-retry-sched>Try again</button></p>';
     }
@@ -1439,7 +1445,7 @@
   /* ---------- weather ---------- */
   window.WX = (function () {
     var UNI = [28.4743, -81.4678];
-    var PARK_DAYS = { "2026-11-23": "Epic Universe", "2026-11-25": "Studios + Islands" };
+    var PARK_DAYS = { "2026-11-23": "Epic Universe", "2026-11-26": "Studios + Islands" };
     var TRIP = ["2026-11-23", "2026-11-24", "2026-11-25", "2026-11-26"];
     var W = { loaded: 0, map: null, layers: [], idx: 0, timer: null, playing: true, me: null };
     var OFFS = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0];
