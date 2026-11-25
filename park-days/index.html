@@ -1,15 +1,19 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
-<meta name="robots" content="noindex">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Universal Park Days</title>
-    <meta name="description" content="Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
-    <meta property="og:title" content="Universal Park Days" />
-    <meta property="og:description" content="Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
+    <title>Universal Park Days · Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands</title>
+    <meta name="description" content="Kurtz family at Universal Orlando: Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Universal Park Days · Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
+    <meta property="og:description" content="Kurtz family at Universal Orlando: Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands." />
     <meta property="og:image" content="https://gavinkurtzsoccer.com/park-days/usf_globe.jpg" />
+    <meta property="og:image:alt" content="The Universal Studios Florida globe and entrance arch" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Universal Park Days · Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands" />
+    <meta name="twitter:description" content="Kurtz family at Universal Orlando: Mon Nov 23 Epic Universe · Thu Nov 26 Studios + Islands." />
+    <meta name="twitter:image" content="https://gavinkurtzsoccer.com/park-days/usf_globe.jpg" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" href="icon-512.png" />
     <meta name="apple-mobile-web-app-title" content="Park Days" />
@@ -307,8 +311,7 @@
       /* Wait list: big glowing numbers */
       .x-ride { border-bottom-color: var(--stroke-secondary); border-radius: var(--r-s); }
       .x-ride.is-star { background: linear-gradient(90deg, rgba(255, 201, 64, 0.16), rgba(255, 201, 64, 0.04)); box-shadow: inset 0 0 0 1px rgba(255, 201, 64, 0.38); }
-      .x-ride__star { font-size: 22px; color: rgba(188, 197, 234, 0.6); position: relative; }
-      .x-ride__star::after { content: ""; position: absolute; inset: -14px -10px; }
+      .x-ride__star { font-size: 22px; color: rgba(188, 197, 234, 0.6); }
       .x-ride.is-star .x-ride__star { color: var(--x-gold); text-shadow: 0 0 10px rgba(255, 201, 64, 0.6); }
       .x-ride__name { font-weight: 600; }
       .x-ride__wait b { font: 800 44px/0.95 var(--x-display); font-stretch: condensed; letter-spacing: 0; }
@@ -421,7 +424,6 @@
       .x-rs__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
       .x-rs h2 { font: 800 28px/1.05 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: var(--x-gold); }
       .x-rs__status { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: -6px; font: var(--type-body); }
-      .x-rs__desc { font: var(--type-body); color: var(--text-secondary); margin: 2px 0 0; line-height: 1.45; }
       .x-rs__status b { font: 800 22px/1 var(--x-display); font-stretch: condensed; }
       .x-rs__sub { font: 700 17px/1.1 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 1px; color: var(--x-blue-2); }
       .x-rs__map { height: 260px; border-radius: var(--r-m); overflow: hidden; box-shadow: 0 0 0 1px var(--x-glow); background: var(--x-night-2); isolation: isolate; }
@@ -452,43 +454,33 @@
       @keyframes x-pulse { from { transform: scale(0.35); opacity: 1; } to { transform: scale(1); opacity: 0; } }
       .x-rs .leaflet-control-attribution { font: 12px/1.4 var(--sans); }
       .x-rs .leaflet-control-attribution a { color: #0645ad; }
-      /* Weather tab */
-      .x-tabs button { padding: 0 6px; letter-spacing: 0.3px; font-size: 15px; }
-      .wx-now { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-      .wx-now__ico { font-size: 56px; line-height: 1; }
-      .wx-now__temp { font: 800 58px/0.9 var(--x-display); font-stretch: condensed; color: var(--x-gold); }
-      .wx-now__txt { min-width: 0; }
-      .wx-now__txt b { display: block; font: 700 20px/1.15 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: #fff; }
-      .wx-now__txt span { display: block; font: 500 14px/1.4 var(--sans); color: #cdd5f7; }
-      .wx-alert { padding: 12px 14px; border-radius: 14px; background: rgba(255, 80, 80, 0.14); box-shadow: inset 0 0 0 1.5px rgba(255, 110, 110, 0.6); color: #ffe3e3; font: 500 14px/1.4 var(--sans); }
-      .wx-alert b { display: block; color: #fff; font-weight: 700; }
-      .wx-ok { padding: 10px 14px; border-radius: 14px; background: rgba(63, 214, 194, 0.1); box-shadow: inset 0 0 0 1.5px rgba(63, 214, 194, 0.45); color: #d9fff9; font: 500 14px/1.4 var(--sans); }
-      .wx-trip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-      .wx-day { padding: 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.35); color: #e6ebff; font: 500 14px/1.45 var(--sans); }
-      .wx-day.is-park { box-shadow: inset 0 0 0 2px var(--x-gold), 0 0 16px rgba(255, 201, 64, 0.25); }
-      .wx-day h3 { font: 700 17px/1.15 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: #fff; }
-      .wx-day .wx-day__tag { font: 700 12px/1 var(--x-display); font-stretch: condensed; letter-spacing: 1px; text-transform: uppercase; color: var(--x-gold); }
-      .wx-day .wx-big { font: 800 28px/1.1 var(--x-display); font-stretch: condensed; color: #fff; }
-      .wx-hours { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; -webkit-overflow-scrolling: touch; }
-      .wx-hour { flex: none; width: 64px; padding: 10px 4px; text-align: center; border-radius: 14px; background: rgba(255, 255, 255, 0.05); color: #e6ebff; font: 600 13px/1.5 var(--sans); }
-      .wx-hour .i { font-size: 22px; display: block; line-height: 1.3; }
-      .wx-hour .t { font: 800 18px/1.2 var(--x-display); color: #fff; display: block; }
-      .wx-hour .r { color: #8ccfff; }
-      .wx-list { list-style: none; margin: 0; padding: 0; }
-      .wx-list li { display: grid; grid-template-columns: 92px 30px 1fr auto; align-items: center; gap: 10px; padding: 10px 2px; border-top: 1px solid rgba(255, 255, 255, 0.08); color: #e6ebff; font: 500 15px/1.3 var(--sans); }
-      .wx-list li:first-child { border-top: 0; }
-      .wx-list li.is-park b { color: var(--x-gold); }
-      .wx-list .r { color: #8ccfff; font-size: 13px; }
-      .wx-list .hl { font-weight: 700; color: #fff; white-space: nowrap; }
-      .wx-radar { position: relative; height: min(70vh, 460px); border-radius: 16px; overflow: hidden; background: #0b1030; box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.35); }
-      .wx-radar__map { position: absolute; inset: 0; }
-      .wx-radar__bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-      .wx-radar__bar button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: linear-gradient(180deg, var(--x-gold-2), var(--x-gold) 55%, var(--x-gold-deep)); color: #1a1300; font: 800 15px/1 var(--x-display); font-stretch: condensed; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; }
-      .wx-radar__bar button.ghost { background: rgba(255, 255, 255, 0.08); color: #e6ebff; box-shadow: inset 0 0 0 1.5px rgba(140, 207, 255, 0.45); }
-      .wx-radar__time { font: 700 16px/1.2 var(--x-display); font-stretch: condensed; letter-spacing: 0.4px; color: #fff; }
-      .wx-legend { height: 10px; border-radius: 6px; background: linear-gradient(90deg, #04e9e7, #019ff4, #0300f4, #02fd02, #01c501, #008e00, #fdf802, #e5bc00, #fd9500, #fd0000, #d40000, #bc0000, #f800fd, #9854c6); }
-      .wx-legend-l { display: flex; justify-content: space-between; color: #cdd5f7; font: 500 12px/1.3 var(--sans); }
-      .wx-radar .leaflet-control-attribution { font: 11px/1.4 var(--sans); }
+
+      /* Restrooms tab */
+      .x-tabs button .x-ico { font-size: 18px; letter-spacing: 0; }
+      .x-tabs button.x-tab-wc { flex: 0 0 auto; overflow: visible; }
+      @media (max-width: 640px) {
+        .x-tabs { padding: 2px; gap: 1px; }
+        .x-tabs button { padding: 0 5px; font-size: 13px; letter-spacing: 0; }
+        .x-tabs button .x-ico { font-size: 15px; }
+      }
+      @media (max-width: 350px) { .x-tabs button { padding: 0 3px; font-size: 12px; } .x-tabs button .x-ico { font-size: 13px; } }
+      .x-wc-jump { display: flex; width: 100%; margin: 12px 0 4px; }
+      .x-wc-quick { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+      .x-wc-quick li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.3fr); align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--r-s); background: #141a48; color: #f5f7ff; border: 1px solid var(--stroke-secondary); font: var(--type-small); }
+      .x-wc-quick b { font-weight: var(--weight-bold); }
+      .x-wc-quick .x-wc-arrow { color: var(--x-gold); font-weight: var(--weight-bold); }
+      @media (max-width: 480px) { .x-wc-quick li { grid-template-columns: minmax(0, 1fr); gap: 2px; } .x-wc-quick .x-wc-arrow { display: none; } .x-wc-quick li > span:last-child::before { content: "→ "; color: var(--x-gold); } }
+      .x-wc-land + .x-wc-land { margin-top: 18px; }
+      .x-wc-land h3 { font: var(--type-label); color: var(--x-blue-2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+      .x-wc-land > p { font: var(--type-small); color: var(--text-secondary); margin-bottom: 8px; }
+      .x-wc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+      .x-wc { padding: 12px 14px; border-radius: var(--r-s); border: 1px solid var(--stroke-secondary); background: #141a48; color: #f5f7ff; display: grid; gap: 4px; align-content: start; }
+      .x-wc__where { font: var(--type-body); font-weight: var(--weight-medium); }
+      .x-wc__near { font: var(--type-small); color: var(--text-secondary); }
+      .x-wc__tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+      .x-wc__tags .pill { font: var(--type-tag); }
+      .x-wc__tags .pill.is-quiet { background-color: #1d5a45; color: #dfffee; }
+      .x-wc-empty { font: var(--type-small); color: var(--text-secondary); }
     </style>
   </head>
   <body>
@@ -509,13 +501,13 @@
             <button type="button" role="tab" id="t-timeline" data-tab="timeline" aria-controls="p-timeline" aria-selected="false">Timeline</button>
             <button type="button" role="tab" id="t-walk" data-tab="walk" aria-controls="p-walk" aria-selected="false">Walk</button>
             <button type="button" role="tab" id="t-know" data-tab="know" aria-controls="p-know" aria-selected="false">Know</button>
-            <button type="button" role="tab" id="t-weather" data-tab="weather" aria-controls="p-weather" aria-selected="false">Weather</button>
+            <button type="button" role="tab" id="t-restrooms" data-tab="restrooms" aria-controls="p-restrooms" aria-selected="false" class="x-tab-wc"><span class="x-ico" aria-hidden="true">🚻</span> Restrooms</button>
           </div>
         </div>
         <div class="x-bar__row">
           <div class="x-parks" role="group" aria-label="Park">
-            <button type="button" data-park="epic" aria-pressed="true"><span class="x-long">Epic Universe</span><span class="x-short">Epic</span></button>
-            <button type="button" data-park="usf" aria-pressed="false"><span class="x-long">Universal Studios Florida</span><span class="x-short">Studios</span></button>
+            <button type="button" data-park="epic" aria-pressed="false"><span class="x-long">Epic Universe</span><span class="x-short">Epic</span></button>
+            <button type="button" data-park="usf" aria-pressed="true"><span class="x-long">Universal Studios Florida</span><span class="x-short">Studios</span></button>
             <button type="button" data-park="ioa" aria-pressed="false"><span class="x-long">Islands of Adventure</span><span class="x-short">Islands</span></button>
           </div>
           <button type="button" class="x-meta" id="meta" aria-label="How busy is it">
@@ -529,13 +521,15 @@
       <main class="main">
         <!-- LIVE -->
         <section class="x-panel" id="p-live" role="tabpanel" aria-labelledby="t-live">
+          <button type="button" class="x-big x-big--blue x-wc-jump" id="wcJump"><span aria-hidden="true">🚻</span> Find a restroom</button>
           <div class="x-howto" id="howto">
             <div class="x-howto__card" id="howtoCard">
               <h2>How this works</h2>
               <ol class="x-howto__steps">
-                <li><span><b>Pick your park</b>, and tap ☆ to star the rides you want. Tap a ride for details, a video, and walking directions. Waits refresh every 5 minutes.</span></li>
+                <li><span><b>Pick your park</b>, and star the rides you want. Waits refresh every 5 minutes.</span></li>
                 <li><span><b>In line?</b> Tap Line timer, then “I'm on!” when you board.</span></li>
-                <li><span><b>Your rides live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
+                <li><span>Take pictures with your Camera app, then tap <b>Add from Photos</b> on the Timeline tab and choose Photo Library.</span></li>
+                <li><span><b>Your rides and photos live only on this phone</b> while this page stays open. Tap Save my day every couple of hours and before you close the tab, and it saves one picture of your day to Photos.</span></li>
               </ol>
               <p class="x-howto__note">Leaving the page open in Safari is fine. Locking your phone or switching apps won't lose anything, but closing the tab will.</p>
               <button type="button" class="x-big" id="howtoOk">Got it</button>
@@ -557,7 +551,7 @@
                 <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
               </div>
             </div>
-            <p class="fineprint">Tap ☆ to star a must-do. Tap anywhere else on a ride for details, a video, and walking directions. Starred rides stay on top and get stronger alerts.</p>
+            <p class="fineprint">Tap a ride to star it as a must-do. Starred rides stay on top and get stronger alerts.</p>
             <div id="waitMsg"></div>
             <div class="x-waits" id="waits" aria-live="polite"></div>
           </div>
@@ -636,18 +630,22 @@
           <div class="x-block">
             <aside class="callout" aria-label="Before you close">
               <p class="callout__head">Before you close the page</p>
-              <p class="callout__lead"><strong>Rides stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
+              <p class="callout__lead"><strong>Rides and photos stay only on this phone while this page is open.</strong> Save every couple of hours and before you close.</p>
             </aside>
             <div class="x-actions">
+              <div class="x-photopick">
+                <label class="x-big x-big--blue">Add from Photos<input type="file" id="photoInput" accept="image/*" multiple /></label>
+                <p class="fineprint">Take pictures with your iPhone Camera so they save to your camera roll, then pick Photo Library here. Don't use Take Photo in this menu, it won't save a copy.</p>
+              </div>
               <button type="button" class="x-big" id="saveDay">Save my day</button>
             </div>
             <div id="saveOut"></div>
           </div>
           <div class="x-block">
             <h2>Remember the day</h2>
-            <p class="fineprint">Rides from the line timer appear here on their own.</p>
+            <p class="fineprint">Rides from the line timer appear here on their own. Photos land at the time they were taken.</p>
             <ol class="timeline" id="tl"></ol>
-            <p class="fineprint" id="tlEmpty">Nothing yet. Time a line to start the day's story.</p>
+            <p class="fineprint" id="tlEmpty">Nothing yet. Time a line or add a photo to start the day's story.</p>
           </div>
         </section>
 
@@ -715,9 +713,9 @@
             <h2>Your tickets</h2>
             <ul class="checklist">
               <li><span class="checklist__item">Mon Nov 23 · Epic Universe <small>One day, one park, with Universal Express</small></span><span class="chip">Self-parking prepaid</span></li>
-              <li><span class="checklist__item">Thu Nov 26 (Thanksgiving) · Studios + Islands <small>Park-to-park: Universal Studios Florida and Islands of Adventure. Prepaid parking was dated Nov 25, so pay $35 at the toll plaza, CityWalk garages, 6000 Universal Blvd.</small></span><span class="chip">Pay $35 parking</span></li>
+              <li><span class="checklist__item">Thu Nov 26 (Thanksgiving) · Studios + Islands <small>Park-to-park: Universal Studios Florida and Islands of Adventure</small></span><span class="chip chip--solid">Pay $35 parking</span><span class="checklist__note">Prepaid parking was dated Nov 25. Pay at the toll plaza: CityWalk garages, 6000 Universal Blvd.</span></li>
             </ul>
-            <p class="fineprint">Tickets live in the Universal Orlando Resort app and work any day Nov 23–26. Moved back a day because of rain.</p>
+            <p class="fineprint">Tickets are valid any day Nov 23–26 and live in the Universal Orlando Resort app. Moved back a day because of rain.</p>
           </div>
           <div class="x-block">
             <h2>Good to know</h2>
@@ -728,8 +726,11 @@
                   <li>Epic Universe has its own parking and entrance on Universal Blvd/Destination Pkwy, separate from the CityWalk garages for Studios and Islands. Allow extra time on Nov 23.</li>
                   <li>Rope drop: arrive 45–60 min before opening. The first 90 minutes have the shortest waits of the day.</li>
                   <li>Thanksgiving week (Nov 23–27) is one of the busiest weeks of the year, so expect high crowds.</li>
-                  <li>Thanksgiving Day tip: crowds often thin in the afternoon as families leave for dinner; Black Friday (Nov 27) is the week's busiest day.</li>
                 </ul>
+              </div>
+              <div>
+                <h3>Thanksgiving Day tip</h3>
+                <p>Crowds often thin in the afternoon as families leave for dinner. Black Friday (Nov 27) is the week's busiest day.</p>
               </div>
               <div>
                 <h3>Beating the lines</h3>
@@ -775,38 +776,17 @@
           </div>
         </section>
 
-        <!-- WEATHER -->
-        <section class="x-panel" id="p-weather" role="tabpanel" aria-labelledby="t-weather" hidden>
-          <div class="x-block">
-            <h2>Right now at Universal</h2>
-            <div class="wx-now" id="wxNow"><p class="fineprint">Loading the weather…</p></div>
-            <div id="wxAlerts"></div>
+        <!-- RESTROOMS -->
+        <section class="x-panel" id="p-restrooms" role="tabpanel" aria-labelledby="t-restrooms" hidden>
+          <div class="x-block" id="wcQuickBlock">
+            <h2>Ride → nearest restroom</h2>
+            <ul class="x-wc-quick" id="wcQuick"></ul>
           </div>
           <div class="x-block">
-            <h2>Your park days</h2>
-            <div class="wx-trip" id="wxTrip"></div>
-            <p class="fineprint">Tickets work any day Nov 23–26. Gold days are the plan. Forecasts sharpen about a week out.</p>
-          </div>
-          <div class="x-block">
-            <h2>Radar</h2>
-            <div class="wx-radar__bar">
-              <button type="button" id="wxPlay">Pause</button>
-              <button type="button" class="ghost" id="wxCenter">Universal</button>
-              <button type="button" class="ghost" id="wxMe">Me</button>
-              <span class="wx-radar__time" id="wxTime"></span>
-            </div>
-            <div class="wx-radar"><div class="wx-radar__map" id="wxMap"></div></div>
-            <div><div class="wx-legend" aria-hidden="true"></div><div class="wx-legend-l"><span>Light rain</span><span>Heavy</span><span>Hail</span></div></div>
-            <p class="fineprint">Live NWS radar, the last 50 minutes on a loop. Gold star is the Universal resort. Outdoor coasters close when lightning is within a few miles, so a storm heading your way is the time to go to an indoor ride or show.</p>
-          </div>
-          <div class="x-block">
-            <h2>Next 24 hours</h2>
-            <div class="wx-hours" id="wxHours"></div>
-          </div>
-          <div class="x-block">
-            <h2>Next 16 days</h2>
-            <ul class="wx-list" id="wxDays"></ul>
-            <p class="fineprint" id="wxUpd">Forecast from Open-Meteo, alerts from the National Weather Service.</p>
+            <div class="x-block__head"><h2 id="wcTitle">Restrooms</h2></div>
+            <input type="search" class="x-input" id="wcQ" placeholder="Search a land, ride or landmark" aria-label="Search restrooms" autocomplete="off" />
+            <div id="wcList" aria-live="polite"></div>
+            <p class="fineprint">Every Universal restroom has baby changing and accessible stalls. Locations as of Nov 2026; Universal is renovating some restrooms, so if one's closed, check the Universal app map (filter: Restrooms).</p>
           </div>
         </section>
       </main>
@@ -849,11 +829,6 @@
         <div class="x-rs__photo" id="rsPhoto"></div>
         <h2 id="rsName">Ride</h2>
         <p class="x-rs__status" id="rsStatus"></p>
-        <p class="x-rs__desc" id="rsDesc" hidden></p>
-        <div class="x-actions">
-          <a class="x-big x-big--ghost" id="rsVid" target="_blank" rel="noopener">▶ Watch a video</a>
-          <button type="button" class="x-big x-big--ghost" id="rsStar" hidden>☆ Star it</button>
-        </div>
         <h3 class="x-rs__sub">Map</h3>
         <div class="x-rs__map" id="rsMap" role="img" aria-label="Map of the ride's location"></div>
         <p class="fineprint" id="rsNoMap" hidden></p>
@@ -872,7 +847,6 @@
     <script src="hark-charts.js"></script>
     <script src="ride-thumbs.js"></script>
     <script src="ride-coords.js"></script>
-    <script src="ride-info.js"></script>
     <script>
 (function () {
   "use strict";
@@ -887,7 +861,7 @@
   };
   var FALLBACK_HOURS = {
     "2026-11-23": { epic: { open: "9:00 AM", close: "9:00 PM", early: "8:00–9:00 AM" } },
-    "2026-11-26": { usf: { open: "9:00 AM", close: "8:00 PM" }, ioa: { open: "9:00 AM", close: "8:00 PM", early: "8:00–9:00 AM" } }
+    "2026-11-26": { usf: { open: "9:00 AM", close: "8:00 PM", asof: "Nov 25" }, ioa: { open: "9:00 AM", close: "8:00 PM", early: "8:00–9:00 AM", asof: "Nov 25" } }
   };
   var EPA = "Early Park Admission, for Universal hotel guests only; not valid for off-site/condo guests";
 
@@ -1037,19 +1011,8 @@
     if (RS.me && RS.map) { RS.map.removeLayer(RS.me); RS.me = null; }
     var src = thumbSrc(id, name);
     $("rsPhoto").innerHTML = src ? '<img src="' + src + '" alt="' + esc(RS.name) + '" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
-    var bid = (id && THUMBS[id]) ? id : THUMB_IDS[normName(name)];
-    if (src && bid && /^[0-9a-f-]+$/i.test(bid)) {
-      var big = new Image();
-      big.onload = function () { if (RS.open && RS.id === id) { var im = $("rsPhoto").querySelector("img"); if (im) im.src = big.src; } };
-      big.src = "ride-" + bid + ".jpg";
-    }
     $("rsName").textContent = RS.name;
     $("rsStatus").innerHTML = rsStatusHtml(id, name);
-    var info = (window.RIDE_INFO && RIDE_INFO[id]) || "";
-    $("rsDesc").textContent = info; $("rsDesc").hidden = !info;
-    var clean = String(RS.name).replace(/[\u2122\u00ae]/g, "").trim();
-    $("rsVid").href = "https://www.youtube.com/results?search_query=" + encodeURIComponent(clean + " Universal Orlando ride POV");
-    rsStarSync();
     rsLoc(""); $("rsNoMap").hidden = true;
     var dir = $("rsDir"), show = $("rsShow");
     if (RS.ll) {
@@ -1072,11 +1035,6 @@
       }
     }
   }
-  function rsStarSync() {
-    var b = $("rsStar"), id = RS.id, ok = id && pd(S.park).rides.some(function (x) { return x.id === id; });
-    b.hidden = !ok; if (!ok) return;
-    b.textContent = S.stars[id] ? "★ Starred" : "☆ Star it";
-  }
   function closeZoom() {
     var z = $("zoom"); if (!z || z.hidden) return;
     RS.open = false; stopWatch();
@@ -1085,11 +1043,6 @@
   if ($("zoom")) {
     $("zoom").addEventListener("click", function (e) { if (e.target.closest("[data-rs-close]")) closeZoom(); });
     $("rsShow").addEventListener("click", function () { stopWatch(); startWatch(); });
-    $("rsStar").addEventListener("click", function () {
-      var id = RS.id; if (!id) return;
-      if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: RS.name };
-      rsStarSync(); renderWaits(); renderForecast();
-    });
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeZoom(); });
   function mapPill(name) { return '<span class="x-mappill" role="button" tabindex="0" data-map aria-label="Map for ' + esc(name) + '">📍 Map</span>'; }
@@ -1280,7 +1233,7 @@
       var star = !!S.stars[r.id], op = r.status === "OPERATING";
       row.classList.toggle("is-star", star);
       row.setAttribute("aria-pressed", star ? "true" : "false");
-      row.setAttribute("aria-label", r.name + ", " + (op && r.standby != null ? r.standby + " minute wait" : STATUS[r.status] || r.status) + (star ? ", starred" : "") + ". Tap for details");
+      row.setAttribute("aria-label", r.name + ", " + (op && r.standby != null ? r.standby + " minute wait" : STATUS[r.status] || r.status) + (star ? ", starred" : ", tap to star"));
       row.querySelector(".x-ride__star").textContent = star ? "★" : "☆";
       row.querySelector(".x-ride__main").innerHTML = '<span class="x-ride__name">' + esc(r.name) + '</span><span class="x-ride__meta">' + rideMeta(r) + mapPill(r.name) + "</span>";
       var w = op ? r.standby : null, wb = row.querySelector(".x-ride__wait");
@@ -1371,10 +1324,10 @@
       if (op.length) {
         h = '<p class="x-hours__main">' + esc(name) + " · " + op.map(function (e) { return tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)); }).join(", ") + " <span>today</span></p>";
         ex.forEach(function (e) { h += '<p class="fineprint">' + tm(new Date(e.openingTime)) + "–" + tm(new Date(e.closingTime)) + ": " + EPA + ".</p>"; });
-      } else if (fb) h = fbHtml("Hours as of Nov 25; the live schedule hasn't posted today yet.");
+      } else if (fb) h = fbHtml("Hours as of " + (fb.asof || "Nov 13") + "; the live schedule hasn't posted today yet.");
       else h = '<p class="x-hours__main">' + esc(name) + " · <span>no hours posted for today</span></p>";
     } else {
-      if (fb) h = fbHtml("Hours as of Nov 25. Couldn't load the live schedule.");
+      if (fb) h = fbHtml("Hours as of " + (fb.asof || "Nov 13") + ". Couldn't load the live schedule.");
       else h = '<p class="x-hours__main">' + esc(name) + " · <span>couldn't load today's hours</span></p>";
       h += '<p><button type="button" class="btn" data-retry-sched>Try again</button></p>';
     }
@@ -1414,7 +1367,7 @@
   $("waits").addEventListener("click", function (e) {
     var row = e.target.closest(".x-ride"); if (!row) return;
     var id = row.getAttribute("data-id"), r = pd(S.park).rides.filter(function (x) { return x.id === id; })[0];
-    if (!e.target.closest(".x-ride__star")) { e.preventDefault(); e.stopPropagation(); openZoom(id, r ? r.name : ""); return; }
+    if (e.target.closest(".x-rt, [data-map]")) { e.preventDefault(); e.stopPropagation(); openZoom(id, r ? r.name : ""); return; }
     if (S.stars[id]) delete S.stars[id]; else S.stars[id] = { park: S.park, name: r ? r.name : "" };
     renderWaits(); renderForecast();
   });
@@ -1442,144 +1395,157 @@
   });
   $("meta").addEventListener("click", function () { setTab("live"); var b = $("busy-block"); setTimeout(function () { b.scrollIntoView({ block: "start" }); }, 0); });
 
-  /* ---------- weather ---------- */
-  window.WX = (function () {
-    var UNI = [28.4743, -81.4678];
-    var PARK_DAYS = { "2026-11-23": "Epic Universe", "2026-11-26": "Studios + Islands" };
-    var TRIP = ["2026-11-23", "2026-11-24", "2026-11-25", "2026-11-26"];
-    var W = { loaded: 0, map: null, layers: [], idx: 0, timer: null, playing: true, me: null };
-    var OFFS = [50, 45, 40, 35, 30, 25, 20, 15, 10, 5, 0];
-    function wmo(c, day) {
-      var M = { 0: ["Clear", day === false ? "🌙" : "☀️"], 1: ["Mostly clear", day === false ? "🌙" : "🌤️"], 2: ["Partly cloudy", "⛅"], 3: ["Cloudy", "☁️"], 45: ["Fog", "🌫️"], 48: ["Fog", "🌫️"],
-        51: ["Light drizzle", "🌦️"], 53: ["Drizzle", "🌦️"], 55: ["Heavy drizzle", "🌧️"], 56: ["Freezing drizzle", "🌧️"], 57: ["Freezing drizzle", "🌧️"],
-        61: ["Light rain", "🌦️"], 63: ["Rain", "🌧️"], 65: ["Heavy rain", "🌧️"], 66: ["Freezing rain", "🌧️"], 67: ["Freezing rain", "🌧️"],
-        71: ["Light snow", "🌨️"], 73: ["Snow", "🌨️"], 75: ["Heavy snow", "❄️"], 77: ["Snow grains", "🌨️"],
-        80: ["Showers", "🌦️"], 81: ["Showers", "🌧️"], 82: ["Downpours", "🌧️"], 85: ["Snow showers", "🌨️"], 86: ["Snow showers", "🌨️"],
-        95: ["Thunderstorms", "⛈️"], 96: ["Storms with hail", "⛈️"], 99: ["Storms with hail", "⛈️"] };
-      return M[c] || ["—", "🌡️"];
+  /* ---------- restrooms ---------- */
+  var F = "Family restroom", Q = "Quietest";
+  var WC = {
+    epic: {
+      note: "Family restrooms at every major restroom location.",
+      quick: [
+        ["Harry Potter and the Battle at the Ministry", "Ministry of Magic restroom by the ride entrance"],
+        ["Mario Kart / Mine-Cart Madness", "Pizza Moon restroom first (Celestial Park)"],
+        ["Stardust Racers", "Celestial Park restroom by Stardust Racers"]
+      ],
+      lands: [
+        ["Celestial Park", null, [
+          ["Just inside the front entrance", "Guest Services and satellite First Aid to the right of the gates", [F]],
+          ["Next to Pizza Moon", "Best bet, on the walk to Super Nintendo World", [F, Q]],
+          ["Near the Stardust Racers entrance", "", [F]]
+        ]],
+        ["Super Nintendo World", "Only one restroom here, and none on the upper Mario Kart level. Use the Pizza Moon restroom before walking through the warp pipe.", [
+          ["Ground level", "Near the 1-UP Factory store and the Donkey Kong Country entrance", [F]]
+        ]],
+        ["Ministry of Magic", null, [
+          ["Across from Café L'air De La Sirène", "", [F]],
+          ["Near the Battle at the Ministry entrance", "Listen for Moaning Myrtle in the plumbing", [F]]
+        ]],
+        ["Isle of Berk", null, [
+          ["Near Spit Fyre Grill", "", [F]],
+          ["Next to Mead Hall", "", [F]],
+          ["Inside Viking Training Camp", "In the play area", [F]]
+        ]],
+        ["Dark Universe", null, [
+          ["Next to the character meet-and-greet", "Shortest lines in the park", [F, Q]]
+        ]],
+        ["Family Care Center", null, [
+          ["Next to the Ministry of Magic portal", "By Helios Grand Hotel. Nursing rooms, sensory room, family restrooms, diapers and meds vending; main First Aid with an adult changing table", [F]]
+        ]]
+      ]
+    },
+    usf: {
+      quick: [],
+      lands: [
+        ["Entrance / Production Central", null, [
+          ["Big restrooms by the lockers", "Just inside the gate; the sleeper pick", [Q]],
+          ["Family restroom", "Near the Studio Audience Center", [F]]
+        ]],
+        ["New York", null, [
+          ["Behind Race Through New York", "Tall stall doors", []],
+          ["Family restroom at First Aid", "Behind Louie's Italian Restaurant", [F]]
+        ]],
+        ["San Francisco", null, [
+          ["Near Richter's Burger Co.", "Often quiet; family restroom across from it", [F]]
+        ]],
+        ["Diagon Alley / London", null, [
+          ["London waterfront", "End of the Grimmauld Place row houses", []],
+          ["Outside the Leaky Cauldron", "Across from Weasleys' Wizard Wheezes", []],
+          ["Horizont Alley \u201cPublic Conveniences\u201d", "Left of Gringotts, across from the Fountain of Fair Fortune. Busy", []]
+        ]],
+        ["World Expo", null, [
+          ["Amity / World Expo area", "", []]
+        ]],
+        ["Springfield", null, [
+          ["Between Fast Food Boulevard and Animal Actors", "Family restroom outside Fast Food Boulevard", [F]]
+        ]],
+        ["DreamWorks Land", null, [
+          ["Next to Imagination Celebration", "Kid-height sinks", []],
+          ["Outside by E.T. Adventure", "", []]
+        ]],
+        ["Hollywood", null, [
+          ["Outside Mel's Drive-In", "Between Mel's and the Transformers meet-and-greet", [F]]
+        ]]
+      ]
+    },
+    ioa: {
+      quick: [
+        ["Hagrid's Magical Creatures Motorbike Adventure", "Lost Continent restroom by Doc Sugrue's"],
+        ["Jurassic World VelociCoaster", "Jurassic Park Discovery Center"]
+      ],
+      lands: [
+        ["Port of Entry", null, [
+          ["Loo's Lodge", "Outside the gates, right of the ticket booths", [Q]],
+          ["Inside the gates to the left", "Water Works Authority building; was under refurbishment", []],
+          ["End of Port of Entry", "Next to Backwater Bar, toward Seuss Landing", []],
+          ["Guest Services / Health Services", "Near the entrance", [F]]
+        ]],
+        ["Marvel Super Hero Island", null, [
+          ["By Spider-Man", "", []],
+          ["By the Hulk coaster", "Near Captain America Diner", []]
+        ]],
+        ["Toon Lagoon", null, [
+          ["By Dudley Do-Right's Ripsaw Falls", "", []],
+          ["By the old theater", "Near Comic Strip Café, away from the water rides. Quieter", []]
+        ]],
+        ["Skull Island", null, [
+          ["Near the Reign of Kong entrance", "", [Q]]
+        ]],
+        ["Jurassic Park", null, [
+          ["Discovery Center", "Air-conditioned; use before VelociCoaster", []],
+          ["Right of Pizza Predatoria", "", []],
+          ["Near Camp Jurassic", "", []]
+        ]],
+        ["Hogsmeade", null, [
+          ["Public Conveniences past the Hog's Head", "Moaning Myrtle inside. Busy", []]
+        ]],
+        ["The Lost Continent", null, [
+          ["Right of Doc Sugrue's", "60 seconds from Hogsmeade; use before Hagrid's", [Q]],
+          ["Family restroom at First Aid", "Near Fire Eater's Grill", [F]]
+        ]],
+        ["Seuss Landing", null, [
+          ["Along the water", "", []],
+          ["By Circus McGurkus", "", []],
+          ["Behind One Fish Two Fish", "", []]
+        ]]
+      ]
     }
-    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-    function dayName(iso, long) {
-      var p = iso.split("-"), d = new Date(+p[0], p[1] - 1, +p[2]);
-      return d.toLocaleDateString("en-US", long ? { weekday: "long", month: "short", day: "numeric" } : { weekday: "short", month: "short", day: "numeric" });
-    }
-    function hr(iso) { var h = +iso.slice(11, 13); return (h % 12 || 12) + (h < 12 ? " AM" : " PM"); }
-    function hm(iso) { var h = +iso.slice(11, 13), m = iso.slice(14, 16); return (h % 12 || 12) + ":" + m + (h < 12 ? " AM" : " PM"); }
-    function load() {
-      var u = "https://api.open-meteo.com/v1/forecast?latitude=" + UNI[0] + "&longitude=" + UNI[1] +
-        "&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_gusts_10m,is_day" +
-        "&hourly=temperature_2m,precipitation_probability,weather_code,is_day" +
-        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,uv_index_max,sunrise,sunset,wind_speed_10m_max" +
-        "&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FNew_York&forecast_days=16";
-      fetch(u).then(function (r) { return r.json(); }).then(render).catch(function () {
-        $("wxNow").innerHTML = '<p class="fineprint">Couldn\'t reach the forecast. Check your signal; it retries when you reopen this tab.</p>';
-        W.loaded = 0;
-      });
-      fetch("https://api.weather.gov/alerts/active?point=" + UNI[0] + "," + UNI[1], { headers: { Accept: "application/geo+json" } })
-        .then(function (r) { return r.json(); }).then(function (j) {
-          var f = (j.features || []).map(function (x) { return x.properties; });
-          $("wxAlerts").innerHTML = f.length ? f.map(function (a) {
-            return '<div class="wx-alert"><b>⚠️ ' + esc(a.event) + '</b>' + esc(a.headline || "") + '</div>';
-          }).join("") : '<div class="wx-ok">No weather alerts for the Universal area right now.</div>';
-        }).catch(function () { $("wxAlerts").innerHTML = ""; });
-    }
-    function render(j) {
-      var c = j.current, d = j.daily, h = j.hourly, w = wmo(c.weather_code, c.is_day === 1);
-      $("wxNow").innerHTML = '<span class="wx-now__ico" aria-hidden="true">' + w[1] + '</span><span class="wx-now__temp">' + Math.round(c.temperature_2m) + '°</span>' +
-        '<div class="wx-now__txt"><b>' + w[0] + '</b><span>Feels like ' + Math.round(c.apparent_temperature) + '° · Humidity ' + c.relative_humidity_2m + '%</span>' +
-        '<span>Wind ' + Math.round(c.wind_speed_10m) + ' mph, gusts ' + Math.round(c.wind_gusts_10m) + '</span>' +
-        '<span>Today ' + Math.round(d.temperature_2m_max[0]) + '° / ' + Math.round(d.temperature_2m_min[0]) + '° · Sunset ' + hm(d.sunset[0]) + '</span></div>';
-      // trip days
-      var trip = TRIP.map(function (iso) {
-        var i = d.time.indexOf(iso), park = PARK_DAYS[iso];
-        var head = '<div class="wx-day' + (park ? " is-park" : "") + '">' + (park ? '<span class="wx-day__tag">' + park + '</span>' : '<span class="wx-day__tag" style="color:#8ccfff">Backup day</span>') + '<h3>' + dayName(iso, true) + '</h3>';
-        if (i < 0) return head + '<p>Forecast shows up about two weeks out.</p></div>';
-        var x = wmo(d.weather_code[i]);
-        return head + '<div class="wx-big">' + x[1] + ' ' + Math.round(d.temperature_2m_max[i]) + '° / ' + Math.round(d.temperature_2m_min[i]) + '°</div>' +
-          '<div>' + x[0] + '</div><div>Rain chance ' + d.precipitation_probability_max[i] + '%</div><div>UV ' + Math.round(d.uv_index_max[i]) + ' · Sunset ' + hm(d.sunset[i]) + '</div></div>';
-      }).join("");
-      $("wxTrip").innerHTML = trip;
-      // hours
-      var nowIso = c.time.slice(0, 13), start = 0;
-      for (var k = 0; k < h.time.length; k++) { if (h.time[k].slice(0, 13) >= nowIso) { start = k; break; } }
-      var hs = "";
-      for (var n = start; n < Math.min(start + 24, h.time.length); n++) {
-        var y = wmo(h.weather_code[n], h.is_day[n] === 1);
-        hs += '<div class="wx-hour"><div>' + (n === start ? "Now" : hr(h.time[n])) + '</div><span class="i" aria-hidden="true">' + y[1] + '</span><span class="t">' + Math.round(h.temperature_2m[n]) + '°</span><span class="r">💧' + (h.precipitation_probability[n] || 0) + '%</span></div>';
-      }
-      $("wxHours").innerHTML = hs;
-      // days
-      $("wxDays").innerHTML = d.time.map(function (iso, i) {
-        var z = wmo(d.weather_code[i]), park = PARK_DAYS[iso];
-        return '<li' + (park ? ' class="is-park"' : "") + '><b>' + (i === 0 ? "Today" : dayName(iso)) + '</b><span aria-hidden="true">' + z[1] + '</span><span>' + z[0] + (park ? ' · <b>' + park + '</b>' : "") + '<br><span class="r">💧 ' + d.precipitation_probability_max[i] + '%</span></span><span class="hl">' + Math.round(d.temperature_2m_max[i]) + '° / ' + Math.round(d.temperature_2m_min[i]) + '°</span></li>';
-      }).join("");
-      $("wxUpd").textContent = "Updated " + new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) + ". Forecast from Open-Meteo, alerts from the National Weather Service.";
-    }
-    function tileUrl(off) { return "https://mesonet.agron.iastate.edu/cache/tile.py/1.0.0/nexrad-n0q-900913" + (off ? "-m" + (off < 10 ? "0" : "") + off + "m" : "") + "/{z}/{x}/{y}.png?_=" + Math.floor(Date.now() / 300000); }
-    function frameLabel(off) {
-      var t = new Date(Date.now() - off * 60000);
-      return (off ? off + " min ago · " : "Now · ") + t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-    }
-    function show(i) {
-      W.layers.forEach(function (l, j) { l.setOpacity(j === i ? 0.75 : 0); });
-      W.idx = i; $("wxTime").textContent = frameLabel(OFFS[i]);
-    }
-    function play() {
-      clearInterval(W.timer);
-      if (!W.playing) return;
-      W.timer = setInterval(function () { show((W.idx + 1) % W.layers.length); }, W.idx === W.layers.length - 1 ? 700 : 700);
-    }
-    function buildLayers() {
-      W.layers.forEach(function (l) { W.map.removeLayer(l); });
-      W.layers = OFFS.map(function (o) { return L.tileLayer(tileUrl(o), { opacity: 0, maxZoom: 12, zIndex: 5 }).addTo(W.map); });
-      W.built = Date.now(); show(W.layers.length - 1); play();
-    }
-    function radar() {
-      loadLeaflet(function (ok) {
-        if (!ok) { $("wxMap").innerHTML = '<p class="fineprint" style="padding:16px;color:#e6ebff">The radar map couldn\'t load. Check your signal and reopen this tab.</p>'; return; }
-        if (!W.map) {
-          W.map = L.map("wxMap", { zoomControl: true, attributionControl: true }).setView(UNI, 8);
-          L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, zIndex: 1, attribution: 'Basemap &copy; Esri · Radar: NWS via Iowa Mesonet' }).addTo(W.map);
-          L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, zIndex: 10 }).addTo(W.map);
-          L.marker(UNI, { icon: L.divIcon({ className: "", html: '<div style="font-size:26px;line-height:26px;text-shadow:0 0 8px #000">⭐</div>', iconSize: [26, 26], iconAnchor: [13, 13] }), title: "Universal Orlando" }).addTo(W.map);
-          buildLayers();
-        } else { W.map.invalidateSize(); if (Date.now() - W.built > 5 * 60000) buildLayers(); play(); }
-        setTimeout(function () { W.map.invalidateSize(); }, 60);
-      });
-    }
-    $("wxPlay").addEventListener("click", function () { W.playing = !W.playing; this.textContent = W.playing ? "Pause" : "Play"; if (W.playing) play(); else { clearInterval(W.timer); show(W.layers.length - 1); } });
-    $("wxCenter").addEventListener("click", function () { if (W.map) W.map.setView(UNI, 10); });
-    $("wxMe").addEventListener("click", function () {
-      if (!navigator.geolocation || !W.map) return;
-      navigator.geolocation.getCurrentPosition(function (p) {
-        var ll = [p.coords.latitude, p.coords.longitude];
-        if (W.me) W.me.setLatLng(ll); else W.me = L.circleMarker(ll, { radius: 8, color: "#fff", weight: 3, fillColor: "#1e90ff", fillOpacity: 1 }).addTo(W.map);
-        W.map.setView(ll, 9);
-      }, function () {}, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+  };
+  function renderRestrooms() {
+    var d = WC[S.park], q = ($("wcQ").value || "").trim().toLowerCase();
+    $("wcTitle").textContent = "Restrooms · " + PARKS[S.park].name;
+    $("wcQuickBlock").hidden = !d.quick.length;
+    $("wcQuick").innerHTML = d.quick.map(function (r) {
+      return '<li><span><b>' + esc(r[0]) + '</b></span><span class="x-wc-arrow" aria-hidden="true">→</span><span>' + esc(r[1]) + "</span></li>";
+    }).join("");
+    var h = d.note && !q ? '<p class="x-wc-empty">' + esc(d.note) + "</p>" : "", n = 0;
+    d.lands.forEach(function (l) {
+      var items = l[2].filter(function (w) { return !q || (l[0] + " " + (l[1] || "") + " " + w[0] + " " + w[1] + " " + w[2].join(" ")).toLowerCase().indexOf(q) > -1; });
+      if (!items.length) return;
+      n += items.length;
+      h += '<div class="x-wc-land"><h3>' + esc(l[0]) + "</h3>" + (l[1] ? "<p>" + esc(l[1]) + "</p>" : "") + '<div class="x-wc-grid">' + items.map(function (w) {
+        return '<div class="x-wc"><span class="x-wc__where">' + esc(w[0]) + "</span>" + (w[1] ? '<span class="x-wc__near">' + esc(w[1]) + "</span>" : "") +
+          (w[2].length ? '<span class="x-wc__tags">' + w[2].map(function (t) { return '<span class="pill' + (t === Q ? " is-quiet" : "") + '">' + esc(t) + "</span>"; }).join("") + "</span>" : "") + "</div>";
+      }).join("") + "</div></div>";
     });
-    document.addEventListener("visibilitychange", function () { if (document.hidden) clearInterval(W.timer); else if (S.tab === "weather") { play(); if (Date.now() - W.loaded > 15 * 60000) open(); } });
-    function open() {
-      if (!W.loaded || Date.now() - W.loaded > 15 * 60000) { W.loaded = Date.now(); load(); }
-      radar();
-    }
-    return { open: open };
-  })();
+    if (!n) h = '<p class="x-wc-empty">No restrooms match \u201c' + esc(q) + '\u201d in ' + esc(PARKS[S.park].name) + ". Try a land or landmark name.</p>";
+    $("wcList").innerHTML = h;
+  }
+  $("wcQ").addEventListener("input", renderRestrooms);
 
   /* ---------- tabs and park picker ---------- */
   function setTab(name) {
     S.tab = name;
     [].forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === name ? "true" : "false"); });
-    ["live", "timeline", "walk", "know", "weather"].forEach(function (n) { $("p-" + n).hidden = n !== name; });
-    if (name === "weather" && window.WX) window.WX.open();
+    if (name === "restrooms") renderRestrooms();
+    ["live", "timeline", "walk", "know", "restrooms"].forEach(function (n) { $("p-" + n).hidden = n !== name; });
     syncFab();
     window.scrollTo(0, 0);
   }
   [].forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.addEventListener("click", function () { setTab(b.getAttribute("data-tab")); }); });
+  $("wcJump").addEventListener("click", function () { setTab("restrooms"); });
   function setPark(k) {
     S.park = k;
     [].forEach.call(document.querySelectorAll("[data-park]"), function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-park") === k ? "true" : "false"); });
     var P = pd(k);
-    renderLive(); renderHours();
+    renderLive(); renderHours(); renderRestrooms();
     if (!P.updated || Date.now() - P.updated.getTime() > POLL_MS - 5000) load(k);
     if (!S.sched[k] || S.sched[k].state === "error") loadSched(k);
   }
@@ -1730,7 +1696,7 @@
     if (blob.arrayBuffer) return blob.arrayBuffer();
     return new Promise(function (res, rej) { var fr = new FileReader(); fr.onload = function () { res(fr.result); }; fr.onerror = rej; fr.readAsArrayBuffer(blob); });
   }
-  $("photoInput") && $("photoInput").addEventListener("change", function () {
+  $("photoInput").addEventListener("change", function () {
     var files = [].slice.call(this.files || []), input = this;
     Promise.all(files.map(function (f, i) {
       return readHead(f).then(function (buf) { try { return exifDate(readExif(buf)); } catch (e) { return null; } }, function () { return null; }).then(function (d) {
@@ -1784,14 +1750,14 @@
   }
   function nag() {
     SV.lastNag = Date.now();
-    toast("Save your day so you don't lose today's rides", true, { label: "Save now", fn: saveFromAnywhere, key: "nag" });
+    toast("Save your day so you don't lose today's rides and photos", true, { label: "Save now", fn: saveFromAnywhere, key: "nag" });
   }
   function checkNag() {
     if (!unsaved() || !SV.firstAt) return;
     if (Date.now() - Math.max(SV.firstAt, SV.lastNag) >= NAG_MS) nag();
   }
   function saveFromAnywhere() {
-    if (!topItems().length) { toast("Time a ride first, then save your day.", false); return; }
+    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
     setTab("timeline");
     saveDay();
   }
@@ -1884,7 +1850,7 @@
   function saveDay() {
     var btn = $("saveDay");
     if (btn.disabled) return;
-    if (!topItems().length) { toast("Time a ride first, then save your day.", false); return; }
+    if (!topItems().length) { toast("Time a ride or add a photo first, then save your day.", false); return; }
     var batch = S.tl.slice();
     btn.disabled = true; btn.textContent = "Making your image…";
     Promise.all(S.tl.filter(function (e) { return e.kind === "photo"; }).map(loadImg)).then(function () {
@@ -1914,7 +1880,7 @@
       toast("Saved. Keep going!", false);
       setTimeout(function () { out.scrollIntoView({ block: "start", behavior: "smooth" }); }, 50);
     }).catch(function () {
-      $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again.</p></div>';
+      $("saveOut").innerHTML = '<div class="x-msg"><p>Couldn\'t make the image on this device. Try again, or with fewer photos.</p></div>';
     }).then(function () { btn.disabled = false; btn.textContent = "Save my day"; });
   }
 
