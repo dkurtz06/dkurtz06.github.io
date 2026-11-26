@@ -421,7 +421,15 @@
       .x-rs__grab { justify-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--stroke-primary); }
       .x-rs__close { position: absolute; top: 8px; right: 8px; z-index: 2; min-width: var(--tap); min-height: var(--tap); border: 0; border-radius: 50%; background: rgba(5, 8, 28, 0.6); color: var(--text-primary); font-size: 22px; cursor: pointer; }
       .x-rs__photo { width: 100%; aspect-ratio: 16 / 10; border-radius: var(--r-l); overflow: hidden; display: grid; place-items: center; background: linear-gradient(160deg, #26306e, var(--x-night-2)); box-shadow: 0 0 0 1px var(--x-glow); color: var(--x-gold-2); font: 800 96px/1 var(--x-display); }
-      .x-rs__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+      .x-rs__photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+      .x-rs__video { display: grid; gap: 8px; }
+      .x-rs__vbox { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: var(--r-l); overflow: hidden; background: var(--x-night-2) center / cover no-repeat; box-shadow: 0 0 0 1px var(--x-glow); cursor: pointer; }
+      .x-rs__vbox iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+      .x-rs__play { position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 50%; background: rgba(5, 8, 28, 0.72); box-shadow: 0 0 0 2px var(--x-gold), 0 0 24px rgba(255, 201, 64, 0.45); }
+      .x-rs__play::after { content: ""; position: absolute; left: 29px; top: 22px; border-style: solid; border-width: 14px 0 14px 22px; border-color: transparent transparent transparent var(--x-gold-2); }
+      .x-rs__vbox:focus-visible { outline: 2px solid var(--x-gold); outline-offset: 3px; }
+      .x-rs__vrow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+      .x-rs__vrow .x-big { min-height: var(--tap); padding: 0 16px; font-size: 15px; }
       .x-rs h2 { font: 800 28px/1.05 var(--x-display); font-stretch: condensed; text-transform: uppercase; letter-spacing: 0.4px; color: var(--x-gold); }
       .x-rs__status { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: -6px; font: var(--type-body); }
       .x-rs__status b { font: 800 22px/1 var(--x-display); font-stretch: condensed; }
@@ -907,6 +915,8 @@
         <div class="x-rs__photo" id="rsPhoto"></div>
         <h2 id="rsName">Ride</h2>
         <p class="x-rs__status" id="rsStatus"></p>
+        <h3 class="x-rs__sub">Watch the ride</h3>
+        <div class="x-rs__video" id="rsVideo"></div>
         <h3 class="x-rs__sub">Map</h3>
         <div class="x-rs__map" id="rsMap" role="img" aria-label="Map of the ride's location"></div>
         <p class="fineprint" id="rsNoMap" hidden></p>
@@ -919,6 +929,82 @@
       </div>
     </div>
 
+    <div hidden id="rideMedia" aria-hidden="true">
+      <img alt="" loading="lazy" data-f="ride-00feb57b-4fcc-48bc-9490-c9af71f30c1c-s.jpg" src="ride-00feb57b-4fcc-48bc-9490-c9af71f30c1c-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-07143999-bacd-475f-a00b-8cc476204aff-s.jpg" src="ride-07143999-bacd-475f-a00b-8cc476204aff-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-0c6a9af8-c006-4849-8475-1a6925e8f7d4-s.jpg" src="ride-0c6a9af8-c006-4849-8475-1a6925e8f7d4-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-144450b9-4574-46be-abdf-4b1ca8974d9d-s.jpg" src="ride-144450b9-4574-46be-abdf-4b1ca8974d9d-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-14af192d-dfce-4bdb-bf5c-1c1957499a6a-s.jpg" src="ride-14af192d-dfce-4bdb-bf5c-1c1957499a6a-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-1524b67b-4984-4a80-9d9f-753b8482c6f0-s.jpg" src="ride-1524b67b-4984-4a80-9d9f-753b8482c6f0-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-17dd3a01-3127-4e22-8d73-35680fa8b034-s.jpg" src="ride-17dd3a01-3127-4e22-8d73-35680fa8b034-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-1e16afdd-15e3-4e4a-b3af-8aeebd7534f8-s.jpg" src="ride-1e16afdd-15e3-4e4a-b3af-8aeebd7534f8-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-1fda5e1f-8712-4165-a81d-ad74eef3e8ee-s.jpg" src="ride-1fda5e1f-8712-4165-a81d-ad74eef3e8ee-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-2122adff-52a3-49ca-9d20-5a6faafc8c77-s.jpg" src="ride-2122adff-52a3-49ca-9d20-5a6faafc8c77-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-2365495a-790b-4a41-831e-65592c8a4359-s.jpg" src="ride-2365495a-790b-4a41-831e-65592c8a4359-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-23b613e0-ae83-455b-9163-231bdbd5c427-s.jpg" src="ride-23b613e0-ae83-455b-9163-231bdbd5c427-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-2436bad1-f319-44d5-98ac-a283b81956c6-s.jpg" src="ride-2436bad1-f319-44d5-98ac-a283b81956c6-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-25d47d04-a917-405a-9904-9be2b499b2dd-s.jpg" src="ride-25d47d04-a917-405a-9904-9be2b499b2dd-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-281bc9e6-b208-4a70-85d2-0fb749c7658b-s.jpg" src="ride-281bc9e6-b208-4a70-85d2-0fb749c7658b-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-28f411b9-dacc-47b1-9596-bd1383ce730d-s.jpg" src="ride-28f411b9-dacc-47b1-9596-bd1383ce730d-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-2f4690b4-72b0-4845-bcce-9e735397d60b-s.jpg" src="ride-2f4690b4-72b0-4845-bcce-9e735397d60b-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-2f95b213-daaa-4370-8349-c2cd57be470e-s.jpg" src="ride-2f95b213-daaa-4370-8349-c2cd57be470e-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-333c6657-2a9f-4423-a7a2-bf0230bf669a-s.jpg" src="ride-333c6657-2a9f-4423-a7a2-bf0230bf669a-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-370ba4d1-f199-4dc2-be6d-6bb09b442891-s.jpg" src="ride-370ba4d1-f199-4dc2-be6d-6bb09b442891-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-37989fb7-5576-4247-bd6e-e981bc70cca2-s.jpg" src="ride-37989fb7-5576-4247-bd6e-e981bc70cca2-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-3cb52134-e9d6-4212-83c8-3ce1321dcb05-s.jpg" src="ride-3cb52134-e9d6-4212-83c8-3ce1321dcb05-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-3daca54f-50f0-44e9-a993-d706ce7520a0-s.jpg" src="ride-3daca54f-50f0-44e9-a993-d706ce7520a0-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-41d282f8-2015-4caa-9591-9faa948e263e-s.jpg" src="ride-41d282f8-2015-4caa-9591-9faa948e263e-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-43df71bf-aa7c-46c0-925c-46f69d8bf23f-s.jpg" src="ride-43df71bf-aa7c-46c0-925c-46f69d8bf23f-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-447033ce-ee1f-4cca-bb12-47d22583ac12-s.jpg" src="ride-447033ce-ee1f-4cca-bb12-47d22583ac12-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-4cd6ac88-3945-49bb-ad20-2ce04a3f9628-s.jpg" src="ride-4cd6ac88-3945-49bb-ad20-2ce04a3f9628-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-55222885-493c-4280-b295-6fd7c609f12d-s.jpg" src="ride-55222885-493c-4280-b295-6fd7c609f12d-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-578bbd12-1975-4ec3-9879-ea641c780342-s.jpg" src="ride-578bbd12-1975-4ec3-9879-ea641c780342-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-61079a31-4165-4fb0-b36f-c01c5971f80a-s.jpg" src="ride-61079a31-4165-4fb0-b36f-c01c5971f80a-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-625a3cc3-7d7e-468b-96fe-1ec00df7b739-s.jpg" src="ride-625a3cc3-7d7e-468b-96fe-1ec00df7b739-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-6af80308-647d-4d8b-bcf6-37517a93bdbc-s.jpg" src="ride-6af80308-647d-4d8b-bcf6-37517a93bdbc-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-6be23178-7d00-4884-9e88-76787da1df86-s.jpg" src="ride-6be23178-7d00-4884-9e88-76787da1df86-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-70ac72a3-9675-4c41-a1b1-e4801072927a-s.jpg" src="ride-70ac72a3-9675-4c41-a1b1-e4801072927a-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-7288f24a-396e-4eeb-bb3b-4a90e65269f2-s.jpg" src="ride-7288f24a-396e-4eeb-bb3b-4a90e65269f2-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-750939c5-a69e-408a-8d55-66c272fa265e-s.jpg" src="ride-750939c5-a69e-408a-8d55-66c272fa265e-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-76caa8d0-f54b-4601-9d57-a7f1ddc02af4-s.jpg" src="ride-76caa8d0-f54b-4601-9d57-a7f1ddc02af4-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-7e70bc9e-7dce-4dd2-8823-57b8d6ec7570-s.jpg" src="ride-7e70bc9e-7dce-4dd2-8823-57b8d6ec7570-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-905d7888-b866-4e74-90d1-07fc6ef6706f-s.jpg" src="ride-905d7888-b866-4e74-90d1-07fc6ef6706f-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-91cae293-64f8-48b6-88ec-02dcfcdd1f91-s.jpg" src="ride-91cae293-64f8-48b6-88ec-02dcfcdd1f91-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-96e71193-49f0-40b2-9bba-644e530d8115-s.jpg" src="ride-96e71193-49f0-40b2-9bba-644e530d8115-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-97b25fe9-eb81-46bd-b57f-8b2fbbe85249-s.jpg" src="ride-97b25fe9-eb81-46bd-b57f-8b2fbbe85249-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-9ad98d6a-e81a-4408-b5df-1ea832fe0b19-s.jpg" src="ride-9ad98d6a-e81a-4408-b5df-1ea832fe0b19-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-9c409ec9-a805-456c-96fc-d867cc5bc81b-s.jpg" src="ride-9c409ec9-a805-456c-96fc-d867cc5bc81b-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-9d47d7fe-ff0d-4a52-bf9d-1e07436aa22c-s.jpg" src="ride-9d47d7fe-ff0d-4a52-bf9d-1e07436aa22c-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-a492aa01-6f29-43f0-9aec-8adcb8da4674-s.jpg" src="ride-a492aa01-6f29-43f0-9aec-8adcb8da4674-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-a54b961b-06d3-492c-88b5-201cb32399c2-s.jpg" src="ride-a54b961b-06d3-492c-88b5-201cb32399c2-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-a872883d-761b-4dda-a124-5dadcfa9e5ae-s.jpg" src="ride-a872883d-761b-4dda-a124-5dadcfa9e5ae-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-b1e94e05-b360-4e3f-be8a-2a3744a97f97-s.jpg" src="ride-b1e94e05-b360-4e3f-be8a-2a3744a97f97-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-b4445a1c-4d5c-4fca-a04a-f8867f1b6619-s.jpg" src="ride-b4445a1c-4d5c-4fca-a04a-f8867f1b6619-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-b694d5a5-155e-4796-af7e-5dbdcf3deba4-s.jpg" src="ride-b694d5a5-155e-4796-af7e-5dbdcf3deba4-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-b73e3256-9ee0-439e-9a3b-ffed287e10bb-s.jpg" src="ride-b73e3256-9ee0-439e-9a3b-ffed287e10bb-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-bf89766b-1d19-428f-9e68-71e12f25287b-s.jpg" src="ride-bf89766b-1d19-428f-9e68-71e12f25287b-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-c6b1b8cf-55ef-416c-b00d-e469993617b0-s.jpg" src="ride-c6b1b8cf-55ef-416c-b00d-e469993617b0-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-c6c26dd9-bb82-49de-9fca-9245be6a8081-s.jpg" src="ride-c6c26dd9-bb82-49de-9fca-9245be6a8081-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-c85d936f-c5b7-490b-880b-6f0bf44ba557-s.jpg" src="ride-c85d936f-c5b7-490b-880b-6f0bf44ba557-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-cc2f2601-09d2-43b8-83ef-2a367b929761-s.jpg" src="ride-cc2f2601-09d2-43b8-83ef-2a367b929761-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-d7310719-f158-4d92-a476-13202c7162cd-s.jpg" src="ride-d7310719-f158-4d92-a476-13202c7162cd-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-db5b2165-15c2-4e51-8bd1-611e9c351866-s.jpg" src="ride-db5b2165-15c2-4e51-8bd1-611e9c351866-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-dbc4f0d8-fdef-4dfc-a1c2-33917f742f40-s.jpg" src="ride-dbc4f0d8-fdef-4dfc-a1c2-33917f742f40-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-dd8c015d-511f-47d4-b98b-18ce15735588-s.jpg" src="ride-dd8c015d-511f-47d4-b98b-18ce15735588-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-e3dd1ecd-f674-4aa7-83d9-9c7b4a8c886d-s.jpg" src="ride-e3dd1ecd-f674-4aa7-83d9-9c7b4a8c886d-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-e99b72a6-37d0-46df-ab11-e9ff6603f259-s.jpg" src="ride-e99b72a6-37d0-46df-ab11-e9ff6603f259-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-ea72aa9c-3d89-4593-9fe8-ff25c88289a8-s.jpg" src="ride-ea72aa9c-3d89-4593-9fe8-ff25c88289a8-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-eaca831d-bcbb-4a1e-9bf0-6ea97ccc88e0-s.jpg" src="ride-eaca831d-bcbb-4a1e-9bf0-6ea97ccc88e0-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-ec25d9a7-b4d4-4ebf-a6c4-c18389351764-s.jpg" src="ride-ec25d9a7-b4d4-4ebf-a6c4-c18389351764-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-ec4c8603-5ccd-4af2-a7b1-0684664c0bc1-s.jpg" src="ride-ec4c8603-5ccd-4af2-a7b1-0684664c0bc1-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-f0750e5e-7629-4c53-99d2-e0924a8afeed-s.jpg" src="ride-f0750e5e-7629-4c53-99d2-e0924a8afeed-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-f44a531c-09cf-40c4-b2d4-236e8a9285dc-s.jpg" src="ride-f44a531c-09cf-40c4-b2d4-236e8a9285dc-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-f6d4294c-8825-4712-a891-36d45b5eb0f4-s.jpg" src="ride-f6d4294c-8825-4712-a891-36d45b5eb0f4-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-f6dc44e3-02f4-414d-9adc-c3c342efa275-s.jpg" src="ride-f6dc44e3-02f4-414d-9adc-c3c342efa275-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-fa63f462-74b4-4b1e-96fe-0b6e7e0b31c2-s.jpg" src="ride-fa63f462-74b4-4b1e-96fe-0b6e7e0b31c2-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-fa701040-b46a-4291-afb9-b8dc2c8e9a16-s.jpg" src="ride-fa701040-b46a-4291-afb9-b8dc2c8e9a16-s.jpg" />
+      <img alt="" loading="lazy" data-f="ride-fa743143-281b-4b5b-b87b-d49fcb006772-s.jpg" src="ride-fa743143-281b-4b5b-b87b-d49fcb006772-s.jpg" />
+    </div>
     <script src="hark.js"></script>
     <script src="chart.js"></script>
     <script src="datalabels.js"></script>
@@ -963,9 +1049,77 @@
     return null;
   }
   function initial(name) { var m = normName(name).replace(/^the /, "").match(/[a-z0-9]/); return m ? m[0].toUpperCase() : "?"; }
+  var PHOTOS = window.RIDE_PHOTOS && typeof window.RIDE_PHOTOS === "object" ? window.RIDE_PHOTOS : {};
+  var VIDEOS = window.RIDE_VIDEOS && typeof window.RIDE_VIDEOS === "object" ? window.RIDE_VIDEOS : {};
+  /* Large ride photos load from the family copy host instead of being bundled. */
+  var PHOTO_BASE = "https://gavinkurtzsoccer.com/park-days/";
+  function photoSrc(id, name) {
+    try {
+      var f = null;
+      if (id && typeof PHOTOS[id] === "string") f = PHOTOS[id];
+      else { var k = THUMB_IDS[normName(name)]; if (k && typeof PHOTOS[k] === "string") f = PHOTOS[k]; }
+      if (f) return PHOTO_BASE + f;
+    } catch (e) {}
+    return null;
+  }
+  function videoFor(id, name) {
+    try {
+      var v = id ? VIDEOS[id] : null;
+      if (!v) { var k = THUMB_IDS[normName(name)]; if (k) v = VIDEOS[k]; }
+      if (v && typeof v.yt === "string" && /^[A-Za-z0-9_-]{6,20}$/.test(v.yt)) return v;
+    } catch (e) {}
+    return null;
+  }
+  window.xImgFail = function (img) {
+    try {
+      var s = document.createElement("span");
+      s.setAttribute("aria-hidden", "true");
+      s.textContent = img.getAttribute("data-i") || "?";
+      img.onerror = null;
+      if (img.parentNode) img.parentNode.replaceChild(s, img);
+    } catch (e) {}
+  };
+  var IMG_FAIL = ' onerror="xImgFail(this)"';
+  /* Hero photo: if the remote photo fails, swap to the inlined small thumbnail; if that fails too, show the initial. */
+  window.xHeroFail = function (img) {
+    try {
+      var s = img.getAttribute("data-s");
+      if (s && img.getAttribute("src") !== s) { img.removeAttribute("data-s"); img.setAttribute("src", s); return; }
+      if (img.parentNode) img.parentNode.style.backgroundImage = "";
+    } catch (e) {}
+    window.xImgFail(img);
+  };
+  /* Ride images are named statically in #rideMedia so the shipped page carries them; resolve file names through it. */
+  var MEDIA = null;
+  function mediaSrc(f) {
+    if (!f) return null;
+    if (!MEDIA) {
+      MEDIA = {};
+      try { [].forEach.call(document.querySelectorAll("#rideMedia img[data-f]"), function (im) { MEDIA[im.getAttribute("data-f")] = im.getAttribute("src"); }); } catch (e) {}
+    }
+    return MEDIA[f] || null;
+  }
   function thumbInner(id, name, lazy) {
-    var src = thumbSrc(id, name);
-    return src ? '<img src="' + src + '" alt="' + esc(name) + '"' + (lazy === false ? "" : ' loading="lazy"') + ' width="48" height="48" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
+    var src = mediaSrc(thumbSrc(id, name));
+    if (!src) return '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
+    return '<img src="' + esc(src) + '" alt="' + esc(name) + '" width="48" height="48"' + (lazy === false ? "" : ' loading="lazy"') + ' decoding="async" data-i="' + esc(initial(name)) + '"' + IMG_FAIL + " />";
+  }
+  function rsVideoHtml(name) {
+    var v = videoFor(RS.id, name), nm = RS.name;
+    if (!v) {
+      return '<a class="x-big x-big--ghost" href="https://www.youtube.com/results?search_query=' + esc(encodeURIComponent(nm + " Universal Orlando POV")) + '" target="_blank" rel="noopener">Watch on YouTube</a>';
+    }
+    var cap = [v.title, v.by].filter(Boolean).join(" · ");
+    return '<button type="button" class="x-rs__vbox" id="rsVBox" data-yt="' + esc(v.yt) + '" aria-label="Play ' + esc(nm) + ' ride video" style="background-image:url(\'https://i.ytimg.com/vi/' + esc(v.yt) + '/hqdefault.jpg\')"><span class="x-rs__play" aria-hidden="true"></span></button>' +
+      '<div class="x-rs__vrow">' + (cap ? '<p class="fineprint">' + esc(cap) + "</p>" : "") +
+      '<a class="x-big x-big--ghost" href="https://www.youtube.com/watch?v=' + esc(v.yt) + '" target="_blank" rel="noopener">Open in YouTube</a></div>';
+  }
+  function rsVideoPlay(btn) {
+    var yt = btn.getAttribute("data-yt"); if (!yt) return;
+    var box = document.createElement("div");
+    box.className = "x-rs__vbox";
+    box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + esc(yt) + '?autoplay=1&amp;playsinline=1&amp;rel=0&amp;modestbranding=1" title="' + esc(RS.name + " ride video") + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="aspect-ratio:16/9;width:100%;border:0"></iframe>';
+    btn.parentNode.replaceChild(box, btn);
   }
   function thumbHtml(id, name) { return '<span class="x-rt">' + thumbInner(id, name) + "</span>"; }
   /* ---------- ride detail sheet with map ---------- */
@@ -1084,13 +1238,19 @@
   }
   function openZoom(id, name) {
     var z = $("zoom"); if (!z) return;
+    if ($("rsVideo")) $("rsVideo").innerHTML = "";
     stopWatch();
     RS.id = id; RS.name = name || "Ride"; RS.ll = coordsFor(id, name); RS.fitted = false; RS.pos = null; RS.open = true;
     if (RS.me && RS.map) { RS.map.removeLayer(RS.me); RS.me = null; }
-    var src = thumbSrc(id, name);
-    $("rsPhoto").innerHTML = src ? '<img src="' + src + '" alt="' + esc(RS.name) + '" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
+    var big = photoSrc(id, name), small = mediaSrc(thumbSrc(id, name)), ph = $("rsPhoto");
+    var src = big || small;
+    ph.style.backgroundImage = small ? 'url("' + small + '")' : "";
+    ph.style.backgroundSize = small ? "cover" : "";
+    ph.style.backgroundPosition = small ? "center" : "";
+    ph.innerHTML = src ? '<img src="' + esc(src) + '" alt="' + esc(RS.name) + '" decoding="async" data-i="' + esc(initial(name)) + '"' + (big && small ? ' data-s="' + esc(small) + '"' : "") + ' onerror="xHeroFail(this)" />' : '<span aria-hidden="true">' + esc(initial(name)) + "</span>";
     $("rsName").textContent = RS.name;
     $("rsStatus").innerHTML = rsStatusHtml(id, name);
+    if ($("rsVideo")) $("rsVideo").innerHTML = rsVideoHtml(name);
     rsLoc(""); $("rsNoMap").hidden = true;
     var dir = $("rsDir"), show = $("rsShow");
     if (RS.ll) {
@@ -1116,10 +1276,14 @@
   function closeZoom() {
     var z = $("zoom"); if (!z || z.hidden) return;
     RS.open = false; stopWatch();
+    if ($("rsVideo")) $("rsVideo").innerHTML = "";
     z.hidden = true; document.documentElement.style.overflow = "";
   }
   if ($("zoom")) {
-    $("zoom").addEventListener("click", function (e) { if (e.target.closest("[data-rs-close]")) closeZoom(); });
+    $("zoom").addEventListener("click", function (e) {
+      if (e.target.closest("[data-rs-close]")) { closeZoom(); return; }
+      var vb = e.target.closest("#rsVBox"); if (vb) rsVideoPlay(vb);
+    });
     $("rsShow").addEventListener("click", function () { stopWatch(); startWatch(); });
   }
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeZoom(); });
